@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Seller Dashboard - Building Materials</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .navbar {
+      background: #fff;
+      padding: 15px 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      border-radius: 8px;
+    }
+    
+    .navbar h2 {
+      color: #333;
+      font-size: 22px;
+    }
+    
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .seller-profile-btn {
+      background: #ecf0f1;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #2c3e50;
+      transition: all 0.3s ease;
+    }
+    
+    .seller-profile-btn:hover {
+      background: #f39c12;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-danger {
+      background: #ff4757;
+      color: #fff;
+    }
+    
+    .btn-danger:hover {
+      background: #ff3838;
+      transform: translateY(-2px);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+    
+    .card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .card h3 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 20px;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 10px;
+    }
+    
+    .welcome-msg {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    
+    .user-type {
+      color: #667eea;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+    }
+    
+    .action-btn {
+      padding: 12px;
+      background: #667eea;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    
+    .action-btn:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+    }
+    
+    .stat {
+      text-align: center;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+    
+    .stat-number {
+      font-size: 28px;
+      font-weight: 700;
+      color: #667eea;
+    }
+    
+    .stat-label {
+      color: #666;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      
+      .navbar {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .navbar-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Navbar -->
+    <div class="navbar">
+      <h2>🏢 Seller Dashboard</h2>
+      <div class="navbar-right">
+        <button class="seller-profile-btn" id="sellerProfileBtn" onclick="goToSellerProfile()">👤 Profile</button>
+        <button class="btn btn-danger" id="logoutBtn">🚪 Logout</button>
+      </div>
+    </div>
+    
+    <!-- Welcome Section -->
+    <div class="grid-2">
+      <div class="card">
+        <h3>📊 Welcome, <span id="sellerName">Seller</span>!</h3>
+        <div class="welcome-msg">Welcome to your seller dashboard</div>
+        <div class="user-type">🎯 Account Type: Seller</div>
+        <div style="margin-top: 15px;">
+          <p style="color: #666; font-size: 14px; margin-bottom: 10px;">Email: <strong id="sellerEmail">loading...</strong></p>
+          <p style="color: #666; font-size: 14px;">Member Since: <strong id="memberSince">loading...</strong></p>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>⚡ Quick Actions</h3>
+        <div class="quick-actions">
+          <button class="action-btn" onclick="alert('Upload product functionality coming soon!')">📤 Upload Product</button>
+          <button class="action-btn" onclick="alert('Manage inventory functionality coming soon!')">📦 Manage Stock</button>
+          <button class="action-btn" onclick="alert('View orders functionality coming soon!')">📋 View Orders</button>
+          <button class="action-btn" onclick="goToSellerProfile()">👤 Edit Profile</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Stats Section -->
+    <div class="grid-2">
+      <div class="card">
+        <h3>📈 Store Statistics</h3>
+        <div class="stat">
+          <div class="stat-number" id="statsProducts">0</div>
+          <div class="stat-label">Products Listed</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number" id="statsOrders">0</div>
+          <div class="stat-label">Total Orders</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number" id="statsSales">₹0</div>
+          <div class="stat-label">Total Sales</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>⭐ Performance</h3>
+        <div class="stat">
+          <div class="stat-number">5.0</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">Positive Feedback</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">24h</div>
+          <div class="stat-label">Avg Response Time</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Load seller info from localStorage
+    function loadSellerInfo() {
+      const userSession = localStorage.getItem('userSession');
+      
+      if (!userSession) {
+        alert('Please login first!');
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      const user = JSON.parse(userSession);
+      
+      // Check if seller
+      if (user.userType !== 'seller') {
+        window.location.href = 'buyer_dashboard.html';
+        return;
+      }
+      
+      // Update navbar and display
+      document.getElementById('sellerName').textContent = user.name || 'Seller';
+      document.getElementById('sellerProfileBtn').textContent = `👤 ${user.name || 'Profile'}`;
+      document.getElementById('sellerEmail').textContent = user.email || 'email@example.com';
+      
+      // Calculate member since date
+      const memberDate = new Date(user.loginTime);
+      document.getElementById('memberSince').textContent = memberDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    
+    // Go to seller profile
+    function goToSellerProfile() {
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      if (!isLoggedIn) {
+        alert('Please login first!');
+        window.location.href = 'login.html';
+        return;
+      }
+      window.location.href = 'seller_profile.html';
+    }
+    
+    // Logout user
+    function logoutUser() {
+      if (confirm('Are you sure you want to logout?')) {
+        localStorage.clear();
+        alert('Logged out successfully.');
+        window.location.href = 'index.html';
+      }
+    }
+    
+    // Setup logout button
+    document.getElementById('logoutBtn').addEventListener('click', logoutUser);
+    
+    // Load info on page load
+    window.addEventListener('load', loadSellerInfo);
+  </script>
+</body>
+</html>

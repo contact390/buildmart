@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Buyer Dashboard - Building Materials</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .navbar {
+      background: #fff;
+      padding: 15px 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      border-radius: 8px;
+    }
+    .navbar h2 { color: #333; font-size: 22px; }
+    .navbar-right { display: flex; gap: 15px; align-items: center; }
+    .user-info { color: #667eea; font-weight: 600; }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .btn-primary { background: #667eea; color: #fff; }
+    .btn-primary:hover { background: #5568d3; transform: translateY(-2px); }
+    .btn-danger { background: #ff4757; color: #fff; }
+    .btn-danger:hover { background: #ff3838; transform: translateY(-2px); }
+    .btn-secondary { background: #2ed573; color: #fff; }
+    .btn-secondary:hover { background: #26de81; transform: translateY(-2px); }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 25px; }
+    .card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .card h3 { color: #333; margin-bottom: 15px; font-size: 20px; border-bottom: 2px solid #667eea; padding-bottom: 10px; }
+    .profile-field { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+    .profile-field span:first-child { color: #667eea; font-weight: 600; }
+    .profile-field span:last-child { color: #333; }
+    .product-item {
+      border: 1px solid #eee;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      background: #f9f9f9;
+    }
+    .product-img {
+      width: 80px;
+      height: 80px;
+      background: #ddd;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+    .product-info { flex: 1; }
+    .product-info h4 { color: #333; margin-bottom: 5px; }
+    .product-info p { color: #666; font-size: 13px; margin-bottom: 8px; }
+    .product-price { color: #667eea; font-weight: 700; font-size: 16px; }
+    .order-item {
+      border: 1px solid #eee;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: #f9f9f9;
+    }
+    .order-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .order-id { color: #667eea; font-weight: 700; }
+    .order-status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .status-pending { background: #fff3cd; color: #856404; }
+    .status-completed { background: #d4edda; color: #155724; }
+    .order-details { color: #666; font-size: 13px; margin-bottom: 8px; }
+    .empty-msg { color: #999; text-align: center; padding: 40px; font-style: italic; }
+    .sidebar-action { margin-top: 15px; }
+    .sidebar-action a { display: block; margin-top: 10px; color: #667eea; text-decoration: none; font-weight: 600; }
+    .sidebar-action a:hover { text-decoration: underline; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+    .product-card {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+      background: #f9f9f9;
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .product-card img { width: 100%; height: 150px; object-fit: cover; background: #ddd; }
+    .product-card-info { padding: 12px; }
+    .product-card-info h5 { color: #333; margin-bottom: 5px; font-size: 13px; }
+    .product-card-price { color: #667eea; font-weight: 700; margin-bottom: 10px; }
+    .product-card .btn { width: 100%; font-size: 12px; padding: 8px; }
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .navbar { flex-direction: column; gap: 10px; }
+      .navbar-right { width: 100%; justify-content: space-between; }
+      .products-grid { grid-template-columns: 1fr; }
+    }
+    .loading { text-align: center; color: #667eea; padding: 30px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h2>🏪 Buyer Dashboard</h2>
+    <div class="navbar-right">
+      <span class="user-info" id="userGreeting">Loading...</span>
+      <button class="btn btn-danger" id="logoutBtn">Logout</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Profile & Quick Stats -->
+    <div class="grid-2">
+      <!-- Profile Card -->
+      <div class="card">
+        <h3>👤 My Profile</h3>
+        <div id="profileInfo" class="loading">Loading profile...</div>
+        <div class="sidebar-action">
+          <button class="btn btn-primary" id="editProfileBtn" style="width: 100%;">Edit Profile</button>
+          <a href="http://localhost:5000/index.html">← Back to Home</a>
+          <a href="http://localhost:5000/allproducts.html">🛍️ Browse Products</a>
+        </div>
+      </div>
+
+      <!-- Recent Orders Card -->
+      <div class="card">
+        <h3>📦 Recent Orders</h3>
+        <div id="recentOrders" class="loading">Loading orders...</div>
+      </div>
+    </div>
+
+    <!-- Featured Products -->
+    <div class="card">
+      <h3>🆕 Featured Products</h3>
+      <div id="productsContainer" class="loading">Loading products...</div>
+    </div>
+
+    <!-- All Cart & Checkout Section -->
+    <div class="card" style="margin-top: 25px; background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border: 2px dashed #667eea;">
+      <h3 style="border-bottom: 2px solid #667eea;">🛒 Quick Actions</h3>
+      <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px;">
+        <a href="http://localhost:5000/cart.html" class="btn btn-primary">View My Cart</a>
+        <a href="http://localhost:5000/checkout.html" class="btn btn-secondary">Proceed to Checkout</a>
+        <a href="http://localhost:5000/allproducts.html" class="btn btn-primary">Continue Shopping</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:5000/api';
+    let currentUser = null;
+
+    // Session Check & Initialize Dashboard
+    async function initDashboard() {
+      try {
+        // Check if logged in
+        const sessionRes = await fetch(API_BASE + '/me', { credentials: 'include' });
+        const sessionData = await sessionRes.json();
+
+        if (!sessionData || !sessionData.success || !sessionData.user) {
+          // Not logged in — redirect to login
+          window.location.replace('http://localhost:5000/login.html');
+          return;
+        }
+
+        currentUser = sessionData.user;
+        document.getElementById('userGreeting').textContent = `Welcome, ${currentUser.name || currentUser.email}!`;
+        
+        // Load profile
+        loadProfile();
+        
+        // Load recent orders
+        loadRecentOrders();
+        
+        // Load featured products
+        loadFeaturedProducts();
+
+        // Wire logout
+        document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+        document.getElementById('editProfileBtn').addEventListener('click', handleEditProfile);
+
+      } catch(err) {
+        console.error('Dashboard init error:', err);
+        window.location.replace('http://localhost:5000/login.html');
+      }
+    }
+
+    async function loadProfile() {
+      try {
+        const profileHtml = `
+          <div class="profile-field">
+            <span>Name:</span>
+            <span>${currentUser.name || '—'}</span>
+          </div>
+          <div class="profile-field">
+            <span>Email:</span>
+            <span>${currentUser.email || '—'}</span>
+          </div>
+          <div class="profile-field">
+            <span>User Type:</span>
+            <span style="background:#e8f4f8; padding:4px 10px; border-radius:4px; color:#667eea; font-weight:600;">${currentUser.userType || 'buyer'}</span>
+          </div>
+          <div class="profile-field">
+            <span>Account Status:</span>
+            <span style="color:#2ed573; font-weight:600;">✓ Active</span>
+          </div>
+        `;
+        document.getElementById('profileInfo').innerHTML = profileHtml;
+      } catch(err) {
+        console.error('Profile load error:', err);
+      }
+    }
+
+    async function loadRecentOrders() {
+      try {
+        const res = await fetch(API_BASE + '/orders?limit=5', { credentials: 'include' });
+        const data = await res.json();
+        
+        const orders = (data && data.orders) || [];
+        let ordersHtml = '';
+
+        if (orders.length === 0) {
+          ordersHtml = '<div class="empty-msg">No orders yet. <a href="http://localhost:5000/allproducts.html" style="color:#667eea;">Start shopping!</a></div>';
+        } else {
+          ordersHtml = orders.map(order => `
+            <div class="order-item">
+              <div class="order-header">
+                <span class="order-id">Order #${order.orderId || order.id || 'N/A'}</span>
+                <span class="order-status ${order.status === 'completed' ? 'status-completed' : 'status-pending'}">
+                  ${order.status === 'completed' ? '✓ Completed' : '⏳ Pending'}
+                </span>
+              </div>
+              <div class="order-details">
+                <div>📅 Date: ${new Date(order.createdAt || Date.now()).toLocaleDateString()}</div>
+                <div>💰 Total: ₹${Number(order.totalAmount || 0).toFixed(2)}</div>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        document.getElementById('recentOrders').innerHTML = ordersHtml;
+      } catch(err) {
+        console.error('Orders load error:', err);
+        document.getElementById('recentOrders').innerHTML = '<div class="empty-msg">Could not load orders.</div>';
+      }
+    }
+
+    async function loadFeaturedProducts() {
+      try {
+        const res = await fetch(API_BASE + '/products?limit=8', { credentials: 'include' });
+        const data = await res.json();
+        
+        const products = (data && data.products) || [];
+        let productsHtml = '';
+
+        if (products.length === 0) {
+          productsHtml = '<div class="empty-msg">No products available.</div>';
+        } else {
+          productsHtml = '<div class="products-grid">' + products.map(p => `
+            <div class="product-card">
+              <img src="${p.image || 'Images/image.png'}" alt="${p.name}">
+              <div class="product-card-info">
+                <h5>${p.name || 'Product'}</h5>
+                <div class="product-card-price">₹${Number(p.price || 0).toFixed(2)}</div>
+                <button class="btn btn-primary" onclick="addToCart('${p.id || ''}', '${p.name || ''}', ${p.price || 0})">Add to Cart</button>
+              </div>
+            </div>
+          `).join('') + '</div>';
+        }
+
+        document.getElementById('productsContainer').innerHTML = productsHtml;
+      } catch(err) {
+        console.error('Products load error:', err);
+        document.getElementById('productsContainer').innerHTML = '<div class="empty-msg">Could not load products.</div>';
+      }
+    }
+
+    async function handleLogout() {
+      try {
+        await fetch(API_BASE + '/logout', { method: 'POST', credentials: 'include' });
+      } catch(e) {
+        console.error('Logout error:', e);
+      }
+      // Session destroyed, redirect to home
+      window.location.replace('http://localhost:5000/index.html');
+    }
+
+    function handleEditProfile() {
+      alert('Profile editing feature coming soon!');
+    }
+
+    function addToCart(productId, productName, price) {
+      alert(`Added "${productName}" to cart! Price: ₹${price.toFixed(2)}`);
+      // In a real app, this would add to cart via API
+      // For now, just show confirmation
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', initDashboard);
+  </script>
+</body>
+</html>

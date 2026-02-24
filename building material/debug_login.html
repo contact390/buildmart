@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debug Login</title>
+  <style>
+    body { font-family: Arial; margin: 20px; background: #f0f0f0; }
+    .box { background: white; padding: 20px; margin: 10px 0; border-radius: 5px; }
+    button { padding: 10px 20px; margin: 5px; background: #007BFF; color: white; border: none; cursor: pointer; border-radius: 4px; }
+    .success { color: green; font-weight: bold; }
+    .error { color: red; font-weight: bold; }
+    .info { color: blue; }
+    pre { background: #f5f5f5; padding: 10px; overflow-x: auto; border: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>🔧 Debug Login System</h1>
+  
+  <div class="box">
+    <h3>Step 1: Register Test Buyer</h3>
+    <button onclick="registerBuyer()">📝 Register Test Buyer (testbuyer@test.com)</button>
+    <div id="registerResult"></div>
+  </div>
+
+  <div class="box">
+    <h3>Step 2: Login</h3>
+    <button onclick="loginBuyer()">🔐 Login as Buyer</button>
+    <div id="loginResult"></div>
+  </div>
+
+  <div class="box">
+    <h3>Step 3: Check Session</h3>
+    <button onclick="checkSession()">📊 Check Current Session</button>
+    <div id="sessionResult"></div>
+  </div>
+
+  <div class="box">
+    <h3>Step 4: Check Navbar</h3>
+    <button onclick="checkNavbar()">👀 Check Navbar Element</button>
+    <div id="navbarResult"></div>
+  </div>
+
+  <div class="box">
+    <h3>Step 5: Manually Update Navbar</h3>
+    <button onclick="manualUpdate()">🔨 Force Update Navbar</button>
+    <div id="manualResult"></div>
+  </div>
+
+  <div class="box">
+    <h3>Step 6: Logout</h3>
+    <button onclick="logoutBuyer()">🔓 Logout</button>
+    <div id="logoutResult"></div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:5000';
+
+    function showResult(elementId, message, isError = false) {
+      const el = document.getElementById(elementId);
+      const className = isError ? 'error' : 'success';
+      el.innerHTML = `<div class="${className}">${message}</div>`;
+    }
+
+    async function registerBuyer() {
+      showResult('registerResult', '⏳ Registering...');
+      try {
+        const res = await fetch(API_BASE + '/api/buyer-profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: 'Test Buyer',
+            email: 'testbuyer@test.com',
+            phone: '9999999999',
+            address: 'Test Address',
+            password: 'test123'
+          })
+        });
+        const data = await res.json();
+        
+        if (data.message && data.message.includes('successfully')) {
+          showResult('registerResult', '✅ Buyer registered! Email: testbuyer@test.com, Password: test123');
+        } else if (data.error && data.error.includes('already registered')) {
+          showResult('registerResult', '✅ Buyer already exists. Continue to Step 2.');
+        } else {
+          showResult('registerResult', `❌ Error: ${data.error || JSON.stringify(data)}`, true);
+        }
+      } catch (err) {
+        showResult('registerResult', `❌ ${err.message}`, true);
+      }
+    }
+
+    async function loginBuyer() {
+      showResult('loginResult', '⏳ Logging in...');
+      try {
+        const res = await fetch(API_BASE + '/api/login', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            identifier: 'testbuyer@test.com',
+            password: 'test123',
+            userType: 'buyer'
+          })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          showResult('loginResult', `✅ Login successful! User: ${data.user.name}`);
+          console.log('✅ Login response:', data);
+        } else {
+          showResult('loginResult', `❌ Login failed: ${data.message}`, true);
+        }
+      } catch (err) {
+        showResult('loginResult', `❌ ${err.message}`, true);
+      }
+    }
+
+    async function checkSession() {
+      showResult('sessionResult', '⏳ Checking session...');
+      try {
+        const res = await fetch(API_BASE + '/api/me', { credentials: 'include' });
+        const data = await res.json();
+        
+        if (data.success && data.user) {
+          showResult('sessionResult', `✅ Session found! User: ${data.user.name} (${data.user.userType})`);
+          console.log('✅ Session data:', data);
+        } else {
+          showResult('sessionResult', '❌ No active session', true);
+        }
+      } catch (err) {
+        showResult('sessionResult', `❌ ${err.message}`, true);
+      }
+    }
+
+    function checkNavbar() {
+      const loginLink = document.getElementById('loginLink');
+      const logoutLink = document.getElementById('logoutLink');
+      
+      let result = '<div class="info"><pre>';
+      result += `loginLink found: ${!!loginLink}\n`;
+      if (loginLink) {
+        result += `loginLink.textContent: "${loginLink.textContent}"\n`;
+        result += `loginLink.href: "${loginLink.href}"\n`;
+      }
+      result += `\nlogoutLink found: ${!!logoutLink}\n`;
+      if (logoutLink) {
+        result += `logoutLink.style.display: "${logoutLink.style.display}"\n`;
+      }
+      result += '</pre></div>';
+      document.getElementById('navbarResult').innerHTML = result;
+    }
+
+    async function manualUpdate() {
+      showResult('manualResult', '⏳ Updating navbar...');
+      try {
+        const res = await fetch(API_BASE + '/api/me', { credentials: 'include' });
+        const data = await res.json();
+        
+        const a = document.getElementById('loginLink');
+        const logout = document.getElementById('logoutLink');
+        
+        if (data.success && data.user) {
+          const user = data.user;
+          a.textContent = user.name;
+          a.style.color = '#28a745';
+          logout.style.display = 'inline-block';
+          showResult('manualResult', `✅ Navbar updated! Changed to: ${user.name}`);
+        } else {
+          showResult('manualResult', '❌ No session to update', true);
+        }
+      } catch (err) {
+        showResult('manualResult', `❌ ${err.message}`, true);
+      }
+    }
+
+    async function logoutBuyer() {
+      showResult('logoutResult', '⏳ Logging out...');
+      try {
+        const res = await fetch(API_BASE + '/api/logout', {
+          method: 'POST',
+          credentials: 'include'
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          showResult('logoutResult', '✅ Logout successful! Session cleared.');
+          
+          // Reset navbar
+          const a = document.getElementById('loginLink');
+          const logout = document.getElementById('logoutLink');
+          if (a) a.textContent = 'Login';
+          if (logout) logout.style.display = 'none';
+        } else {
+          showResult('logoutResult', `❌ Logout failed: ${data.message}`, true);
+        }
+      } catch (err) {
+        showResult('logoutResult', `❌ ${err.message}`, true);
+      }
+    }
+
+    // On page load
+    window.addEventListener('load', () => {
+      console.log('🚀 Debug page loaded');
+      checkNavbar();
+    });
+  </script>
+</body>
+</html>

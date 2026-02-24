@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Session Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f0f0f0; }
+    .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+    button { padding: 10px 20px; margin: 5px; cursor: pointer; background: #007BFF; color: white; border: none; border-radius: 4px; }
+    button:hover { background: #0056b3; }
+    .success { color: green; }
+    .error { color: red; }
+    .info { color: blue; }
+    .log { border: 1px solid #ccc; padding: 10px; margin-top: 10px; max-height: 300px; overflow-y: auto; background: #f9f9f9; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Session Test</h1>
+    
+    <div>
+      <h3>Quick Test</h3>
+      <button onclick="createTestBuyer()">0. Create Test Buyer (if needed)</button>
+      <button onclick="checkSession()">1. Check Session (/api/me)</button>
+      <button onclick="loginTestBuyer()">2. Login as Buyer (testbuyer@test.com / pass123)</button>
+      <button onclick="checkSession()">3. Check Session Again</button>
+      <button onclick="logout()">4. Logout</button>
+      <button onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <div id="log" class="log">
+      <p class="info">Logs will appear here...</p>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:5000';
+    const logEl = document.getElementById('log');
+
+    function log(message, type = 'info') {
+      const p = document.createElement('p');
+      p.className = type;
+      p.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logEl.appendChild(p);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function clearLog() {
+      logEl.innerHTML = '<p class="info">Logs cleared</p>';
+    }
+
+    async function checkSession() {
+      log('📊 Checking session...', 'info');
+      try {
+        const res = await fetch(API_BASE + '/api/me', { credentials: 'include' });
+        const data = await res.json();
+        
+        if (data.success && data.user) {
+          log(`✅ Session found: ${data.user.name} (${data.user.userType})`, 'success');
+        } else {
+          log('❌ No session found', 'error');
+        }
+      } catch (err) {
+        log(`❌ Error: ${err.message}`, 'error');
+      }
+    }
+
+    async function createTestBuyer() {
+      log('➕ Creating test buyer...', 'info');
+      try {
+        const res = await fetch(API_BASE + '/api/buyer-profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: 'Test Buyer',
+            email: 'testbuyer@test.com',
+            phone: '9999999999',
+            address: 'Test Address',
+            password: 'pass123'
+          })
+        });
+        
+        const data = await res.json();
+        if (data.message && data.message.includes('success')) {
+          log('✅ Test buyer created successfully', 'success');
+        } else {
+          log(`❌ Error: ${data.error || JSON.stringify(data)}`, 'error');
+        }
+      } catch (err) {
+        log(`❌ Error: ${err.message}`, 'error');
+      }
+    }
+
+    async function loginTestBuyer() {
+      log('🔐 Logging in as buyer (testbuyer@test.com)...', 'info');
+      
+      try {
+        const loginRes = await fetch(API_BASE + '/api/login', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            identifier: 'testbuyer@test.com', 
+            password: 'pass123',
+            userType: 'buyer' 
+          })
+        });
+        
+        const loginData = await loginRes.json();
+        if (loginData.success) {
+          log(`✅ Login successful! User: ${loginData.user.name}`, 'success');
+          log('💡 Session cookie should now be set. Try "Check Session Again"', 'info');
+        } else {
+          log(`❌ Login failed: ${loginData.message}`, 'error');
+        }
+      } catch (err) {
+        log(`❌ Error: ${err.message}`, 'error');
+      }
+    }
+
+    async function logout() {
+      log('🔓 Logging out...', 'info');
+      try {
+        const res = await fetch(API_BASE + '/api/logout', {
+          method: 'POST',
+          credentials: 'include'
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          log('✅ Logout successful', 'success');
+        } else {
+          log(`❌ Logout failed: ${data.message}`, 'error');
+        }
+      } catch (err) {
+        log(`❌ Error: ${err.message}`, 'error');
+      }
+    }
+
+    // Check session on page load
+    window.addEventListener('load', () => {
+      log('🚀 Page loaded, checking initial session...', 'info');
+      checkSession();
+    });
+  </script>
+</body>
+</html>
