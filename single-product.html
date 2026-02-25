@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product Details</title>
+  <style>
+    body{font-family:Segoe UI, Tahoma, Geneva, Verdana, sans-serif;margin:0;background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%);padding:18px}
+    .container{max-width:980px;margin:18px auto}
+    .card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.12);display:flex;gap:20px;flex-wrap:wrap;padding:16px}
+    .img-wrap{flex:1 1 380px;min-width:260px;height:360px;background:#f5f6f7;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .img-wrap img{width:100%;height:100%;object-fit:cover}
+    .content{flex:1 1 320px;min-width:260px;display:flex;flex-direction:column;gap:12px}
+    .category{display:inline-block;background:#2f4f4f;color:#fff;padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px}
+    .title{font-size:20px;font-weight:800;color:#23313a}
+    .desc{font-size:14px;color:#5b6b73;line-height:1.45}
+    .price-block{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;background:linear-gradient(90deg,#f7fbf7,#ffffff);}
+    .price-main{font-size:22px;font-weight:900;color:#1b6b3c}
+    .price-old{font-size:13px;color:#9aa6ab;text-decoration:line-through}
+    .discount-tag{font-size:12px;color:#d35400;font-weight:700;padding:5px 8px;border-radius:8px;background:rgba(211,84,0,0.06)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    button{cursor:pointer;border-radius:8px;padding:10px 12px;border:none;font-weight:800}
+    .btn-outline{border:1px solid #1b6b3c;background:#fff;color:#14613a}
+    .btn-primary{background:linear-gradient(135deg,#1b6b3c,#14613a);color:#fff}
+    .btn-view{background:linear-gradient(135deg,#3498db,#2980b9);color:#fff}
+    .wishlist{border-radius:50%;width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.95);box-shadow:0 6px 14px rgba(0,0,0,0.08);font-size:20px}
+    .meta{display:flex;gap:10px;align-items:center;color:#7b8a8f;font-size:13px}
+    .rating{color:#f39c12;font-size:14px}
+    .back{display:inline-block;margin-bottom:12px;color:#14613a;font-weight:700;text-decoration:none}
+    @media (max-width:800px){.card{padding:14px;flex-direction:column}.img-wrap{height:260px}}
+    /* Simple modals */
+    .modal{display:none;position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.55);z-index:1200;align-items:center;justify-content:center}
+    .modal-inner{background:#fff;padding:16px;border-radius:10px;max-width:480px;width:94%;box-shadow:0 18px 50px rgba(0,0,0,0.28)}
+    .field{padding:10px;border-radius:8px;border:1px solid #e6eef0;width:100%;font-size:14px}
+    .toast{position:fixed;right:18px;bottom:18px;background:#1b6b3c;color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 10px 30px rgba(27,107,60,0.2);display:none}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="products.html" class="back">← Back to products</a>
+
+    <div id="singleArea">Loading product...</div>
+
+    <div id="toast" class="toast">Added to cart ✅</div>
+
+    <!-- BUY MODAL -->
+    <div id="buyModal" class="modal" onclick="if(event.target===this) closeModal('buyModal')">
+      <div class="modal-inner">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="font-weight:800">Place Order</div>
+          <button onclick="closeModal('buyModal')" style="border:none;background:transparent;font-size:20px;cursor:pointer">✕</button>
+        </div>
+        <form id="buyForm" onsubmit="event.preventDefault(); submitOrder();" style="display:flex;flex-direction:column;gap:10px;">
+          <input name="name" class="field" placeholder="Full name" required>
+          <input name="phone" class="field" placeholder="Phone number" required>
+          <input name="qty" type="number" min="1" value="1" class="field" required>
+          <textarea name="address" class="field" placeholder="Delivery address" rows="3" required></textarea>
+          <div style="display:flex;gap:8px">
+            <button type="submit" class="btn-primary" style="flex:1">Place Order</button>
+            <button type="button" class="btn-outline" onclick="closeModal('buyModal')">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+  const API_BASE = 'http://localhost:5000/api';
+  const wishlistKey = 'productWishlist';
+
+  // Get product id from URL or localStorage
+  function getSelectedId(){
+    const qp = new URLSearchParams(location.search).get('id');
+    return qp || localStorage.getItem('selectedProductId');
+  }
+
+  async function fetchProduct(id){
+    try{
+      const res = await fetch(API_BASE + '/product_uploads/' + id);
+      const json = await res.json();
+      if(!json.success) throw new Error(json.error||'Not found');
+      return json.product;
+    }catch(err){
+      throw err;
+    }
+  }
+
+  function renderStars(rating){
+    if(!rating) return '';
+    const full = Math.floor(rating);
+    const half = rating - full >= 0.5;
+    let out = '';
+    for(let i=0;i<5;i++){
+      if(i<full) out += '★';
+      else if(i===full && half) out += '½';
+      else out += '☆';
+    }
+    return out;
+  }
+
+  function updateWishlistBtn(id){
+    const arr = JSON.parse(localStorage.getItem(wishlistKey)||'[]');
+    const btn = document.getElementById('wish-'+id);
+    if(!btn) return;
+    if(arr.includes(Number(id))){ btn.textContent='❤'; btn.style.color='#e74c3c'; } else { btn.textContent='♡'; btn.style.color='#666'; }
+  }
+
+  function toggleWishlist(id, name){
+    const arr = JSON.parse(localStorage.getItem(wishlistKey)||'[]');
+    const idx = arr.indexOf(Number(id));
+    if(idx>-1){ arr.splice(idx,1); showInline('info', name + ' removed from wishlist'); }
+    else { arr.push(Number(id)); showInline('success', name + ' added to wishlist ❤️'); }
+    localStorage.setItem(wishlistKey, JSON.stringify(arr));
+    updateWishlistBtn(id);
+    try{ if(window.opener && typeof window.opener.updateWishlistButtons === 'function') window.opener.updateWishlistButtons(); }catch(e){}
+  }
+
+  async function addToCart(id, name, price, image){
+    try{
+      // create or get cart key
+      let cartKey = localStorage.getItem('cart_key');
+      if(!cartKey){ cartKey = 'cart_' + Date.now() + '_' + Math.random().toString(36).slice(2,9); localStorage.setItem('cart_key', cartKey); }
+
+      const res = await fetch(API_BASE + '/cart/add', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ cart_key: cartKey, product_id: id, name, price, image, qty:1 })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error || 'Add to cart failed');
+      // show toast
+      const t = document.getElementById('toast'); t.style.display='block'; setTimeout(()=>{ t.style.opacity=1; },10);
+      setTimeout(()=>{ t.style.opacity=0; setTimeout(()=>t.style.display='none',260); },2000);
+      showInline('success','Added to cart','✅ ' + name);
+      if(typeof updateCartBadge === 'function') updateCartBadge();
+    }catch(err){ showInline('error','Failed',err.message); }
+  }
+
+  function buyNow(){ document.getElementById('buyModal').style.display='flex'; }
+  function closeModal(id){ document.getElementById(id).style.display='none'; }
+
+  async function submitOrder(){
+    const form = document.getElementById('buyForm');
+    const data = {
+      name: form.name.value, phone: form.phone.value, qty: form.qty.value, address: form.address.value,
+      productId: getSelectedId()
+    };
+    // demo behavior
+    alert('Order placed ✔\n' + JSON.stringify(data,null,2));
+    closeModal('buyModal');
+  }
+
+  function showInline(type, title, message){
+    // reuse simple notification using alert replacement for now
+    // You may replace this with your inline notification system
+    const n = document.createElement('div');
+    n.style.cssText = 'position:fixed;top:20px;right:20px;background:#3498db;color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:1300';
+    n.innerHTML = '<strong>'+title+'</strong><div style="font-size:13px;margin-top:6px">'+(message||'')+'</div>';
+    document.body.appendChild(n);
+    setTimeout(()=>n.remove(),3200);
+  }
+
+  // Render the single product card with full details
+  async function initSingle(){
+    const id = getSelectedId();
+    if(!id){ document.getElementById('singleArea').innerHTML = '<div style="padding:40px;background:#fff;border-radius:12px;text-align:center">No product selected. <a href="products.html">Return to products</a></div>'; return; }
+    try{
+      const product = await fetchProduct(id);
+      // Build card HTML
+      const gallery = (product.imageUrls && product.imageUrls.length) ? product.imageUrls : (product.gallery && product.gallery.length) ? product.gallery : (product.imageUrl ? [product.imageUrl] : []);
+
+      const galleryHtml = gallery.length ? `
+        <div style="display:flex;gap:8px;margin-top:12px;align-items:center;">
+          ${gallery.map((url, i) => `
+            <div style="width:68px;height:52px;border-radius:8px;overflow:hidden;border:1px solid #e6eef0;cursor:pointer;flex:0 0 68px" onclick="switchMainImage('${url.replace(/'/g, "\\'")}')">
+              <img src="${url}" style="width:100%;height:100%;object-fit:cover" alt="thumb-${i}">
+            </div>
+          `).join('')}
+        </div>
+      ` : '';
+
+      const specs = product.specs && typeof product.specs === 'object' ? Object.entries(product.specs) : [];
+
+      const specsHtml = specs.length ? `
+        <div style="margin-top:12px;background:#fbfcfd;border-radius:8px;padding:12px;border:1px solid #eef4f6">
+          <div style="font-weight:800;margin-bottom:8px;color:#23313a">Specifications</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            ${specs.map(([k,v]) => `
+              <div style="background:#fff;padding:10px;border-radius:8px;border:1px solid #f1f6f7">
+                <div style="font-size:12px;color:#7b8a8f">${k}</div>
+                <div style="font-weight:700;color:#23313a;margin-top:6px">${v}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : '';
+
+      const tags = Array.isArray(product.tags) ? product.tags : (product.taglist ? product.taglist.split(',') : []);
+      const tagsHtml = tags.length ? `<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:8px">${tags.map(t => `<div style="font-size:12px;padding:6px 10px;background:#ecf5f6;border-radius:999px;color:#147074;font-weight:700">${t.trim()}</div>`).join('')}</div>` : '';
+
+      const seller = product.seller || {};
+      const sellerHtml = (seller.name || seller.phone || seller.email) ? `
+        <div style="margin-top:12px;padding:12px;border-radius:8px;background:#fff;border:1px solid #eef4f6">
+          <div style="font-weight:800;margin-bottom:8px;color:#23313a">Seller / Provider</div>
+          ${seller.name ? `<div style="font-weight:700;color:#23313a">${seller.name}</div>` : ''}
+          ${seller.phone ? `<div style="color:#7b8a8f;margin-top:6px">📞 ${seller.phone}</div>` : ''}
+          ${seller.email ? `<div style="color:#7b8a8f;margin-top:6px">✉️ ${seller.email}</div>` : ''}
+          <div style="margin-top:8px;display:flex;gap:8px">
+            ${seller.phone ? `<button class="btn-outline" onclick="window.location='tel:${seller.phone}'">Call</button>` : ''}
+            ${seller.email ? `<button class="btn-view" onclick="window.location='mailto:${seller.email}'">Email</button>` : ''}
+          </div>
+        </div>
+      ` : '';
+
+      // Helper: nice label for keys
+      function formatKey(k){
+        return String(k).replace(/([A-Z])/g,' $1').replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+      }
+
+      // Build an "All Details" section by listing all non-empty fields not already shown above
+      const excludeKeys = new Set([
+        'id','productName','description','imageUrl','imagePath','imageUrls','gallery',
+        'finalPrice','price','discount','quantity','quantityUnit','rating','moq','warranty',
+        'created_at','updated_at','status','createdBy','seller_id','seller','tags','taglist','category'
+      ]);
+
+      const detailEntries = Object.entries(product).filter(([k,v]) => !excludeKeys.has(k) && v != null && v !== '' && !(Array.isArray(v) && v.length === 0));
+
+      const allDetailsHtml = detailEntries.length ? `
+        <div style="margin-top:12px;background:#fff;border-radius:8px;padding:12px;border:1px solid #eef4f6">
+          <div style="font-weight:800;margin-bottom:8px;color:#23313a">All Details</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            ${detailEntries.map(([k,v]) => `
+              <div style="background:#fff;padding:10px;border-radius:8px;border:1px solid #f1f6f7">
+                <div style="font-size:12px;color:#7b8a8f">${formatKey(k)}</div>
+                <div style="font-weight:700;color:#23313a;margin-top:6px">${Array.isArray(v) ? v.join(', ') : (typeof v === 'object' ? JSON.stringify(v) : v)}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : '';
+
+      const stockStatus = (product.quantity && Number(product.quantity) > 0) ? '<span style="color:#1b6b3c;font-weight:800">In stock</span>' : '<span style="color:#c0392b;font-weight:800">Out of stock</span>';
+
+      const dims = product.dimensions ? `Dimensions: ${product.dimensions}` : (product.length || product.width || product.height) ? `Dimensions: ${product.length||''} x ${product.width||''} x ${product.height||''}` : '';
+
+      const html = `
+        <div class="card">
+          <div class="img-wrap" id="main-image">
+            ${gallery.length ? `<img src="${gallery[0]}" alt="${(product.productName||'')}">` : (product.imageUrl ? `<img src="${product.imageUrl}" alt="${(product.productName||'')}">` : '<div style="font-size:48px;color:#ddd">📦</div>')}
+            ${galleryHtml}
+          </div>
+
+          <div class="content">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:12px">
+              <div style="flex:1">
+                <div class="category">${product.category?product.category:''}</div>
+                <div class="title">${product.productName||''}</div>
+                <div class="meta" style="margin-top:6px">
+                  <div class="rating">${renderStars(product.rating)}</div>
+                  <div style="color:#7b8a8f;font-size:13px;">${product.rating?('('+product.rating+'/5)'):''}</div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+                <button id="wish-${product.id}" class="wishlist" onclick="toggleWishlist(${product.id},'${(product.productName||'').replace(/'/g,"\\'")}')">♡</button>
+                <div style="font-size:13px;color:#7b8a8f">${stockStatus}</div>
+              </div>
+            </div>
+
+            ${product.brand ? `<div style="color:#7b8a8f;font-size:13px;margin-top:6px">Brand: <strong style="color:#23313a">${product.brand}</strong></div>` : ''}
+
+            <div class="desc">${product.description||'No description available.'}</div>
+
+            <div class="price-block" style="margin-top:8px">
+              <div>
+                ${product.discount>0?('<div class="price-old">₹'+parseFloat(product.price).toFixed(2)+'</div>') : ''}
+                <div class="price-main">₹${parseFloat(product.finalPrice || product.price).toFixed(2)}</div>
+              </div>
+              ${product.discount>0?('<div class="discount-tag">Save '+product.discount+'%</div>') : ''}
+            </div>
+
+            <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:8px">
+              <div class="meta">Qty: ${product.quantity||0} ${product.quantityUnit?product.quantityUnit:''}</div>
+              <div class="meta">MOQ: ${product.moq||'N/A'}</div>
+            </div>
+
+            ${specsHtml}
+            ${tagsHtml}
+            ${sellerHtml}
+            ${allDetailsHtml}
+
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn-primary" onclick="addToCart(${product.id},'${(product.productName||'').replace(/'/g,"\\'")}',${product.finalPrice||product.price},'${product.imageUrl||''}')">➕ Add to Cart</button>
+              <button class="btn-outline" onclick="buyNow()">💳 Buy Now</button>
+              ${seller.phone ? `<button class="btn-view" onclick="window.location='tel:${seller.phone}'">Contact Seller</button>` : ''}
+              <button class="btn-view" onclick="copyLink()">🔗 Copy Link</button>
+            </div>
+
+            <div style="margin-top:8px;color:#7b8a8f;font-size:13px">${dims?dims:''} ${product.weight?('• Weight: '+product.weight):''}</div>
+
+            <div style="margin-top:8px;color:#7b8a8f;font-size:13px">Created: ${new Date(product.created_at).toLocaleString()}</div>
+          </div>
+        </div>
+      `;
+      document.getElementById('singleArea').innerHTML = html;
+      updateWishlistBtn(product.id);
+    }catch(err){ document.getElementById('singleArea').innerHTML = '<div style="padding:40px;background:#fff;border-radius:12px;text-align:center">Failed to load product: '+err.message+'<div style="margin-top:10px"><a href="products.html">Back to products</a></div></div>'; }
+  }
+
+  // Switch main image when clicking gallery thumbs
+  function switchMainImage(url){
+    const el = document.querySelector('#main-image img');
+    if(el) el.src = url;
+  }
+
+  // Copy product page link to clipboard
+  function copyLink(){
+    const url = window.location.href;
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(url).then(()=> showInline('success','Link copied','Product link copied to clipboard'));
+    } else {
+      const ta = document.createElement('textarea'); ta.value = url; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); showInline('success','Link copied','Product link copied to clipboard'); }catch(e){ showInline('error','Copy failed','Unable to copy link'); } ta.remove();
+    }
+  }
+
+  // Close buyModal on outside click handled via HTML onclick
+
+  // initialize
+  initSingle();
+</script>
+</body>
+</html>

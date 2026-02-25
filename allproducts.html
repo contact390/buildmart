@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Materials Superstore</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh;">
+
+    <!-- Header with Search Bar -->
+    <header style="background-color: #2c3e50; color: white; padding: 20px; text-align: center;">
+        <h1>Building Materials Superstore</h1>
+        <div style="margin: 20px auto; width: 80%; max-width: 600px;">
+            <input type="text" id="searchInput" placeholder="Search for materials..." 
+                   style="width: 100%; padding: 12px; border-radius: 25px; border: none; font-size: 16px;">
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div style="display: flex; flex: 1;">
+
+        <!-- Filters Sidebar -->
+        <div style="width: 250px; background-color: #f5f5f5; padding: 20px; overflow-y: auto;">
+            <h3 style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">Categories</h3>
+            
+            <h4 style="margin: 15px 0 10px 0;">Bricks & Blocks</h4>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="clayBricksFilter" class="material-filter" value="Clay Bricks" style="margin-right: 10px;">
+                <label for="clayBricksFilter">Clay Bricks</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="concreteBricksFilter" class="material-filter" value="Concrete Bricks" style="margin-right: 10px;">
+                <label for="concreteBricksFilter">Concrete Bricks</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="hollowBlocksFilter" class="material-filter" value="Hollow Blocks" style="margin-right: 10px;">
+                <label for="hollowBlocksFilter">Hollow Blocks</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="paverBlocksFilter" class="material-filter" value="Paver Blocks" style="margin-right: 10px;">
+                <label for="paverBlocksFilter">Paver Blocks</label>
+            </div>
+            
+            <h4 style="margin: 15px 0 10px 0;">Cement & Concrete</h4>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="portlandCementFilter" class="material-filter" value="Portland Cement" style="margin-right: 10px;">
+                <label for="portlandCementFilter">Portland Cement</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="whiteCementFilter" class="material-filter" value="White Cement" style="margin-right: 10px;">
+                <label for="whiteCementFilter">White Cement</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="readyMixFilter" class="material-filter" value="Ready Mix" style="margin-right: 10px;">
+                <label for="readyMixFilter">Ready Mix Concrete</label>
+            </div>
+            
+            <h4 style="margin: 15px 0 10px 0;">Sand & Aggregates</h4>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="riverSandFilter" class="material-filter" value="River Sand" style="margin-right: 10px;">
+                <label for="riverSandFilter">River Sand</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="mSandFilter" class="material-filter" value="M Sand" style="margin-right: 10px;">
+                <label for="mSandFilter">M-Sand</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="gravelFilter" class="material-filter" value="Gravel" style="margin-right: 10px;">
+                <label for="gravelFilter">Gravel</label>
+            </div>
+            
+            <h4 style="margin: 15px 0 10px 0;">Tiles & Flooring</h4>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="ceramicTilesFilter" class="material-filter" value="Ceramic Tiles" style="margin-right: 10px;">
+                <label for="ceramicTilesFilter">Ceramic Tiles</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="porcelainTilesFilter" class="material-filter" value="Porcelain Tiles" style="margin-right: 10px;">
+                <label for="porcelainTilesFilter">Porcelain Tiles</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="marbleTilesFilter" class="material-filter" value="Marble Tiles" style="margin-right: 10px;">
+                <label for="marbleTilesFilter">Marble Tiles</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="vinylFlooringFilter" class="material-filter" value="Vinyl Flooring" style="margin-right: 10px;">
+                <label for="vinylFlooringFilter">Vinyl Flooring</label>
+            </div>
+            
+            <h4 style="margin: 15px 0 10px 0;">Plumbing</h4>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="pipesFilter" class="material-filter" value="Pipes" style="margin-right: 10px;">
+                <label for="pipesFilter">PVC Pipes</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="fittingsFilter" class="material-filter" value="Fittings" style="margin-right: 10px;">
+                <label for="fittingsFilter">Pipe Fittings</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="sanitarywareFilter" class="material-filter" value="Sanitaryware" style="margin-right: 10px;">
+                <label for="sanitarywareFilter">Sanitaryware</label>
+            </div>
+            
+            <h4 style="margin: 15px 0 10px 0;">Iron & Steel</h4>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="tmtBarsFilter" class="material-filter" value="TMT Bars" style="margin-right: 10px;">
+                <label for="tmtBarsFilter">TMT Bars</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="steelPlatesFilter" class="material-filter" value="Steel Plates" style="margin-right: 10px;">
+                <label for="steelPlatesFilter">Steel Plates</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="wireMeshFilter" class="material-filter" value="Wire Mesh" style="margin-right: 10px;">
+                <label for="wireMeshFilter">Wire Mesh</label>
+            </div>
+            
+            <h4 style="margin: 15px 0 10px 0;">Interiors</h4>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="paintsFilter" class="material-filter" value="Paints" style="margin-right: 10px;">
+                <label for="paintsFilter">Paints</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="wallpaperFilter" class="material-filter" value="Wallpaper" style="margin-right: 10px;">
+                <label for="wallpaperFilter">Wallpaper</label>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <input type="checkbox" id="falseCeilingFilter" class="material-filter" value="False Ceiling" style="margin-right: 10px;">
+                <label for="falseCeilingFilter">False Ceiling</label>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div style="flex: 1; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; overflow-y: auto;" id="productsContainer">
+            <!-- Product cards will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Products will be loaded from backend API
+        let products = [];
+
+        // When the page is opened via file:// (no hostname) or on localhost, use the local server API
+        const API_BASE = (location.protocol === 'file:' || !location.hostname || location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000/api' : '/api';
+
+        // fetch products from backend and render
+        async function fetchAndRender(){
+            try{
+                const resp = await fetch(API_BASE + '/products?limit=6');
+                if (!resp.ok) throw new Error('Failed to fetch products');
+                const json = await resp.json();
+                products = json.products || [];
+                renderProducts(products);
+            }catch(err){
+                console.error(err);
+                const container = document.getElementById('productsContainer');
+                container.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #900;">Failed to load products from server.</p>';
+            }
+        }
+
+        // Function to render products
+        function renderProducts(filteredProducts = products) {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = '';
+
+            if (filteredProducts.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; margin-top: 50px;">No products match your filters. Try different criteria.</p>';
+                return;
+            }
+
+            filteredProducts.forEach(product => {
+                const discountedPrice = product.price * (1 - product.discount / 100);
+                
+                const productCard = document.createElement('div');
+                productCard.style.border = '1px solid #ddd';
+                productCard.style.borderRadius = '8px';
+                productCard.style.padding = '15px';
+                productCard.style.display = 'flex';
+                productCard.style.flexDirection = 'column';
+                productCard.style.gap = '10px';
+                productCard.style.backgroundColor = 'white';
+                productCard.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 5px;">
+                    <h3 style="margin: 0; font-size: 16px; min-height: 40px;">${product.name}</h3>
+                    <div style="display: flex; align-items: center;">
+                        <span style="color: #f39c12;">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span>
+                        <span style="margin-left: 5px; font-size: 14px;">${product.rating}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        ${product.discount > 0 ? 
+                            `<span style="text-decoration: line-through; color: #999; font-size: 14px;">$${product.price.toFixed(2)}</span>
+                             <span style="color: #e74c3c; font-weight: bold;">$${discountedPrice.toFixed(2)} <span style="font-size: 12px;">(-${product.discount}%)</span></span>` :
+                            `<span style="font-weight: bold;">$${product.price.toFixed(2)}</span>`}
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px;">
+                        <div style="display: flex; align-items: center; border: 1px solid #ddd; border-radius: 5px;">
+                            <button class="decrease" style="border: none; background: #eee; padding: 5px 10px; cursor: pointer; font-weight: bold;">-</button>
+                            <span class="quantity" style="padding: 5px 10px; min-width: 30px; text-align: center;">1</span>
+                            <button class="increase" style="border: none; background: #eee; padding: 5px 10px; cursor: pointer; font-weight: bold;">+</button>
+                        </div>
+                        <button class="add-to-cart" style="background-color: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; transition: background 0.3s;" 
+                                onmouseover="this.style.backgroundColor='#2980b9'" onmouseout="this.style.backgroundColor='#3498db'">
+                            Add to Cart
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(productCard);
+
+                // add searchable name attribute for later highlighting/scroll
+                productCard.setAttribute('data-name', product.name.toLowerCase());
+
+                // Add event listeners for quantity controls
+                const decreaseBtn = productCard.querySelector('.decrease');
+                const increaseBtn = productCard.querySelector('.increase');
+                const quantitySpan = productCard.querySelector('.quantity');
+                const addToCartBtn = productCard.querySelector('.add-to-cart');
+
+                decreaseBtn.addEventListener('click', () => {
+                    let qty = parseInt(quantitySpan.textContent);
+                    if (qty > 1) {
+                        quantitySpan.textContent = qty - 1;
+                    }
+                });
+
+                increaseBtn.addEventListener('click', () => {
+                    let qty = parseInt(quantitySpan.textContent);
+                    quantitySpan.textContent = qty + 1;
+                });
+
+                addToCartBtn.addEventListener('click', async () => {
+                    const qty = parseInt(quantitySpan.textContent);
+                    const cartKey = localStorage.getItem('cart_key');
+                    const payload = {
+                        cart_key: cartKey,
+                        product: {
+                            product_id: product.id,
+                            name: product.name,
+                            price: parseFloat((discountedPrice).toFixed(2)),
+                            qty,
+                            image: product.image
+                        }
+                    };
+                    try {
+                        const resp = await fetch(API_BASE + '/cart/add', {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+                        const json = await resp.json();
+                        if (json.cart_key) {
+                            localStorage.setItem('cart_key', json.cart_key);
+                        }
+                        alert(json.message || 'Added to cart');
+                    } catch (err) {
+                        console.error(err);
+                        alert('Failed to add to cart');
+                    }
+                });
+            });
+        }
+
+        // Initial render — load from backend
+        fetchAndRender();
+
+        // Filter functionality
+        const filterCheckboxes = document.querySelectorAll('.material-filter');
+        filterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const selectedCategories = Array.from(filterCheckboxes)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.value);
+
+                if (selectedCategories.length === 0) {
+                    renderProducts(products);
+                } else {
+                    const filtered = products.filter(product => 
+                        selectedCategories.includes(product.category)
+                    );
+                    renderProducts(filtered);
+                }
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filtered = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) || 
+                product.category.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filtered);
+        });
+
+        // If page opened with ?q=... then prefill search and run filter + highlight
+        (function(){
+            const params = new URLSearchParams(window.location.search);
+            const q = params.get('q');
+            if (q && q.trim().length > 0) {
+                const term = q.trim();
+                searchInput.value = term;
+                // trigger the same filtering logic
+                const ev = new Event('input', { bubbles: true });
+                searchInput.dispatchEvent(ev);
+
+                // after render, highlight & scroll to first matched product
+                setTimeout(() => {
+                    const lc = term.toLowerCase();
+                    const container = document.getElementById('productsContainer');
+                    const first = Array.from(container.children).find(card => {
+                        const name = card.getAttribute('data-name') || '';
+                        return name.includes(lc);
+                    });
+                    if (first) {
+                        first.style.transition = 'box-shadow 0.3s, transform 0.3s';
+                        first.style.boxShadow = '0 0 0 3px #f1c40f';
+                        first.style.transform = 'translateY(-4px)';
+                        first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        setTimeout(() => {
+                            first.style.boxShadow = '';
+                            first.style.transform = '';
+                        }, 3000);
+                    }
+                }, 60);
+            }
+        })();
+    </script>
+</body>
+</html>

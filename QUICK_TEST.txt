@@ -1,0 +1,64 @@
+QUICK TEST STEPS FOR LOGIN FUNCTIONALITY
+==========================================
+
+IMPORTANT: Make sure the server is running!
+  Command: cd 'C:\Users\admin\Downloads\building material'; node server.js
+
+=== STEP 1: Open Debug Page ===
+Go to: http://localhost:5000/debug_login.html
+
+=== STEP 2: Create Test Buyer ===
+Click button: "📝 Register Test Buyer (testbuyer@test.com)"
+Wait for: ✅ Buyer registered!
+Credentials: 
+  - Email: testbuyer@test.com
+  - Password: test123
+
+=== STEP 3: Login ===
+Click button: "🔐 Login as Buyer"
+Wait for: ✅ Login successful! User: Test Buyer
+
+=== STEP 4: Check Session ===
+Click button: "📊 Check Current Session"
+Wait for: ✅ Session found! User: Test Buyer (buyer)
+
+=== STEP 5: Test Navbar Update ===
+Click button: "🔨 Force Update Navbar"
+Expected: ✅ Navbar updated! Changed to: Test Buyer
+
+=== STEP 6: Go to Home Page ===
+Open: http://localhost:5000/index.html
+Look at navbar - should see "Test Buyer" instead of "Login" in GREEN
+
+=== STEP 7: Test Other Pages ===
+Click these to verify username persists:
+- http://localhost:5000/cement.html
+- http://localhost:5000/bricks.html
+- http://localhost:5000/iron.html
+
+All should show "Test Buyer" in the navbar.
+
+=== STEP 8: Logout ===
+Click the "Logout" link (appears next to username)
+Page reloads...
+Look at navbar - should now show "Login" again in BLUE
+
+SUCCESS INDICATORS:
+✅ After login, navbar shows user name (not "Login")
+✅ After login, "Logout" link appears
+✅ Username persists across pages
+✅ After logout, navbar shows "Login" again
+
+TROUBLESHOOTING:
+If navbar doesn't update:
+1. Open browser DevTools (F12)
+2. Go to Console tab
+3. Look for messages starting with 🔍, 📊, ✅, or ❌
+4. Check if you see "Session data: {success: true, user: ...}"
+5. If not, session is not being sent/retrieved
+
+If still not working:
+1. Stop server (Ctrl+C)
+2. Delete browser cookies for http://localhost:5000
+3. Start server again: node server.js
+4. Try again from Step 1

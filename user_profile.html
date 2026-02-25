@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Hitaishi Constructions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            padding-top: 180px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            border: 3px solid white;
+        }
+
+        .profile-info h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .profile-info p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .profile-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .profile-tabs button {
+            padding: 12px 24px;
+            background: #fff;
+            color: #2c3e50;
+            border: none;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+            margin-bottom: -2px;
+        }
+
+        .profile-tabs button:hover {
+            background: #ecf0f1;
+            transform: translateY(-2px);
+        }
+
+        .profile-tabs button.active {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 0 12px 12px 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .info-item label {
+            display: block;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .info-item value {
+            display: block;
+            font-size: 16px;
+            color: #555;
+            word-break: break-word;
+        }
+
+        .edit-profile-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .order-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .order-card .order-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .order-card .order-id {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .order-card .order-date {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .order-card .order-status {
+            padding: 6px 12px;
+            background: #27ae60;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+
+        .no-data-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .back-button {
+            margin-bottom: 20px;
+        }
+
+        .back-button a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .back-button a:hover {
+            gap: 12px;
+            color: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 140px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px;
+            }
+
+            .profile-info h1 {
+                font-size: 24px;
+            }
+
+            .profile-tabs {
+                overflow-x: auto;
+                gap: 5px;
+            }
+
+            .profile-tabs button {
+                padding: 10px 16px;
+                font-size: 12px;
+                white-space: nowrap;
+            }
+
+            .edit-profile-form {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back Button -->
+        <div class="back-button">
+            <a href="index.html">← Back to Home</a>
+        </div>
+
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-avatar">👤</div>
+            <div class="profile-info">
+                <h1 id="profileName">User Profile</h1>
+                <p id="profileEmail">📧 user@example.com</p>
+                <p id="profileType">👥 Buyer</p>
+                <p id="profileJoinDate">📅 Member since January 2026</p>
+            </div>
+        </div>
+
+        <!-- Profile Tabs -->
+        <div class="profile-tabs">
+            <button class="tab-btn active" onclick="switchTab('overview')">📊 Overview</button>
+            <button class="tab-btn" onclick="switchTab('orders')">📦 Orders</button>
+            <button class="tab-btn" onclick="switchTab('settings')">⚙️ Settings</button>
+            <button class="tab-btn" onclick="switchTab('security')">🔐 Security</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <h2 style="margin-bottom: 20px; color: #2c3e50;">📋 Account Overview</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Full Name</label>
+                    <value id="overviewName">Loading...</value>
+                </div>
+                <div class="info-item">
+                    <label>Email Address</label>
+                    <value id="overviewEmail">Loading...</value>
+                </div>
+                <div class="info-item">
+                    <label>Account Type</label>
+                    <value id="overviewType">Loading...</value>
+                </div>
+                <div class="info-item">
+                    <label>Member Since</label>
+                    <value id="overviewDate">Loading...</value>
+                </div>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="switchTab('settings')">Edit Profile</button>
+                <button class="btn btn-secondary" onclick="goToDashboard()">📊 My Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="orders" class="tab-content">
+            <h2 style="margin-bottom: 20px; color: #2c3e50;">📦 My Orders</h2>
+            <div id="ordersContainer" class="orders-list">
+                <div class="no-data">
+                    <div class="no-data-icon">📭</div>
+                    <p>No orders yet. Start shopping!</p>
+                    <a href="view_products.html" style="color: #3498db; text-decoration: none; font-weight: bold;">Browse Products →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings" class="tab-content">
+            <h2 style="margin-bottom: 20px; color: #2c3e50;">⚙️ Edit Profile</h2>
+            <form class="edit-profile-form" onsubmit="saveProfile(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="settingsName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="settingsEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="settingsPhone" placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" id="settingsAddress" placeholder="Enter your address">
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" id="settingsCity" placeholder="Enter your city">
+                </div>
+                <div class="form-group">
+                    <label>Postal Code</label>
+                    <input type="text" id="settingsPostal" placeholder="Enter your postal code">
+                </div>
+            </form>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="saveProfile()">💾 Save Changes</button>
+                <button class="btn btn-secondary" onclick="switchTab('overview')">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Security Tab -->
+        <div id="security" class="tab-content">
+            <h2 style="margin-bottom: 20px; color: #2c3e50;">🔐 Security Settings</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Last Login</label>
+                    <value id="lastLogin">Loading...</value>
+                </div>
+                <div class="info-item">
+                    <label>Account Status</label>
+                    <value>✅ Active</value>
+                </div>
+            </div>
+            
+            <h3 style="margin: 25px 0 15px; color: #2c3e50;">🔑 Password Management</h3>
+            <form class="edit-profile-form" onsubmit="changePassword(event)">
+                <div class="form-group">
+                    <label>Current Password</label>
+                    <input type="password" id="currentPassword" placeholder="Enter current password" required>
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm new password" required>
+                </div>
+            </form>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="changePassword()">🔐 Change Password</button>
+            </div>
+
+            <h3 style="margin: 25px 0 15px; color: #2c3e50;">⚠️ Danger Zone</h3>
+            <div class="button-group">
+                <button class="btn btn-danger" onclick="logoutAllDevices()">🚪 Logout All Devices</button>
+                <button class="btn btn-danger" onclick="deleteAccount()">❌ Delete Account</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load user profile on page load
+        window.addEventListener('load', function() {
+            loadUserProfile();
+        });
+
+        function loadUserProfile() {
+            const userSessionJSON = localStorage.getItem('userSession');
+            
+            if (!userSessionJSON) {
+                alert('Please login first!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const userSession = JSON.parse(userSessionJSON);
+                const userName = userSession.name || userSession.email.split('@')[0] || 'User';
+                const userEmail = userSession.email || 'Not provided';
+                const userType = userSession.userType === 'seller' ? '👥 Seller' : '👥 Buyer';
+                const joinDate = new Date(userSession.loginTime).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                // Update profile header
+                document.getElementById('profileName').textContent = userName;
+                document.getElementById('profileEmail').textContent = `📧 ${userEmail}`;
+                document.getElementById('profileType').textContent = userType;
+                document.getElementById('profileJoinDate').textContent = `📅 Member since ${joinDate}`;
+
+                // Update overview tab
+                document.getElementById('overviewName').textContent = userName;
+                document.getElementById('overviewEmail').textContent = userEmail;
+                document.getElementById('overviewType').textContent = userSession.userType === 'seller' ? 'Seller Account' : 'Buyer Account';
+                document.getElementById('overviewDate').textContent = joinDate;
+
+                // Update settings form
+                document.getElementById('settingsName').value = userName;
+                document.getElementById('settingsEmail').value = userEmail;
+
+                // Update last login
+                document.getElementById('lastLogin').textContent = joinDate;
+
+            } catch (e) {
+                console.error('Error loading user profile:', e);
+            }
+        }
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function saveProfile(e) {
+            if (e) e.preventDefault();
+
+            const name = document.getElementById('settingsName').value.trim();
+            const email = document.getElementById('settingsEmail').value.trim();
+            const phone = document.getElementById('settingsPhone').value.trim();
+            const address = document.getElementById('settingsAddress').value.trim();
+            const city = document.getElementById('settingsCity').value.trim();
+            const postal = document.getElementById('settingsPostal').value.trim();
+
+            if (!name || !email) {
+                alert('Please fill in name and email!');
+                return;
+            }
+
+            try {
+                const userSession = JSON.parse(localStorage.getItem('userSession'));
+                
+                // Update user session
+                userSession.name = name;
+                userSession.email = email;
+                userSession.phone = phone;
+                userSession.address = address;
+                userSession.city = city;
+                userSession.postal = postal;
+
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+                alert('✅ Profile updated successfully!');
+                
+                // Reload profile to show changes
+                loadUserProfile();
+                switchTab('overview');
+
+            } catch (e) {
+                alert('Error saving profile: ' + e.message);
+            }
+        }
+
+        function changePassword(e) {
+            if (e) e.preventDefault();
+
+            const currentPass = document.getElementById('currentPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+
+            if (!currentPass || !newPass || !confirmPass) {
+                alert('Please fill in all password fields!');
+                return;
+            }
+
+            if (newPass !== confirmPass) {
+                alert('New passwords do not match!');
+                return;
+            }
+
+            if (newPass.length < 6) {
+                alert('New password must be at least 6 characters!');
+                return;
+            }
+
+            // In a real app, you would send this to the server
+            alert('✅ Password changed successfully!');
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+
+        function logoutAllDevices() {
+            if (confirm('Are you sure you want to logout from all devices?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userSession');
+                alert('✅ Logged out from all devices');
+                window.location.href = 'index.html';
+            }
+        }
+
+        function deleteAccount() {
+            if (confirm('⚠️ Are you sure you want to delete your account? This action cannot be undone!')) {
+                if (confirm('This will permanently delete all your data. Click OK to confirm.')) {
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userSession');
+                    alert('❌ Account deleted successfully');
+                    window.location.href = 'index.html';
+                }
+            }
+        }
+
+        function goToDashboard() {
+            const userSession = JSON.parse(localStorage.getItem('userSession'));
+            if (userSession && userSession.userType === 'seller') {
+                window.location.href = 'seller_dashboard.html';
+            } else {
+                window.location.href = 'buyer_dashboard.html';
+            }
+        }
+    </script>
+</body>
+</html>

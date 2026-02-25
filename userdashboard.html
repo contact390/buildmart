@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Account</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
+  <div style="display: flex; min-height: 100vh;">
+    
+    <!-- Left Side Buttons -->
+    <div style="width: 220px; padding: 20px;">
+      <h2 style="margin-bottom: 20px; font-size: 1.3rem;">My Account</h2>
+      <button onclick="showContent('dashboard')" style="display: block; width: 100%; padding: 10px 15px; margin-bottom: 10px; border: none; background: #f0f0f0; cursor: pointer; border-radius: 5px;">Dashboard</button>
+      <button onclick="showContent('profile')" style="display: block; width: 100%; padding: 10px 15px; margin-bottom: 10px; border: none; background: #f0f0f0; cursor: pointer; border-radius: 5px;">My Profile</button>
+      <button onclick="showContent('orders')" style="display: block; width: 100%; padding: 10px 15px; margin-bottom: 10px; border: none; background: #f0f0f0; cursor: pointer; border-radius: 5px;">My Orders</button>
+      <button onclick="showContent('password')" style="display: block; width: 100%; padding: 10px 15px; margin-bottom: 10px; border: none; background: #f0f0f0; cursor: pointer; border-radius: 5px;">Change Password</button>
+      <button onclick="showContent('logout')" style="display: block; width: 100%; padding: 10px 15px; margin-bottom: 10px; border: none; background: #f0f0f0; cursor: pointer; border-radius: 5px;">Logout</button>
+    </div>
+    
+    <!-- Right Side Content -->
+    <div style="flex: 1; padding: 30px; background: #fafafa;">
+      <div id="contentArea" style="background: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <h2>Welcome to your account</h2>
+        <p>Select any option from the left to view your account details.</p>
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- Script to handle content switching -->
+  <script>
+    const contentMap = {
+      dashboard: "<h2>Dashboard</h2><p>Welcome to your dashboard. Here you can manage your orders and account settings.</p>",
+      profile: "<h2>My Profile</h2><p>Name: John Doe<br>Email: johndoe@example.com<br>Phone: 9876543210</p>",
+      orders: "<h2>My Orders</h2><p>You haven't placed any orders yet.</p>",
+      password: "<h2>Change Password</h2><p>Use the password change option below to secure your account.</p>",
+      logout: "<h2>Logout</h2><p>You have been logged out. Thank you for visiting.</p>"
+    };
+
+    function showContent(key) {
+      document.getElementById("contentArea").innerHTML = contentMap[key] || "<p>Content not available.</p>";
+    }
+  </script>
+</body>
+</html>

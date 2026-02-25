@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Contact Messages</title>
+</head>
+<body style="margin:0;padding:20px;font-family:'Poppins',sans-serif;background:#f9f9f9;color:#333;">
+  <h2 style="text-align:center;margin-bottom:30px;">All Contact Form Submissions</h2>
+
+  <table style="width:100%;border-collapse:collapse;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+    <thead>
+      <tr style="background:#007BFF;color:#fff;">
+        <th style="padding:12px;border:1px solid #ddd;">ID</th>
+        <th style="padding:12px;border:1px solid #ddd;">Name</th>
+        <th style="padding:12px;border:1px solid #ddd;">Email</th>
+        <th style="padding:12px;border:1px solid #ddd;">Subject</th>
+        <th style="padding:12px;border:1px solid #ddd;">Message</th>
+        <th style="padding:12px;border:1px solid #ddd;">Date</th>
+      </tr>
+    </thead>
+    <tbody id="messagesTable">
+      <!-- JS will populate this -->
+    </tbody>
+  </table>
+
+  <script>
+    fetch('http://localhost:5000/api/contact_us')
+      .then(res => res.json())
+      .then(data => {
+        const table = document.getElementById('messagesTable');
+        data.forEach(msg => {
+          const row = `
+            <tr>
+              <td style="padding:10px;border:1px solid #ddd;">${msg.id}</td>
+              <td style="padding:10px;border:1px solid #ddd;">${msg.name}</td>
+              <td style="padding:10px;border:1px solid #ddd;">${msg.email}</td>
+              <td style="padding:10px;border:1px solid #ddd;">${msg.subject}</td>
+              <td style="padding:10px;border:1px solid #ddd;">${msg.message}</td>
+              <td style="padding:10px;border:1px solid #ddd;">${new Date(msg.created_at).toLocaleString()}</td>
+            </tr>
+          `;
+          table.innerHTML += row;
+        });
+      })
+      .catch(err => {
+        console.error('Error fetching messages:', err);
+        document.getElementById('messagesTable').innerHTML = `<tr><td colspan="6" style="padding:15px;text-align:center;color:red;">Failed to load messages.</td></tr>`;
+      });
+  </script>
+
+
+
+
+<!---bm_plan subscribers-->
+
+ <div style="max-width:1000px;margin:auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    <h2 style="text-align:center;margin-bottom:20px;">All Plan Submissions</h2>
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr style="background:#ffd700;">
+          <th style="padding:10px;border:1px solid #ccc;">ID</th>
+          <th style="padding:10px;border:1px solid #ccc;">Name</th>
+          <th style="padding:10px;border:1px solid #ccc;">Email</th>
+          <th style="padding:10px;border:1px solid #ccc;">Phone</th>
+          <th style="padding:10px;border:1px solid #ccc;">Company</th>
+          <th style="padding:10px;border:1px solid #ccc;">Plan</th>
+          <th style="padding:10px;border:1px solid #ccc;">Price</th>
+          <th style="padding:10px;border:1px solid #ccc;">Submitted At</th>
+        </tr>
+      </thead>
+      <tbody id="plansTableBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    fetch('http://localhost:5000/api/bm_plans')
+      .then(res => res.json())
+      .then(data => {
+        const tableBody = document.getElementById('plansTableBody');
+        if (data.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="8" style="padding:10px;text-align:center;">No submissions yet.</td></tr>';
+          return;
+        }
+
+        data.forEach(plan => {
+          const row = `<tr>
+            <td style="padding:8px;border:1px solid #ccc;">${plan.id}</td>
+            <td style="padding:8px;border:1px solid #ccc;">${plan.fullName}</td>
+            <td style="padding:8px;border:1px solid #ccc;">${plan.email}</td>
+            <td style="padding:8px;border:1px solid #ccc;">${plan.phone}</td>
+            <td style="padding:8px;border:1px solid #ccc;">${plan.company || 'N/A'}</td>
+            <td style="padding:8px;border:1px solid #ccc;">${plan.plan}</td>
+            <td style="padding:8px;border:1px solid #ccc;">${plan.price}</td>
+            <td style="padding:8px;border:1px solid #ccc;">${new Date(plan.submitted_at).toLocaleString()}</td>
+          </tr>`;
+          tableBody.innerHTML += row;
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        document.getElementById('plansTableBody').innerHTML = 
+          '<tr><td colspan="8" style="padding:10px;text-align:center;color:red;">Failed to load data.</td></tr>';
+      });
+  </script>
+
+
+
+<!---buyer-->
+ <h2 style="margin-bottom: 20px;">All Buyer Profiles</h2>
+
+  <table id="buyersTable" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+    <thead>
+      <tr>
+        <th style="padding: 10px; border: 1px solid #ccc; text-align: left; background-color: #f2f2f2;">ID</th>
+        <th style="padding: 10px; border: 1px solid #ccc; text-align: left; background-color: #f2f2f2;">Name</th>
+        <th style="padding: 10px; border: 1px solid #ccc; text-align: left; background-color: #f2f2f2;">Email</th>
+        <th style="padding: 10px; border: 1px solid #ccc; text-align: left; background-color: #f2f2f2;">Phone</th>
+        <th style="padding: 10px; border: 1px solid #ccc; text-align: left; background-color: #f2f2f2;">Address</th>
+        <th style="padding: 10px; border: 1px solid #ccc; text-align: left; background-color: #f2f2f2;">Registered At</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    fetch('http://localhost:5000/api/buyer-profile')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          const tbody = document.querySelector('#buyersTable tbody');
+          data.buyers.forEach(buyer => {
+            const row = `
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${buyer.id}</td>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${buyer.name}</td>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${buyer.email}</td>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${buyer.phone}</td>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${buyer.address || '-'}</td>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${new Date(buyer.created_at).toLocaleString()}</td>
+              </tr>`;
+            tbody.insertAdjacentHTML('beforeend', row);
+          });
+        } else {
+          alert("Failed to load buyers.");
+        }
+      })
+      .catch(err => {
+        console.error('Error loading buyers:', err);
+        alert("Error loading buyers.");
+      });
+  </script>
+
+
+
+<!----------SELLER-->
+
+ <h2 style="margin-bottom: 20px;">All Seller Profiles</h2>
+
+  <table id="sellersTable" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+    <thead>
+      <tr>
+        <th style="padding: 10px; border: 1px solid #ccc; background-color: #f2f2f2; text-align: left;">ID</th>
+        <th style="padding: 10px; border: 1px solid #ccc; background-color: #f2f2f2; text-align: left;">Name</th>
+        <th style="padding: 10px; border: 1px solid #ccc; background-color: #f2f2f2; text-align: left;">Email</th>
+        <th style="padding: 10px; border: 1px solid #ccc; background-color: #f2f2f2; text-align: left;">Phone</th>
+        <th style="padding: 10px; border: 1px solid #ccc; background-color: #f2f2f2; text-align: left;">Company</th>
+        <th style="padding: 10px; border: 1px solid #ccc; background-color: #f2f2f2; text-align: left;">Address</th>
+        <th style="padding: 10px; border: 1px solid #ccc; background-color: #f2f2f2; text-align: left;">GST</th>
+        <th style="padding: 10px; border: 1px solid #ccc; background-color: #f2f2f2; text-align: left;">Registered At</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    fetch('http://localhost:5000/api/seller-profile')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          const tbody = document.querySelector('#sellersTable tbody');
+          data.sellers.forEach(seller => {
+            const row = `
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ccc;">${seller.id}</td>
+                <td style="padding: 10px; border: 1px solid #ccc;">${seller.name}</td>
+                <td style="padding: 10px; border: 1px solid #ccc;">${seller.email}</td>
+                <td style="padding: 10px; border: 1px solid #ccc;">${seller.phone}</td>
+                <td style="padding: 10px; border: 1px solid #ccc;">${seller.company || '-'}</td>
+                <td style="padding: 10px; border: 1px solid #ccc;">${seller.address || '-'}</td>
+                <td style="padding: 10px; border: 1px solid #ccc;">${seller.gst || '-'}</td>
+                <td style="padding: 10px; border: 1px solid #ccc;">${new Date(seller.created_at).toLocaleString()}</td>
+              </tr>`;
+            tbody.insertAdjacentHTML('beforeend', row);
+          });
+        } else {
+          alert("Failed to load sellers.");
+        }
+      })
+      .catch(err => {
+        console.error('Error loading sellers:', err);
+        alert("Error loading sellers.");
+      });
+  </script>
+
+
+
+
+
+</body>
+</html>
