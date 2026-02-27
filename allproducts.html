@@ -141,7 +141,7 @@
         let products = [];
 
         // When the page is opened via file:// (no hostname) or on localhost, use the local server API
-        const API_BASE = (location.protocol === 'file:' || !location.hostname || location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000/api' : '/api';
+        const API_BASE = (location.protocol === 'file:' || !location.hostname || location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'https://buildmarts.in/api' : '/api';
 
         // fetch products from backend and render
         async function fetchAndRender(){

@@ -632,7 +632,7 @@
                 }
                 
                 // Fetch cart from API
-                fetch(`http://localhost:5000/api/cart/${encodeURIComponent(cartKey)}`)
+                fetch(`https://buildmarts.in/api/cart/${encodeURIComponent(cartKey)}`)
                     .then(r => r.json())
                     .then(data => {
                         const cartCount = (data.items && data.items.length) ? data.items.length : 0;
@@ -1221,7 +1221,7 @@ function submitPlanForm(event) {
   }
 
   // Send data to backend
-  fetch('http://localhost:5000/api/bm_plans', {
+  fetch('https://buildmarts.in/api/bm_plans', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -2967,7 +2967,7 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
             submitBtn.style.opacity = '0.7';
 
             try {
-                const res = await fetch('http://localhost:5000/api/subscribe', {
+                const res = await fetch('https://buildmarts.in/api/subscribe', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email })

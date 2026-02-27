@@ -23,7 +23,7 @@
   </table>
 
   <script>
-    fetch('http://localhost:5000/api/contact_us')
+    fetch('https://buildmarts.in/api/contact_us')
       .then(res => res.json())
       .then(data => {
         const table = document.getElementById('messagesTable');
@@ -72,7 +72,7 @@
   </div>
 
   <script>
-    fetch('http://localhost:5000/api/bm_plans')
+    fetch('https://buildmarts.in/api/bm_plans')
       .then(res => res.json())
       .then(data => {
         const tableBody = document.getElementById('plansTableBody');
@@ -122,7 +122,7 @@
   </table>
 
   <script>
-    fetch('http://localhost:5000/api/buyer-profile')
+    fetch('https://buildmarts.in/api/buyer-profile')
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -172,7 +172,7 @@
   </table>
 
   <script>
-    fetch('http://localhost:5000/api/seller-profile')
+    fetch('https://buildmarts.in/api/seller-profile')
       .then(res => res.json())
       .then(data => {
         if (data.success) {

@@ -138,7 +138,7 @@ fetch('footer.html')
       startSpinner();
       try {
         const response = await fetch(
-          `http://localhost:5000/api/product_uploads/category/${CATEGORY}?limit=100`
+          `https://buildmarts.in/api/product_uploads/category/${CATEGORY}?limit=100`
         );
         const data = await response.json();
 
@@ -207,7 +207,7 @@ fetch('footer.html')
     async function viewProductDetails(productId) {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/product_uploads/${productId}`
+          `https://buildmarts.in/api/product_uploads/${productId}`
         );
         const data = await response.json();
 
@@ -317,7 +317,7 @@ fetch('footer.html')
 
     // ============ CART FUNCTIONS ============
 
-    const API_BASE = 'http://localhost:5000/api';
+    const API_BASE = 'https://buildmarts.in/api';
 
     async function getOrCreateCart() {
       let cartKey = localStorage.getItem('cart_key');

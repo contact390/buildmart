@@ -631,7 +631,7 @@
                 }
                 
                 // Fetch cart from API
-                fetch(`http://localhost:5000/api/cart/${encodeURIComponent(cartKey)}`)
+                fetch(`https://buildmarts.in/api/cart/${encodeURIComponent(cartKey)}`)
                     .then(r => r.json())
                     .then(data => {
                         const cartCount = (data.items && data.items.length) ? data.items.reduce((s, it) => s + (it.qty || 0), 0) : 0;

@@ -633,7 +633,7 @@ fetch('footer.html')
             container.innerHTML = '';
 
             try {
-                const response = await fetch('http://localhost:5000/api/product_uploads');
+                const response = await fetch('https://buildmarts.in/api/product_uploads');
                 const data = await response.json();
 
                 if (!data.success || !data.products) {
@@ -810,7 +810,7 @@ fetch('footer.html')
 
         async function viewProductDetails(productId) {
             try {
-                const response = await fetch(`http://localhost:5000/api/product_uploads/${productId}`);
+                const response = await fetch(`https://buildmarts.in/api/product_uploads/${productId}`);
                 const data = await response.json();
 
                 if (!data.success) {

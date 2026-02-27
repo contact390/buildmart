@@ -137,8 +137,8 @@
         <div id="profileInfo" class="loading">Loading profile...</div>
         <div class="sidebar-action">
           <button class="btn btn-primary" id="editProfileBtn" style="width: 100%;">Edit Profile</button>
-          <a href="http://localhost:5000/index.html">← Back to Home</a>
-          <a href="http://localhost:5000/allproducts.html">🛍️ Browse Products</a>
+          <a href="https://buildmarts.in/index.html">← Back to Home</a>
+          <a href="https://buildmarts.in/allproducts.html">🛍️ Browse Products</a>
         </div>
       </div>
 
@@ -159,15 +159,15 @@
     <div class="card" style="margin-top: 25px; background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border: 2px dashed #667eea;">
       <h3 style="border-bottom: 2px solid #667eea;">🛒 Quick Actions</h3>
       <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px;">
-        <a href="http://localhost:5000/cart.html" class="btn btn-primary">View My Cart</a>
-        <a href="http://localhost:5000/checkout.html" class="btn btn-secondary">Proceed to Checkout</a>
-        <a href="http://localhost:5000/allproducts.html" class="btn btn-primary">Continue Shopping</a>
+        <a href="https://buildmarts.in/cart.html" class="btn btn-primary">View My Cart</a>
+        <a href="https://buildmarts.in/checkout.html" class="btn btn-secondary">Proceed to Checkout</a>
+        <a href="https://buildmarts.in/allproducts.html" class="btn btn-primary">Continue Shopping</a>
       </div>
     </div>
   </div>
 
   <script>
-    const API_BASE = 'http://localhost:5000/api';
+    const API_BASE = 'https://buildmarts.in/api';
     let currentUser = null;
 
     // Session Check & Initialize Dashboard
@@ -179,7 +179,7 @@
 
         if (!sessionData || !sessionData.success || !sessionData.user) {
           // Not logged in — redirect to login
-          window.location.replace('http://localhost:5000/login.html');
+          window.location.replace('https://buildmarts.in/login.html');
           return;
         }
 
@@ -201,7 +201,7 @@
 
       } catch(err) {
         console.error('Dashboard init error:', err);
-        window.location.replace('http://localhost:5000/login.html');
+        window.location.replace('https://buildmarts.in/login.html');
       }
     }
 
@@ -240,7 +240,7 @@
         let ordersHtml = '';
 
         if (orders.length === 0) {
-          ordersHtml = '<div class="empty-msg">No orders yet. <a href="http://localhost:5000/allproducts.html" style="color:#667eea;">Start shopping!</a></div>';
+          ordersHtml = '<div class="empty-msg">No orders yet. <a href="https://buildmarts.in/allproducts.html" style="color:#667eea;">Start shopping!</a></div>';
         } else {
           ordersHtml = orders.map(order => `
             <div class="order-item">
@@ -302,7 +302,7 @@
         console.error('Logout error:', e);
       }
       // Session destroyed, redirect to home
-      window.location.replace('http://localhost:5000/index.html');
+      window.location.replace('https://buildmarts.in/index.html');
     }
 
     function handleEditProfile() {

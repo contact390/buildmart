@@ -41,7 +41,7 @@
         return;
       }
 
-      fetch(`http://localhost:5000/api/contact_us/${encodeURIComponent(email)}`)
+      fetch(`https://buildmarts.in/api/contact_us/${encodeURIComponent(email)}`)
         .then(res => res.json())
         .then(data => {
           if (!Array.isArray(data) || data.length === 0) {
@@ -100,7 +100,7 @@
 
 
 
-      fetch(`http://localhost:5000/api/bm_plans/${encodeURIComponent(email)}`)
+      fetch(`https://buildmarts.in/api/bm_plans/${encodeURIComponent(email)}`)
         .then(res => {
           if (!res.ok) throw new Error("No data found for this email.");
           return res.json();
