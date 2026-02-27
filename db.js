@@ -1,25 +1,20 @@
-
+// db.js
 const mysql = require('mysql2');
 
-const db = mysql.createPool({
+const db = mysql.createConnection({
   host: 'localhost',
   user: 'buildmarts',
   password: '2001', // ← replace with your DB password
   database: 'buildimarts',
-  port:3306, // ← make sure this DB exists
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+  port:3306 // ← make sure this DB exists
 });
 
-// Test connection
-db.getConnection((err, connection) => {
+db.connect((err) => {
   if (err) {
-    console.error('❌ DB connection error:', err);
-    return;
+    console.error('❌ MySQL connection failed:', err);
+  } else {
+    console.log('✅ MySQL connected.');
   }
-  console.log('✅ buildmart DB connected');
-  connection.release();
 });
 
 module.exports = db;
