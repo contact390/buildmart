@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Submit Forms</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 40px 20px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { text-align: center; color: #fff; margin-bottom: 40px; font-size: 28px; }
+    h2 { color: #333; margin-top: 40px; margin-bottom: 20px; border-bottom: 3px solid #667eea; padding-bottom: 10px; }
+    
+    form { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); margin-bottom: 30px; }
+    
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+      transition: border 0.3s;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+    }
+    
+    textarea { resize: vertical; min-height: 100px; }
+    
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    button:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4); }
+    button:active { transform: translateY(0); }
+    
+    .message {
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 15px;
+      display: none;
+      font-weight: bold;
+    }
+    
+    .message.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .message.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
+    .form-group { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📋 Submit Forms</h1>
+
+    <!-- Special Form -->
+    <h2>🍽️ Submit a Restaurant Special</h2>
+    <form id="specialForm" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Restaurant Name *</label>
+        <input type="text" name="name" placeholder="Enter restaurant name" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Special Dish Title *</label>
+        <input type="text" name="special" placeholder="Enter special dish title" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Description *</label>
+        <textarea name="description" placeholder="Describe the special dish" required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label>Current Price (₹) *</label>
+        <input type="number" name="price" placeholder="0.00" step="0.01" min="0" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Original Price (₹)</label>
+        <input type="number" name="originalPrice" placeholder="0.00" step="0.01" min="0" />
+      </div>
+      
+      <div class="form-group">
+        <label>Cuisine Type *</label>
+        <input type="text" name="cuisine" placeholder="e.g., Indian, Chinese, Continental" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Offer *</label>
+        <input type="text" name="offer" placeholder="e.g., 30% OFF, Buy 1 Get 1" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Image *</label>
+        <input type="file" name="image" accept="image/*" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Search Terms *</label>
+        <input type="text" name="searchTerms" placeholder="e.g., special, discount, deal" required />
+      </div>
+      
+      <button type="submit">Submit Special</button>
+      <div id="specialMessage" class="message"></div>
+    </form>
+
+    <!-- Testimonial Form -->
+    <h2>⭐ Submit Your Testimonial</h2>
+    <form id="testimonialForm" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Testimonial Text *</label>
+        <textarea name="text" placeholder="Share your experience" required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label>Your Name *</label>
+        <input type="text" name="name" placeholder="Enter your full name" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Your Designation *</label>
+        <input type="text" name="designation" placeholder="e.g., Business Owner, Contractor" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Profile Image *</label>
+        <input type="file" name="image" accept="image/*" required />
+      </div>
+      
+      <button type="submit">Submit Testimonial</button>
+      <div id="testimonialMessage" class="message"></div>
+    </form>
+
+    <!-- Location Form -->
+    <h2>📍 Add a New Location</h2>
+    <form id="locationForm" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Location Title *</label>
+        <input type="text" name="title" placeholder="e.g., Mumbai - BKC, Delhi - Noida" required />
+      </div>
+      
+      <div class="form-group">
+        <label>Description *</label>
+        <textarea name="description" placeholder="Describe the location" required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label>Location Image *</label>
+        <input type="file" name="image" accept="image/*" required />
+      </div>
+      
+      <button type="submit">Submit Location</button>
+      <div id="locationMessage" class="message"></div>
+    </form>
+  </div>
+
+  <script>
+    // Helper function to show messages
+    function showMessage(elementId, message, isSuccess) {
+      const msgDiv = document.getElementById(elementId);
+      msgDiv.textContent = isSuccess ? '✅ ' + message : '❌ ' + message;
+      msgDiv.className = 'message ' + (isSuccess ? 'success' : 'error');
+      msgDiv.style.display = 'block';
+      setTimeout(() => { msgDiv.style.display = 'none'; }, 5000);
+    }
+
+    // Special Form
+    document.getElementById('specialForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const requiredFields = ['name', 'special', 'description', 'price', 'cuisine', 'offer', 'image', 'searchTerms'];
+      
+      for (let field of requiredFields) {
+        if (!formData.get(field) || (field === 'image' && !this[field].files.length)) {
+          showMessage('specialMessage', 'Missing required field: ' + field, false);
+          return;
+        }
+      }
+
+      try {
+        const response = await fetch('http://localhost:5000/api/specials', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+          showMessage('specialMessage', 'Special submitted successfully!', true);
+          this.reset();
+        } else {
+          showMessage('specialMessage', data.error || 'Failed to submit', false);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showMessage('specialMessage', 'Network error: ' + error.message, false);
+      }
+    });
+
+    // Testimonial Form
+    document.getElementById("testimonialForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      
+      try {
+        const response = await fetch("http://localhost:5000/api/testimonials_plug_play_office", {
+          method: "POST",
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          showMessage('testimonialMessage', 'Testimonial submitted successfully!', true);
+          this.reset();
+        } else {
+          showMessage('testimonialMessage', result.error || result.message || 'Failed to submit', false);
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        showMessage('testimonialMessage', 'Network error: ' + err.message, false);
+      }
+    });
+
+    // Location Form
+    document.getElementById('locationForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      try {
+        const response = await fetch('http://localhost:5000/api/add_location_plug_play_office', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+        
+        if (response.ok) {
+          showMessage('locationMessage', 'Location added successfully!', true);
+          this.reset();
+        } else {
+          showMessage('locationMessage', result.error || 'Failed to add location', false);
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        showMessage('locationMessage', 'Network error: ' + err.message, false);
+      }
+    });
+  </script>
+</body>
+</html>

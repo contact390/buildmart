@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="margin:0;font-family:'Poppins',Arial,sans-serif;background: linear-gradient(rgba(0,0,0,0.45), rgba(143, 123, 123, 0.45)), url('images/login.png') center/cover no-repeat fixed;background-size:cover;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:15px;color:#fff;overflow:hidden;">
+
+  
+
+  <div id="navbar-container"></div>
+  
+  
+  
+  
+  
+  
+  <form id="loginForm" onsubmit="submitLogin(event)" 
+    style="
+      width:100%;
+      max-width:380px;
+      background:#261b4481;
+      padding:25px 40px;
+      border-radius:14px;margin-top: -80px;
+      box-shadow:0 8px 25px rgba(0, 0, 0, 0);
+    ">
+
+    <h2 style="text-align:center;margin-bottom:30px;color:#eceef5;font-size:24px;">
+      Login to Your Account
+    </h2>
+
+    <label style="display:block;margin-bottom:6px;font-size:14px;">Email or Phone</label>
+    <input type="text" id="identifier" required
+      style="
+        width:95%;
+        padding:14px;
+        margin-bottom:15px;
+        border:1px solid #ccc;
+        border-radius:8px;
+        font-size:15px;
+        outline:none;
+      ">
+
+    <label style="display:block;margin-bottom:6px;font-size:14px;">Password</label>
+    <input type="password" id="password" required
+      style="
+        width:95%;
+        padding:14px;
+        margin-bottom:12px;
+        border:1px solid #ccc;
+        border-radius:8px;
+        font-size:15px;
+        outline:none;
+      ">
+
+    <label style="display:block;margin:12px 0 6px;font-size:14px;">Login as</label>
+    <div style="display:flex;gap:20px;margin-bottom:15px;font-size:14px;">
+      <label><input type="radio" name="userType" value="buyer" checked> Buyer</label>
+      <label><input type="radio" name="userType" value="seller"> Seller</label>
+    </div>
+
+    <div style="text-align:right;margin-bottom:15px;">
+      <a href="#" style="font-size:13px;color:#f1f5fa;text-decoration:none;">Forgot Password?</a>
+    </div>
+
+    <button type="submit"
+      style="
+        width:100%;
+        padding:14px;
+        background:#007BFF;
+        color:#fff;
+        border:none;
+        border-radius:10px;
+        font-size:16px;
+        font-weight:600;
+        cursor:pointer;
+      ">
+      Login
+    </button>
+
+    <p style="margin-top:18px;text-align:center;font-size:13px;color:#f8f3f3;">
+      Don't have an account?
+    </p>
+
+    <div style="text-align:center;font-size:14px;">
+      <a href="buyer_register.html" style="color:#e6ebf0;text-decoration:none;margin-right:12px;">Buyer Register</a>
+      |
+      <a href="seller_register.html" style="color:#e2e7ec;text-decoration:none;margin-left:12px;">Seller Register</a>
+    </div>
+
+  </form>
+
+  <!-- Forgot Password Modal (Mobile Friendly) -->
+  <div id="forgotPasswordForm" 
+    style="
+      display:none;
+      width:100%;
+      max-width:380px;
+      background:#ffffff;
+      padding:25px 20px;
+      border-radius:14px;
+      box-shadow:0 8px 25px rgba(0,0,0,0.1);
+      margin-top:20px;
+    ">
+
+    <h2 style="text-align:center;margin-bottom:20px;font-size:22px;">
+      Reset Password
+    </h2>
+
+    <label style="display:block;margin-bottom:6px;">Email</label>
+    <input type="email" id="forgotEmail" required
+      style="width:100%;padding:14px;margin-bottom:12px;border:1px solid #ccc;border-radius:8px;">
+
+    <label style="display:block;margin-bottom:6px;">New Password</label>
+    <input type="password" id="newPassword" required
+      style="width:100%;padding:14px;margin-bottom:12px;border:1px solid #ccc;border-radius:8px;">
+
+    <label style="display:block;margin-bottom:6px;">Confirm Password</label>
+    <input type="password" id="confirmNewPassword" required
+      style="width:100%;padding:14px;margin-bottom:18px;border:1px solid #ccc;border-radius:8px;">
+
+    <button onclick="resetPassword()"
+      style="
+        width:100%;
+        padding:14px;
+        background:#007BFF;
+        color:#fff;
+        border:none;
+        border-radius:10px;
+        font-size:16px;
+        cursor:pointer;
+      ">
+      Submit
+    </button>
+
+  </div>
+
+  
+
+  <!-- Your existing JS (unchanged) -->
+  <script>
+  async function submitLogin(event) {
+    event.preventDefault();
+    const identifier = document.getElementById('identifier').value.trim();
+    const password = document.getElementById('password').value;
+    const userType = document.querySelector('input[name="userType"]:checked').value;
+
+    const API_BASE = 'http://localhost:5000';
+    try{
+      const res = await fetch(API_BASE + '/api/login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier, password, userType })
+      });
+
+      const data = await res.json();
+
+      if (data && data.success) {
+        // ========== STORE USER SESSION IN LOCALSTORAGE ==========
+        const userInfo = {
+          id: data.userId || data.id,
+          name: data.name || data.username || identifier.split('@')[0],
+          email: data.email || identifier,
+          userType: userType,
+          loginTime: new Date().toISOString()
+        };
+        
+        localStorage.setItem('userSession', JSON.stringify(userInfo));
+        localStorage.setItem('isLoggedIn', 'true');
+        
+        alert("Login successful!");
+        setTimeout(() => {
+          if (userType === 'buyer') {
+            window.location.href = "/index.html";
+          } else {
+            window.location.href = "/seller_dashboard.html";
+          }
+        }, 500);
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (err) {
+      alert("Error logging in");
+      console.error(err);
+    }
+  }
+  </script>
+
+  <script>
+  // Load shared navbar (injects navbar.html body and executes its scripts)
+  async function includeNavbar() {
+    try {
+      const res = await fetch('navbar.html');
+      const text = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      document.getElementById('navbar-container').innerHTML = doc.body.innerHTML;
+
+      // Execute scripts from navbar.html and wait for external scripts to load
+      const __createdScriptPromises = [];
+      doc.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+          newScript.async = false;
+          __createdScriptPromises.push(new Promise(resolve => {
+            newScript.addEventListener('load', resolve);
+            newScript.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      Promise.all(__createdScriptPromises).finally(() => {});
+
+      // Ensure navbar init functions run after dynamic injection (wait for external scripts to load)
+      const __navbarScriptPromises = [];
+      doc.querySelectorAll('script').forEach((s, i) => {
+        const existing = document.querySelectorAll('script')[document.querySelectorAll('script').length - 1 - i];
+        if (existing && existing.src) {
+          __navbarScriptPromises.push(new Promise(resolve => {
+            existing.addEventListener('load', resolve);
+            existing.addEventListener('error', resolve);
+            // also resolve after 2s as a safety
+            setTimeout(resolve, 2000);
+          }));
+        }
+      });
+      Promise.all(__navbarScriptPromises).finally(() => {
+        if (typeof checkScreenSize === 'function') checkScreenSize();
+        if (typeof addDesktopHoverEffects === 'function') addDesktopHoverEffects();
+        if (typeof updateUserUI === 'function') updateUserUI();
+        if (typeof updateCartBadge === 'function') updateCartBadge();
+        if (typeof setActiveNavLink === 'function') setActiveNavLink();
+      });
+    } catch (e) {
+      console.error('Failed to load navbar:', e);
+    }
+  }
+  includeNavbar();
+</script>
+
+
+
+</body>
+</html>

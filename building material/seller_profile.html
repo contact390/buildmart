@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Profile - Hitaishi Constructions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .navbar {
+            background: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .navbar h2 {
+            color: #333;
+            font-size: 22px;
+        }
+        
+        .navbar-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .btn-secondary {
+            background: #2ed573;
+            color: #fff;
+        }
+        
+        .btn-secondary:hover {
+            background: #26de81;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #ff4757;
+            color: #fff;
+        }
+        
+        .btn-danger:hover {
+            background: #ff3838;
+            transform: translateY(-2px);
+        }
+        
+        .profile-header {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+        
+        .profile-name {
+            font-size: 28px;
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .profile-email {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .profile-type {
+            background: #667eea;
+            color: #fff;
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .profile-join-date {
+            color: #999;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            background: #fff;
+            color: #333;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .tab-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .tab-btn.active {
+            background: #667eea;
+            color: #fff;
+            border-color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-content h3 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.2);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .info-field {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-field:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .info-value {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: #fff;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        .btn-cancel {
+            background: #ddd;
+            color: #333;
+            flex: 1;
+        }
+        
+        .btn-cancel:hover {
+            background: #ccc;
+            transform: translateY(-2px);
+        }
+        
+        .store-info {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .store-info p {
+            color: #666;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .store-info strong {
+            color: #667eea;
+        }
+        
+        .empty-msg {
+            color: #999;
+            text-align: center;
+            padding: 40px;
+            font-style: italic;
+        }
+        
+        .sales-card {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .sales-card h4 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .sales-card p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+        
+        .sales-amount {
+            color: #667eea;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .settings-group {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .settings-group:last-child {
+            border-bottom: none;
+        }
+        
+        .settings-group h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-header {
+                padding: 20px;
+            }
+            
+            .profile-name {
+                font-size: 22px;
+            }
+            
+            .profile-avatar {
+                font-size: 50px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                width: 100%;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-content {
+                padding: 20px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navbar -->
+        <div class="navbar">
+            <h2>🏢 Seller Profile</h2>
+            <div class="navbar-buttons">
+                <button class="btn btn-secondary" onclick="goToDashboard()">📊 Dashboard</button>
+                <button class="btn btn-danger" onclick="logoutUser()">🚪 Logout</button>
+            </div>
+        </div>
+        
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-avatar">🏪</div>
+            <div class="profile-name" id="profileName">Loading...</div>
+            <div class="profile-email" id="profileEmail">Loading...</div>
+            <div class="profile-type">Seller Account</div>
+            <div class="profile-join-date" id="joinDate">Member since Loading...</div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('overview')">📋 Overview</button>
+            <button class="tab-btn" onclick="switchTab('store')">🏪 Store Information</button>
+            <button class="tab-btn" onclick="switchTab('sales')">📈 Sales</button>
+            <button class="tab-btn" onclick="switchTab('settings')">⚙️ Settings</button>
+            <button class="tab-btn" onclick="switchTab('security')">🔒 Security</button>
+        </div>
+        
+        <!-- Overview Tab -->
+        <div class="tab-content active" id="overview">
+            <h3>Account Overview</h3>
+            <div class="info-field">
+                <span class="info-label">Full Name:</span>
+                <span class="info-value" id="overviewName">Loading...</span>
+            </div>
+            <div class="info-field">
+                <span class="info-label">Email:</span>
+                <span class="info-value" id="overviewEmail">Loading...</span>
+            </div>
+            <div class="info-field">
+                <span class="info-label">Account Type:</span>
+                <span class="info-value">🏢 Seller</span>
+            </div>
+            <div class="info-field">
+                <span class="info-label">Member Since:</span>
+                <span class="info-value" id="overviewDate">Loading...</span>
+            </div>
+            <div class="info-field">
+                <span class="info-label">Account Status:</span>
+                <span class="info-value" style="color: #26de81; font-weight: 700;">✓ Active</span>
+            </div>
+            <div style="margin-top: 25px;">
+                <button class="btn btn-primary" onclick="switchTab('settings')">Edit Profile</button>
+            </div>
+        </div>
+        
+        <!-- Store Information Tab -->
+        <div class="tab-content" id="store">
+            <h3>Store Information</h3>
+            <div class="store-info">
+                <p><strong>Store Name:</strong></p>
+                <p id="storeName">Loading...</p>
+            </div>
+            <div class="store-info">
+                <p><strong>Store Phone:</strong></p>
+                <p id="storePhone">Not set</p>
+            </div>
+            <div class="store-info">
+                <p><strong>Store Address:</strong></p>
+                <p id="storeAddress">Not set</p>
+            </div>
+            <div class="store-info">
+                <p><strong>Store Description:</strong></p>
+                <p id="storeDesc">No description provided</p>
+            </div>
+            <div style="margin-top: 25px;">
+                <button class="btn btn-primary" onclick="switchTab('settings')">Update Store Info</button>
+            </div>
+        </div>
+        
+        <!-- Sales Tab -->
+        <div class="tab-content" id="sales">
+            <h3>Sales Statistics</h3>
+            <div class="sales-card">
+                <h4>Total Sales</h4>
+                <p>All-time sales revenue</p>
+                <div class="sales-amount" id="totalSales">₹0</div>
+            </div>
+            <div class="sales-card">
+                <h4>Products Listed</h4>
+                <p>Total number of products in store</p>
+                <div class="sales-amount" id="productsCount">0</div>
+            </div>
+            <div class="sales-card">
+                <h4>Total Orders</h4>
+                <p>Total orders received</p>
+                <div class="sales-amount" id="ordersCount">0</div>
+            </div>
+            <div class="sales-card">
+                <h4>Average Rating</h4>
+                <p>Seller rating from customers</p>
+                <div class="sales-amount" id="avgRating">⭐ 5.0</div>
+            </div>
+        </div>
+        
+        <!-- Settings Tab -->
+        <div class="tab-content" id="settings">
+            <h3>Edit Profile Settings</h3>
+            <form onsubmit="saveProfile(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="settingsName">Full Name</label>
+                        <input type="text" id="settingsName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="settingsEmail">Email Address</label>
+                        <input type="email" id="settingsEmail" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="settingsPhone">Phone Number</label>
+                        <input type="tel" id="settingsPhone" placeholder="+91-9876543210">
+                    </div>
+                    <div class="form-group">
+                        <label for="settingsCity">City</label>
+                        <input type="text" id="settingsCity" placeholder="Enter city">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="settingsAddress">Store Address</label>
+                    <textarea id="settingsAddress" placeholder="Enter store address"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="settingsPostal">Postal Code</label>
+                    <input type="text" id="settingsPostal" placeholder="Enter postal code">
+                </div>
+                <div class="form-group">
+                    <label for="settingsDesc">Store Description</label>
+                    <textarea id="settingsDesc" placeholder="Describe your store..."></textarea>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                    <button type="button" class="btn btn-cancel" onclick="resetSettings()">Cancel</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Security Tab -->
+        <div class="tab-content" id="security">
+            <h3>Account Security</h3>
+            
+            <div class="settings-group">
+                <h4>🔐 Last Login</h4>
+                <div class="info-field">
+                    <span class="info-label">Last Login Date:</span>
+                    <span class="info-value" id="lastLogin">Loading...</span>
+                </div>
+            </div>
+            
+            <div class="settings-group">
+                <h4>🔑 Change Password</h4>
+                <form onsubmit="changePassword(event)">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: auto;">Update Password</button>
+                </form>
+            </div>
+            
+            <div class="settings-group">
+                <h4>🌐 Sessions & Devices</h4>
+                <p style="color: #666; margin-bottom: 15px; font-size: 14px;">Manage your active sessions</p>
+                <button class="btn btn-danger" onclick="logoutAllDevices()" style="width: auto;">Logout All Devices</button>
+            </div>
+            
+            <div class="settings-group">
+                <h4>⚠️ Danger Zone</h4>
+                <p style="color: #666; margin-bottom: 15px; font-size: 14px;">Permanently delete your account</p>
+                <button class="btn btn-danger" onclick="deleteAccount()" style="width: auto;">Delete Account</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load user profile from localStorage
+        function loadUserProfile() {
+            const userSession = localStorage.getItem('userSession');
+            if (!userSession) {
+                alert('Please login first!');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const user = JSON.parse(userSession);
+            
+            // Check if seller
+            if (user.userType !== 'seller') {
+                window.location.href = 'buyer_dashboard.html';
+                return;
+            }
+            
+            // Populate header
+            document.getElementById('profileName').textContent = user.name || 'Seller Account';
+            document.getElementById('profileEmail').textContent = user.email || 'email@example.com';
+            
+            // Calculate join date
+            const joinDate = new Date(user.loginTime);
+            document.getElementById('joinDate').textContent = `Member since ${joinDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+            
+            // Populate overview
+            document.getElementById('overviewName').textContent = user.name || 'Seller Account';
+            document.getElementById('overviewEmail').textContent = user.email || 'email@example.com';
+            document.getElementById('overviewDate').textContent = joinDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            // Populate store info
+            document.getElementById('storeName').textContent = user.storeName || user.name || 'Your Store';
+            document.getElementById('storePhone').textContent = user.phone || 'Not set';
+            document.getElementById('storeAddress').textContent = user.address || 'Not set';
+            document.getElementById('storeDesc').textContent = user.storeDesc || 'No description provided';
+            
+            // Populate settings form
+            document.getElementById('settingsName').value = user.name || '';
+            document.getElementById('settingsEmail').value = user.email || '';
+            document.getElementById('settingsPhone').value = user.phone || '';
+            document.getElementById('settingsCity').value = user.city || '';
+            document.getElementById('settingsAddress').value = user.address || '';
+            document.getElementById('settingsPostal').value = user.postal || '';
+            document.getElementById('settingsDesc').value = user.storeDesc || '';
+            
+            // Last login
+            const loginDate = new Date(user.loginTime);
+            document.getElementById('lastLogin').textContent = loginDate.toLocaleString('en-IN');
+        }
+        
+        // Switch tabs
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const btns = document.querySelectorAll('.tab-btn');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            btns.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Save profile
+        function saveProfile(e) {
+            e.preventDefault();
+            
+            const userSession = JSON.parse(localStorage.getItem('userSession'));
+            userSession.name = document.getElementById('settingsName').value;
+            userSession.email = document.getElementById('settingsEmail').value;
+            userSession.phone = document.getElementById('settingsPhone').value;
+            userSession.city = document.getElementById('settingsCity').value;
+            userSession.address = document.getElementById('settingsAddress').value;
+            userSession.postal = document.getElementById('settingsPostal').value;
+            userSession.storeDesc = document.getElementById('settingsDesc').value;
+            
+            localStorage.setItem('userSession', JSON.stringify(userSession));
+            alert('Profile updated successfully!');
+        }
+        
+        // Reset settings
+        function resetSettings() {
+            loadUserProfile();
+        }
+        
+        // Change password
+        function changePassword(e) {
+            e.preventDefault();
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                alert('Password must be at least 6 characters!');
+                return;
+            }
+            
+            alert('Password change functionality requires backend integration. Contact support to change password.');
+            document.querySelector('#security form').reset();
+        }
+        
+        // Logout all devices
+        function logoutAllDevices() {
+            if (confirm('Are you sure? This will logout from all devices.')) {
+                if (confirm('This action cannot be undone. Proceed?')) {
+                    localStorage.clear();
+                    alert('Logged out from all devices.');
+                    window.location.href = 'index.html';
+                }
+            }
+        }
+        
+        // Delete account
+        function deleteAccount() {
+            if (confirm('Are you sure? This will permanently delete your account.')) {
+                if (confirm('WARNING: This action is irreversible! Type "DELETE" to confirm.')) {
+                    const confirmation = prompt('Type DELETE to confirm account deletion:');
+                    if (confirmation === 'DELETE') {
+                        localStorage.clear();
+                        alert('Account deleted successfully.');
+                        window.location.href = 'index.html';
+                    } else {
+                        alert('Account deletion cancelled.');
+                    }
+                }
+            }
+        }
+        
+        // Go to dashboard
+        function goToDashboard() {
+            window.location.href = 'seller_dashboard.html';
+        }
+        
+        // Logout user
+        function logoutUser() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.clear();
+                alert('Logged out successfully.');
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Load profile on page load
+        window.addEventListener('load', loadUserProfile);
+    </script>
+</body>
+</html>

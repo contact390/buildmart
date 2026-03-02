@@ -1,0 +1,190 @@
+<div style="font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+  <h2 style="color: #333; text-align: center; margin-bottom: 20px;">Product Information</h2>
+  
+  <form id="productForm" style="display: grid; grid-gap: 15px;" oninput="calculateDiscountedPrice()">
+    <div style="display: grid; grid-template-columns: 120px 1fr; align-items: center;">
+      <label style="font-weight: bold;" for="name">Name:</label>
+      <input type="text" id="name" name="name" placeholder="Enter product name" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 120px 1fr; align-items: center;">
+      <label style="font-weight: bold;" for="category">Category:</label>
+      <input type="text" id="category" name="category" placeholder="Enter category" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 120px 1fr; align-items: center;">
+      <label style="font-weight: bold;" for="price">Price ($):</label>
+      <input type="number" id="price" name="price" step="0.01" min="0" placeholder="0.00" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 120px 1fr; align-items: center;">
+      <label style="font-weight: bold;" for="discount">Discount (%):</label>
+      <input type="number" id="discount" name="discount" min="0" max="100" placeholder="0" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 120px 1fr; align-items: center;">
+      <label style="font-weight: bold;">After Discount:</label>
+      <div id="finalPriceDisplay" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #f9f9f9;">$0.00</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 120px 1fr; align-items: center;">
+      <label style="font-weight: bold;" for="rating">Rating:</label>
+      <input type="number" id="rating" name="rating" step="0.1" min="0" max="5" placeholder="4.5" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 120px 1fr; align-items: center;">
+      <label style="font-weight: bold;">Quantity:</label>
+      <div style="display: flex; align-items: center; gap: 5px;">
+        <div style="display: flex; align-items: center; flex: 1;">
+          <button type="button" onclick="changeQuantity(-1)" style="width: 30px; height: 30px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 4px 0 0 4px; cursor: pointer; font-size: 16px;">-</button>
+          <input type="number" id="quantity" min="1" step="1" value="1" placeholder="0" style="width: 60px; height: 28px; text-align: center; border: 1px solid #ccc; border-left: none; border-right: none;">
+          <button type="button" onclick="changeQuantity(1)" style="width: 30px; height: 30px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 0 4px 4px 0; cursor: pointer; font-size: 16px;">+</button>
+        </div>
+
+        <select id="quantityUnit" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; height: 32px;">
+  <option value="cft">Per CFT (Cubic Feet)</option> <!-- Sand, aggregate -->
+  <option value="bag">Per Bag (50kg/25kg)</option> <!-- Cement -->
+  <option value="piece">Per Piece</option> <!-- Bricks, tiles, blocks -->
+  <option value="sqft">Per Sq. Ft</option> <!-- Tiles, granite, wood panels -->
+  <option value="box">Per Box</option> <!-- Tiles (packaged) -->
+  <option value="set">Per Set</option> <!-- Sanitaryware, doors/windows sets -->
+  <option value="kg">Per KG</option> <!-- Steel, binding wire -->
+  <option value="ton">Per Ton</option> <!-- Aggregates, steel -->
+  <option value="ltr">Per Litre</option> <!-- Paints, chemicals -->
+  <option value="roll">Per Roll</option> <!-- Waterproofing membranes -->
+  <option value="sheet">Per Sheet</option> <!-- Plywood, GI sheets -->
+</select>
+
+
+      </div>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 120px 1fr; align-items: start;">
+      <label style="font-weight: bold;" for="image">Image:</label>
+      <div>
+          <input type="file" id="image" name="image" accept="image/*" onchange="previewImage()" style="margin-bottom: 5px;">
+        <div id="imagePreview" style="width: 150px; height: 150px; background: #f5f5f5; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #888;">
+          No image selected
+        </div>
+      </div>
+    </div>
+    
+    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+      <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">Submit</button>
+      <button type="reset" onclick="resetForm()" style="background-color: #f44336; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">Reset</button>
+    </div>
+    <div id="formResult" style="margin-top:12px"></div>
+  </form>
+
+  <script>
+    const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000/api' : '/api';
+
+    // helper to convert file to data URL
+    function fileToDataUrl(file){
+      return new Promise((resolve,reject)=>{
+        if (!file) return resolve(null);
+        const reader = new FileReader();
+        reader.onload = ()=>resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    document.getElementById('productForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const out = document.getElementById('formResult');
+      out.innerText = '';
+
+      // defensive element lookup to avoid null .value errors
+      const el = (id) => document.getElementById(id) || document.querySelector(`[name="${id}"]`);
+      const nameEl = el('name');
+      if (!nameEl) { out.innerText = 'Form element missing: name'; return; }
+      const name = (nameEl.value || '').trim();
+      if (!name) return out.innerText = 'Name is required';
+      const categoryEl = el('category');
+      const priceEl = el('price');
+      const discountEl = el('discount');
+      const ratingEl = el('rating');
+      const imageEl = el('image');
+      if (!priceEl || !discountEl || !ratingEl || !categoryEl || !imageEl) {
+        out.innerText = 'Form elements missing (price/discount/rating/category/image)';
+        return;
+      }
+      const category = (categoryEl.value || '').trim();
+      const price = parseFloat(priceEl.value) || 0;
+      const discount = parseInt(discountEl.value) || 0;
+      const rating = parseFloat(ratingEl.value) || 0;
+      const imageFile = (imageEl.files && imageEl.files[0]) ? imageEl.files[0] : null;
+      try{
+        const imageData = await fileToDataUrl(imageFile);
+        const payload = { name, category, price, discount, rating, image: imageData };
+        const resp = await fetch(API_BASE + '/products', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+        const j = await resp.json();
+        if (resp.ok && j.id){
+          out.innerHTML = '<div style="color:green">Product added (id: '+j.id+')</div>';
+          document.getElementById('productForm').reset();
+          document.getElementById('imagePreview').innerHTML = 'No image selected';
+          document.getElementById('finalPriceDisplay').textContent = '$0.00';
+        } else {
+          out.innerText = j.error || JSON.stringify(j);
+        }
+      }catch(err){
+        console.error(err);
+        out.innerText = 'Request failed';
+      }
+    });
+
+    function previewImage() {
+      const input = document.getElementById('image');
+      const preview = document.getElementById('imagePreview');
+      if (!preview) return;
+      preview.innerHTML = 'Loading...';
+      if (input && input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.innerHTML = `<img src="${e.target.result}" style="max-width:100%; max-height:100%; object-fit:contain;">`;
+        }
+        reader.onerror = function(){ preview.innerHTML = 'Preview failed'; }
+        reader.readAsDataURL(input.files[0]);
+      } else {
+        preview.innerHTML = 'No image selected';
+      }
+    }
+
+    // keep existing functions (changeQuantity, calculateDiscountedPrice, resetForm) available
+    function changeQuantity(change) {
+      const quantityInput = document.getElementById('quantity');
+      if (!quantityInput) return;
+      let current = parseInt(quantityInput.value);
+      if (isNaN(current)) current = parseInt(quantityInput.min) || 1;
+      let newValue = current + change;
+      const minVal = parseInt(quantityInput.min) || 1;
+      newValue = Math.max(newValue, minVal);
+      quantityInput.value = newValue;
+    }
+
+    function resetForm() {
+      const preview = document.getElementById('imagePreview');
+      if (preview) preview.innerHTML = 'No image selected';
+      const finalDisplay = document.getElementById('finalPriceDisplay');
+      if (finalDisplay) finalDisplay.textContent = '$0.00';
+      const qty = document.getElementById('quantity');
+      if (qty) qty.value = qty.min || 1;
+    }
+
+    function calculateDiscountedPrice() {
+      try {
+        const priceEl = document.getElementById('price');
+        const discountEl = document.getElementById('discount');
+        const display = document.getElementById('finalPriceDisplay');
+        if (!priceEl || !discountEl || !display) return;
+        const price = parseFloat(priceEl.value) || 0;
+        const discount = parseFloat(discountEl.value) || 0;
+        const finalPrice = price - (price * (discount / 100));
+        display.textContent = `$${finalPrice.toFixed(2)}`;
+      } catch (e) {
+        console.warn('calculateDiscountedPrice failed', e && e.message);
+      }
+    }
+  </script>
+</div>
