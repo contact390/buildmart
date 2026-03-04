@@ -149,7 +149,7 @@
   const userType = document.querySelector('input[name="userType"]:checked').value;
 
   try {
-    const res = await fetch('/api/login', {
+    const res = await fetch('/login', {
       method: 'POST',
       credentials: 'include',
       headers: {
