@@ -6,7 +6,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'buildmarts',
   password: 'buildmarts@2001', // ← replace with your DB password
-  database: 'buildimarts',
+  database: 'buildmarts',
   port:3306 // ← make sure this DB exists
 });
 
