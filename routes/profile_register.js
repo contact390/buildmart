@@ -185,7 +185,7 @@ router.post('/buyer-profile', (req, res) => {
 });
 
 
-router.post('api/login', (req, res) => {
+router.post('/api/login', (req, res) => {
   const { identifier, password, userType } = req.body;
 
   if (!['buyer', 'seller'].includes(userType)) {
@@ -206,18 +206,14 @@ router.post('api/login', (req, res) => {
     }
 
     if (results.length > 0) {
-      // Set session user (do not store password)
       const userRow = results[0];
       const user = { id: userRow.id, name: userRow.name, email: userRow.email };
       req.session.user = { ...user, userType };
-      
-      // Explicitly save the session
+
       req.session.save((err) => {
         if (err) {
-          console.error("❌ Session save error:", err);
           return res.status(500).json({ success: false, message: "Session save failed" });
         }
-        console.log("✅ Session saved for user:", user.name);
         return res.json({ success: true, message: "Login successful", user });
       });
     } else {
