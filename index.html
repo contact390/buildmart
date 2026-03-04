@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en" style="box-sizing:border-box;overflow-x:hidden;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Build Marts - Quality Construction Materials & Services</title>
+    <meta name="keywords" content="building materials online, construction materials online, buy building materials online, construction supplies online, building materials supplier, construction material store, online building materials marketplace, construction products supplier, building materials website India, construction materials marketplace, buy construction materials online, buy building supplies online, building materials online shopping, construction material store online, cheap building materials online, best building materials store online, order construction materials online, bulk building materials online, online hardware store India, buy construction tools online, buy cement online, cement price today, best cement brands India, OPC cement price, PPC cement suppliers, cement suppliers online, construction cement suppliers, cement dealers near me, bulk cement suppliers India, cement delivery online, TMT steel bars price, buy TMT bars online, steel rods price today, construction steel suppliers, TMT bar suppliers India, buy steel rods online, best steel bars for construction, steel reinforcement bars price, structural steel suppliers, TMT steel dealers near me, red bricks price, buy bricks online, fly ash bricks suppliers, clay bricks price, construction bricks suppliers, bricks dealers near me, bulk bricks suppliers India, eco friendly bricks suppliers, building bricks online, bricks delivery service, river sand suppliers, M sand price, construction sand suppliers, buy sand online, building sand suppliers, river sand price today, M sand suppliers near me, construction sand delivery, bulk sand suppliers India, best sand for construction, construction tools online, buy hardware materials online, building hardware store, construction equipment suppliers, building tools suppliers, construction accessories online, hardware store online India, buy construction equipment online, building tools marketplace, construction hardware suppliers, house construction materials list, building materials for house construction, best materials for house construction, construction materials checklist, home building supplies online, residential construction materials, house building material suppliers, materials needed for building house, modern construction materials India, affordable house construction materials, building materials suppliers in India, construction materials suppliers India, building materials suppliers in Hyderabad, construction materials suppliers Andhra Pradesh, building materials store near me, construction materials dealers near me, building materials suppliers near me, online building materials India, building materials delivery India, construction materials suppliers South India, BuildMarts building materials, BuildMarts construction marketplace, BuildMarts online store, BuildMarts construction products, BuildMarts cement suppliers, BuildMarts steel suppliers, BuildMarts bricks suppliers, BuildMarts sand suppliers, BuildMarts building materials India, BuildMarts online construction store">
     <meta name="description" content="Hitaishi Constructions offers high-quality construction materials like cement, bricks, iron, and plumbing supplies. Shop online with fast delivery across India.">
     <meta name="keywords" content="construction materials, cement, bricks, iron, plumbing, Hitaishi Constructions, building supplies, India">
     <meta name="robots" content="index, follow">
@@ -2344,7 +2344,7 @@ fetch('footer.html')
 
 <script>
 (async function sessionNav() {
-  const API_BASE = 'http://localhost:5000';
+  const API_BASE = 'https://buildmarts.in';
   try {
     // Wait for DOM
     if (document.readyState === 'loading') {
@@ -2402,7 +2402,7 @@ fetch('footer.html')
       const visibleCookies = document.cookie || '(no visible cookies)';
       // If page opened via file://, show explicit instruction
       if (window.location.protocol === 'file:') {
-        hintSpan.textContent = ' (open from http://localhost:5000 to enable login)';
+        hintSpan.textContent = ' (open from https://buildmarts.in to enable login)';
         hintSpan.style.color = '#c00';
       } else {
         hintSpan.textContent = ' (not logged in)';
@@ -2411,7 +2411,7 @@ fetch('footer.html')
       console.log('Document.cookie:', visibleCookies);
       if (!visibleCookies.includes('connect.sid')) {
         console.warn('connect.sid not visible in document.cookie — likely httpOnly (normal) or cookie not set for this origin.');
-        console.info('If you served the frontend from a different origin (e.g. 127.0.0.1:5500), open the site from http://localhost:5000 so cookies are same-origin.');
+        console.info('If you served the frontend from a different origin (e.g. 127.0.0.1:5500), open the site from https://buildmarts.in so cookies are same-origin.');
       }
 
       loginLink.textContent = 'Login';

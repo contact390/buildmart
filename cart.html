@@ -536,6 +536,8 @@
       display: flex;
       gap: 10px;
     }
+    /* initially hide until at least one item selected */
+    .bulk-actions.hidden { display: none !important; }
     
     .btn-outline {
       padding: 8px 16px;
@@ -792,7 +794,7 @@
   <div id="navbar-container"></div>
 
   <!-- Header Section -->
-  <div class="top" style="margin-top: 165px;position: fixed;top: 0;left: 0;width: 100%;z-index: 100;">
+  <div class="top" style="margin-top: -20px;">
     <div class="top-content">
       <div class="header-main">
         <h1><i class="fas fa-shopping-cart"></i> Your Shopping Cart</h1>
@@ -803,7 +805,7 @@
             </div>
             <span id="itemCount">0 items</span>
           </div>
-          <div class="stat-item">
+          <div class="stat-item">           
             <div class="stat-icon">
               <i class="fas fa-weight-hanging"></i>
             </div>
@@ -835,11 +837,17 @@
   </div>
 
   <!-- Main Cart Container -->
-  <div id="cartContainer" style="margin-top: 280px;">
+  <div id="cartContainer" style="margin-top: 10px;">
     <div class="loading">
       <div class="spinner"></div>
       <p>Loading your cart...</p>
     </div>
+  </div>
+
+  <!-- related products placeholder -->
+  <div id="cart-related-section" style="max-width:1200px;margin:40px auto 20px;padding:0 20px;">
+    <div style="font-size:22px;font-weight:600;margin-bottom:15px;">Products related to items in your cart</div>
+    <div id="cart-related-products" style="display:flex;gap:15px;flex-wrap:wrap;justify-content:center;">Loading...</div>
   </div>
 
   <div id="footer-placeholder"></div>
@@ -936,7 +944,7 @@
         'box': { price: 'Per Box', short: 'Box' },
         'set': { price: 'Per Set', short: 'Set' },
         'meter': { price: 'Per Meter', short: 'Meter' },
-        'sheet': { price: 'Per Sheet', short: 'Sheet' }
+        'sheet': { price: 'Per Sheet', short: 'Sheet' }                                                                                                                                                                                                                                                                                                                                
       };
       const k = unit.toString();
       if (!map[k]) return '';
@@ -960,6 +968,35 @@
       return qualifiesForFreeDelivery(subtotal) ? 0 : DELIVERY_CHARGE;
     }
 
+    // generate small card used for related products
+    function cartRelatedCard(p){
+      return `<div class="product-card" style="width:200px;cursor:pointer;" onclick="window.location='single-product.html?id=${p.id}'">
+        <div class="product-image" style="height:140px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+          <img src="${p.imageUrl||p.image||''}" alt="${(p.productName||'').replace(/"/g,'&quot;')}" style="object-fit:cover;width:100%;height:100%;">
+        </div>
+        <div style="padding:10px;text-align:center;">
+          <div style="font-size:14px;font-weight:600;color:#2c3e50;min-height:40px;">${p.productName||''}</div>
+          <div style="margin-top:5px;font-size:16px;font-weight:700;color:#b12704;">₹${parseFloat(p.finalPrice||p.price||0).toFixed(2)}</div>
+        </div>
+      </div>`;
+    }
+
+    // load products related by any of the supplied categories
+    async function loadCartRelatedProducts(categories){
+      if(!categories || !categories.length) return;
+      // pick first category for now
+      const cat = categories[0];
+      try{
+        const res = await fetch(API_BASE + '/product_uploads?category='+encodeURIComponent(cat)+'&limit=8');
+        const data = await res.json();
+        if(data.success && Array.isArray(data.products)){
+          const container = document.getElementById('cart-related-products');
+          if(!container) return;
+          container.innerHTML = data.products.map(cartRelatedCard).join('');
+        }
+      }catch(e){ console.error('loadCartRelatedProducts error', e); }
+    }
+
     async function fetchCart() {
       const key = getCartKey();
       if (!key) return { cart: null, items: [] };
@@ -973,7 +1010,7 @@
         if (data && data.items && data.items.length) {
           await Promise.all(data.items.map(async (it) => {
             // If image or unit is missing (or has generic 'unit'), fetch product details
-            if (!it.image || !it.quantityUnit || it.quantityUnit === 'unit') {
+            if (!it.image || !it.quantityUnit || it.quantityUnit === 'unit' || !it.category) {
               try {
                 // Try product_uploads first (newer product model), then fallback to /product
                 let pr = await fetch(API_BASE + '/product_uploads/' + encodeURIComponent(it.product_id));
@@ -986,6 +1023,8 @@
                     if ((!it.quantityUnit || it.quantityUnit === 'unit') && pj.product.quantityUnit) {
                       it.quantityUnit = pj.product.quantityUnit;
                     }
+                    // preserve category for related products
+                    it.category = it.category || pj.product.category;
                   }
                 } else {
                   // fallback to legacy products endpoint
@@ -1040,6 +1079,13 @@
           </button>
         </div>
       `;
+    }
+
+    function updateRemoveSelectedVisibility() {
+      const bar = document.querySelector('.bulk-actions');
+      if (!bar) return;
+      if (selectedItems.size > 0) bar.classList.remove('hidden');
+      else bar.classList.add('hidden');
     }
 
     function updateDeliveryStatus(subtotal) {
@@ -1112,6 +1158,7 @@
       const count = selectedItems.size;
       document.getElementById('selectedCount').textContent = `${count} ${count === 1 ? 'item' : 'items'} selected`;
       updateCheckoutButtonCount();
+      updateRemoveSelectedVisibility();
     }
 
     function updateSummaryForSelected() {
@@ -1220,10 +1267,14 @@
       const items = data.items || [];
       window.currentCartItems = items; // Store for later use
       
+      // Automatically select all items by default
+      selectedItems.clear();
+      items.forEach(it => selectedItems.add(it.id));
+      
       if (!data.cart || items.length === 0) {
         container.innerHTML = emptyState();
         document.getElementById('startShopping')?.addEventListener('click', () => {
-          location.href = 'products.html';
+          location.href = 'cement.html';
         });
         updateCartStats(0, 0);
         updateDeliveryStatus(0);
@@ -1323,7 +1374,7 @@
             <span>Select All Items</span>
           </label>
           <span class="selected-count" id="selectedCount">${selectedItems.size} ${selectedItems.size === 1 ? 'item' : 'items'} selected</span>
-          <div class="bulk-actions">
+          <div class="bulk-actions${selectedItems.size === 0 ? ' hidden' : ''}">
             <button class="btn-outline" onclick="removeSelected()">
               <i class="fas fa-trash"></i> Remove Selected
             </button>
@@ -1398,8 +1449,14 @@
 
       container.innerHTML = html;
       
+      // load related products based on categories in cart
+      const categories = [...new Set(items.map(it=>it.category).filter(Boolean))];
+      loadCartRelatedProducts(categories);
+
       // Update checkout button count after rendering
       updateCheckoutButtonCount();
+      // ensure correct visibility of remove-selected
+      updateRemoveSelectedVisibility();
 
       // Add checkout selected event listener
       document.getElementById('checkoutSelected')?.addEventListener('click', () => {
