@@ -182,7 +182,7 @@ router.post('/product_uploads', upload.single('image'), (req, res) => {
     
     if (req.file) {
       imagePath = req.file.filename;
-      imageUrl = `http://localhost:5000/uploads/products/${req.file.filename}`;
+      imageUrl = `https://buildmarts.in//uploads/products/${req.file.filename}`;
     }
 
     // Calculate final price if not provided
@@ -435,7 +435,7 @@ router.put('/product_uploads/:id', upload.single('image'), (req, res) => {
     // Handle new image upload
     if (req.file) {
       imagePath = req.file.filename;
-      imageUrl = `http://localhost:5000/uploads/products/${req.file.filename}`;
+      imageUrl = `https://buildmarts.in//uploads/products/${req.file.filename}`;
 
       // Delete old image if exists
       if (oldImagePath) {
