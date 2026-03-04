@@ -14,7 +14,7 @@ const productUploadsRoutes = require('./routes/product_uploads'); // Import prod
 
 
 const app = express();
-const port = 5001;
+const port = 3000;
 
 // Middleware
 app.use(cors({ 
@@ -49,7 +49,7 @@ app.use(session({
 const path = require('path');
 
 // Serve static files (HTML/CSS/JS) from project root so pages like allproducts.html
-// can be opened from http://localhost:5001/allproducts.html
+// can be opened from http://localhost:3000/allproducts.html
 app.use(express.static(path.join(__dirname)));
 
 // Routes
