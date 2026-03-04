@@ -185,7 +185,7 @@ router.post('/buyer-profile', (req, res) => {
 });
 
 
-router.post('/login', (req, res) => {
+router.post('api/login', (req, res) => {
   const { identifier, password, userType } = req.body;
 
   if (!['buyer', 'seller'].includes(userType)) {
