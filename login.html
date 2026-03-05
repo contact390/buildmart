@@ -141,21 +141,26 @@
 
   <!-- Your existing JS (unchanged) -->
   <script>
- async function submitLogin(event) {
+    async function submitLogin(event) {
   event.preventDefault();
 
-  const identifier = document.getElementById('identifier').value.trim();
-  const password = document.getElementById('password').value;
+  const identifier = document.getElementById("identifier").value;
+  const password = document.getElementById("password").value;
   const userType = document.querySelector('input[name="userType"]:checked').value;
 
   try {
-    const res = await fetch('/login', {
-      method: 'POST',
-      credentials: 'include',
+
+    const res = await fetch("http://localhost:5001/api/login", {
+      method: "POST",
+      credentials: "include",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({ identifier, password, userType })
+      body: JSON.stringify({
+        identifier,
+        password,
+        userType
+      })
     });
 
     if (!res.ok) {
@@ -165,20 +170,20 @@
     const data = await res.json();
 
     if (data.success) {
-      alert("Login successful!");
+      alert("Login successful");
 
-      if (userType === 'buyer') {
-        window.location.href = "/index.html";
+      if (userType === "buyer") {
+        window.location.href = "index.html";
       } else {
-        window.location.href = "/seller_dashboard.html";
+        window.location.href = "seller_dashboard.html";
       }
+
     } else {
       alert(data.message);
     }
 
   } catch (err) {
     console.error("Login error:", err);
-    alert("Login failed. Check console.");
   }
 }
   </script>
