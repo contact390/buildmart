@@ -185,14 +185,25 @@ router.post('/buyer-profile', (req, res) => {
 });
 
 
-router.post('/api/login', (req, res) => {
+router.post("/login", (req, res) => {
+
   const { identifier, password, userType } = req.body;
 
-  if (!['buyer', 'seller'].includes(userType)) {
-    return res.status(400).json({ success: false, message: "Invalid user type" });
+  if (!identifier || !password || !userType) {
+    return res.status(400).json({
+      success: false,
+      message: "All fields required"
+    });
   }
 
-  const table = userType === 'buyer' ? 'buyer_profiles' : 'seller_profiles';
+  if (!['buyer', 'seller'].includes(userType)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid user type"
+    });
+  }
+
+  const table = userType === "buyer" ? "buyer_profiles" : "seller_profiles";
 
   const query = `
     SELECT * FROM ${table}
@@ -200,26 +211,67 @@ router.post('/api/login', (req, res) => {
   `;
 
   db.query(query, [identifier, identifier, password], (err, results) => {
+
     if (err) {
-      console.error("Login DB error:", err);
-      return res.status(500).json({ success: false, message: "Database error" });
-    }
-
-    if (results.length > 0) {
-      const userRow = results[0];
-      const user = { id: userRow.id, name: userRow.name, email: userRow.email };
-      req.session.user = { ...user, userType };
-
-      req.session.save((err) => {
-        if (err) {
-          return res.status(500).json({ success: false, message: "Session save failed" });
-        }
-        return res.json({ success: true, message: "Login successful", user });
+      console.error("DB Error:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Database error"
       });
-    } else {
-      return res.json({ success: false, message: "Invalid credentials" });
     }
+
+    if (results.length === 0) {
+      return res.json({
+        success: false,
+        message: "Invalid credentials"
+      });
+    }
+
+    const user = results[0];
+
+    req.session.user = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      userType
+    };
+
+    res.json({
+      success: true,
+      message: "Login successful",
+      user: req.session.user
+    });
+
   });
+
+});
+
+
+// LOGOUT
+router.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.json({
+      success: true,
+      message: "Logged out"
+    });
+  });
+});
+
+
+// SESSION CHECK
+router.get("/check-session", (req, res) => {
+
+  if (req.session.user) {
+    res.json({
+      loggedIn: true,
+      user: req.session.user
+    });
+  } else {
+    res.json({
+      loggedIn: false
+    });
+  }
+
 });
 
 // Return current session user
