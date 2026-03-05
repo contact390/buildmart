@@ -15,36 +15,7 @@ const productUploadsRoutes = require('./routes/product_uploads'); // Import prod
 
 const app = express();
 const port = 5001;
-// LOGIN API
-app.post('/api/login', (req, res) => {
 
- const { identifier, password, userType } = req.body || {};
-
-  console.log("Login request:", identifier, userType);
-
-  // Demo Login (later you can connect MySQL)
-  if (identifier === "admin@gmail.com" && password === "1234") {
-
-    req.session.user = {
-      identifier: identifier,
-      userType: userType
-    };
-
-    res.json({
-      success: true,
-      message: "Login successful"
-    });
-
-  } else {
-
-    res.status(401).json({
-      success: false,
-      message: "Invalid email or password"
-    });
-
-  }
-
-});
 // Middleware
 app.use(cors({ 
   origin: function(origin, callback) {
