@@ -18,7 +18,7 @@ const port = 5001;
 // LOGIN API
 app.post('/api/login', (req, res) => {
 
-  const { identifier, password, userType } = req.body;
+ const { identifier, password, userType } = req.body || {};
 
   console.log("Login request:", identifier, userType);
 
