@@ -99,7 +99,7 @@ window.addEventListener('resize',()=>{
 
   <!-- premium quality you can trust section -->
 <div style="font-family: Arial, sans-serif; background-color: #eaf4ff; padding: 50px 15px;">
-  <div style="max-width: 1300px; margin: 0 auto;">
+  <div style="max-width: 1300px; margin: 0 auto; padding-top: 50px; padding-bottom: 50px;">
 
     <!-- Heading Section -->
     <div style="text-align: center; margin-bottom: 45px;">
@@ -250,7 +250,7 @@ window.addEventListener('resize',()=>{
 
 <!-- Plans Section -->
 <div style="background: linear-gradient(to bottom, #f5f7fa 0%, #e4e8eb 100%); padding: 50px 10px; font-family: Arial, sans-serif;">
-  <div style="max-width: 1200px; margin: 0 auto;">
+  <div style="max-width: 1200px; margin: 0 auto; padding-top: 50px; padding-bottom: 0px;">
 
      <!-- Heading Section -->
     <div style="text-align: center; margin-bottom: 45px;">
@@ -423,6 +423,7 @@ window.addEventListener('resize',()=>{
     </div>
   </div>
 </div>
+
 
 <!-- Popup Form -->
 <div id="planFormPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
@@ -598,7 +599,7 @@ function submitPlanForm(event) {
   }
 
   // Send data to backend
-  fetch('https://buildmarts.in/api/bm_plans', {
+  fetch('http://localhost:5000/api/bm_plans', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -676,13 +677,14 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- How It Works section -->
 <div style="
     padding: clamp(25px, 6vw, 50px);
+    padding-top: 50px;
+    padding-bottom: 100px;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     font-family: 'Segoe UI', Arial, sans-serif;
     width: 100%;
     box-sizing: border-box;
     border-top: 1px solid #cbd5e1;
     border-bottom: 1px solid #cbd5e1;
-    margin-bottom: 0;
 ">
     <!-- Title Section -->
     <div style="
@@ -1254,12 +1256,13 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
     width:100vw;
     margin-left:calc(50% - 50vw);
     padding: clamp(15px, 3vw, 25px);
+    /* padding-top: 50px;
+    padding-bottom: 50px; */
     text-align: center;
     background-color: #f9f9f9;
     font-family: Arial, sans-serif;
     box-sizing: border-box;
-   padding-bottom: 60px;
-    margin-top: 0;
+    padding: 100px 0px;
 ">
 
     <!-- Title Section -->
@@ -1275,8 +1278,7 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
         margin-left: auto;
         margin-right: auto;
         padding: 0 clamp(15px, 3vw, 30px);
-        box-sizing: border-box;margin-top: 50px;
-
+        box-sizing: border-box;
     ">
        <span style="
             flex: 1;
@@ -1303,9 +1305,9 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
         <span style="
             flex: 1;
             height: 3px;
-            background: linear-gradient(90deg, #222, transparent);
+            background: linear-gradient(90deg, #0f172a, transparent);
             margin: 0;
-            min-width: 30px;margin-top: 50px;
+            min-width: 40px;
         "></span>
     </div>
 
@@ -1692,14 +1694,15 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
   <!-- Collaborative Banks section -->
 <section style="
     padding: clamp(20px, 5vw, 40px);
+    padding-top: 100px;
+    padding-bottom: 50px;
     text-align: center;
     background-color: #ffffff;
     width: 100%;
-    margin: 0;
     box-sizing: border-box;
     background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
     border-top: 1px solid #e2e8f0;
-    border-bottom: 1px solid #e2e8f0;padding-bottom: 70px;
+    border-bottom: 1px solid #e2e8f0;
 ">
     <!-- Title Section -->
     <div style="
@@ -1756,7 +1759,7 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
         max-width: 1400px;
         margin: 0 auto;
         padding: 0 clamp(15px, 3vw, 30px);
-        box-sizing: border-box;
+        box-sizing: border-box;margin-bottom: 50px;margin-top: 50px;
     ">
         <!-- SBI -->
         <div style="
@@ -2121,161 +2124,155 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
 
    
 </section>
+
+
+
+
   <!-- Customer Feedback section -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>infinite marquee · bus fits container · no overflow</title>
-    <style>
-        /* minimal reset: only to remove default body margin/padding */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background: #f0f2f5;  /* subtle background to see the white cards */
-        }
-    </style>
-</head>
-<body>
-    <!-- main container – exactly matches original gradient, width, padding -->
-    <div style="padding: 60px 15px; background: linear-gradient(135deg, #f6f6f6 0%, #eaeaea 100%); text-align: center; width: 100%; margin: 0 auto; font-family: 'Segoe UI', Arial, sans-serif;">
+<section style="padding: 50px 15px 50px 15px; background: linear-gradient(135deg, #f6f6f6 0%, #eaeaea 100%); text-align: center; width: 100%; font-family: 'Segoe UI', Arial, sans-serif;">
 
-        <!-- inner max-width container (same as original) – now everything stays inside 1000px bus -->
-        <div style="max-width: 1000px; margin: 0 auto;">
+    <!-- inner max-width container (same as original) – now everything stays inside 1000px bus -->
+    <div style="max-width: 1000px; margin: 0 auto;margin-top: 50px;margin-top: 50px;">
 
-            <!-- HEADER with decorative lines – unchanged from original -->
-            <div style="display:flex; align-items:center; justify-content:center; gap:20px; margin-bottom:40px; flex-wrap:wrap;">
-                <span style="flex: 1; height: 3px; background: linear-gradient(90deg, transparent, #0f172a); margin: 0; min-width: 40px;"></span>
-                <h2 style="font-size: clamp(22px, 6vw, 36px); color: #222; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0 clamp(15px, 3vw, 30px); font-weight: 800; text-align: center; white-space: normal; line-height: 1.2; text-transform: uppercase; letter-spacing: 1px; margin-top: 0px;">
-                    What Our Valued Customers Say
-                </h2>
-                <span style="flex: 1; height: 3px; background: linear-gradient(90deg, #1e293b, transparent); margin: 0; min-width: 40px;"></span>
-            </div>
+        <!-- HEADER with decorative lines – unchanged from original -->
+        <div style="display:flex; align-items:center; justify-content:center; gap:20px; margin-bottom:40px; flex-wrap:wrap;">
+            <span style="flex: 1; height: 3px; background: linear-gradient(90deg, transparent, #0f172a); margin: 0; min-width: 40px;"></span>
+            <h2 style="font-size: clamp(22px, 6vw, 36px); color: #222; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0 clamp(15px, 3vw, 30px); font-weight: 800; text-align: center; white-space: normal; line-height: 1.2; text-transform: uppercase; letter-spacing: 1px; margin-top: 0px;">
+                What Our Valued Customers Say
+            </h2>
+            <span style="flex: 1; height: 3px; background: linear-gradient(90deg, #1e293b, transparent); margin: 0; min-width: 40px;"></span>
+        </div>
 
-            <!-- 
-                MODIFIED MARQUEE – fully contained inside max-width: 1000px bus.
-                - Replaced <marquee> with CSS-powered scroll wrapper (modern, no overflow)
-                - Animation uses keyframes injected as inline style via <style> tag (only way to keep "inline" spirit)
-                - The wrapper hides overflow, the track has defined width and infinite scroll.
-                - On hover pause via JS (mouseenter/mouseleave) same as original behaviour.
-                - Cloned cards provide seamless loop. All cards stay inside bus.
-                - NO scrollbar, NO overflow, everything fits within 1000px.
-            -->
-            <!-- inject keyframes inline (still style, but necessary for CSS animation; keeps overall structure tidy) -->
-            <style>
-                /* keyframes for smooth continuous scroll – exactly what marquee does but contained */
-                @keyframes infiniteScroll {
-                    0% { transform: translateX(0); }
-                    100% { transform: translateX(calc(-260px * 4 - 25px * 4)); }  /* 4 cards + 4 gaps = total width of one set */
-                }
-                /* marquee-track will use this animation */
-            </style>
+        <!-- 
+            MODIFIED MARQUEE – fully contained inside max-width: 1000px bus.
+            - Replaced <marquee> with CSS-powered scroll wrapper (modern, no overflow)
+            - Animation uses keyframes injected as inline style via <style> tag (only way to keep "inline" spirit)
+            - The wrapper hides overflow, the track has defined width and infinite scroll.
+            - On hover pause via JS (mouseenter/mouseleave) same as original behaviour.
+            - Cloned cards provide seamless loop. All cards stay inside bus.
+            - NO scrollbar, NO overflow, everything fits within 1000px.
+        -->
+        <!-- inject keyframes inline (still style, but necessary for CSS animation; keeps overall structure tidy) -->
+        <style>
+            /* keyframes for smooth continuous scroll – exactly what marquee does but contained */
+            @keyframes infiniteScroll {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(calc(-260px * 4 - 25px * 4)); }  /* 4 cards + 4 gaps = total width of one set */
+            }
+            /* marquee-track will use this animation */
+        </style>
 
-            <!-- outer container: hides overflow, full width of bus, no scrollbar -->
-            <div style="width: 100%; overflow: hidden; position: relative; background: transparent; border-radius: 20px;"
-                 onmouseenter="this.querySelector('.marquee-track-custom').style.animationPlayState = 'paused';"
-                 onmouseleave="this.querySelector('.marquee-track-custom').style.animationPlayState = 'running';">
+        <!-- outer container: hides overflow, full width of bus, no scrollbar -->
+        <div style="width: 100%; overflow: hidden; position: relative; background: transparent; border-radius: 20px;"
+             onmouseenter="this.querySelector('.marquee-track-custom').style.animationPlayState = 'paused';"
+             onmouseleave="this.querySelector('.marquee-track-custom').style.animationPlayState = 'running';">
 
-                <!-- inner scrolling track: contains cards + clones, uses animation, inline-block fix -->
-                <div class="marquee-track-custom" style="display: flex; gap: 25px; width: max-content; animation: infiniteScroll 30s linear infinite; will-change: transform; padding: 10px 5px 25px; cursor: default;">
-                    
-                    <!-- CARD 1 – FIXED text wrapping and overflow, width exactly 260px -->
-                    <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
-                        <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
-                        <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"The cement quality was outstanding, ensuring our foundation was rock-solid. Delivery was prompt and reliable."</p>
-                        <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- John Doe, Contractor</p>
-                    </div>
+            <!-- inner scrolling track: contains cards + clones, uses animation, inline-block fix -->
+            <div class="marquee-track-custom" style="display: flex; gap: 25px; width: max-content; animation: infiniteScroll 30s linear infinite; will-change: transform; padding: 10px 5px 25px; cursor: default;">
+                
+                <!-- CARD 1 – FIXED text wrapping and overflow, width exactly 260px -->
+                <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
+                    <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
+                    <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"The cement quality was outstanding, ensuring our foundation was rock-solid. Delivery was prompt and reliable."</p>
+                    <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- John Doe, Contractor</p>
+                </div>
 
-                    <!-- CARD 2 – FIXED -->
-                    <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
-                        <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
-                        <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"Ordered bricks for our new project. Uniform quality and seamless process helped us finish early."</p>
-                        <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- Jane Smith, Home Builder</p>
-                    </div>
+                <!-- CARD 2 – FIXED -->
+                <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
+                    <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
+                    <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"Ordered bricks for our new project. Uniform quality and seamless process helped us finish early."</p>
+                    <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- Jane Smith, Home Builder</p>
+                </div>
 
-                    <!-- CARD 3 – FIXED -->
-                    <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
-                        <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
-                        <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"Iron rods were top-notch and cost-effective. Helped us reduce overall project expenses."</p>
-                        <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- Mike Johnson, Engineer</p>
-                    </div>
+                <!-- CARD 3 – FIXED -->
+                <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
+                    <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
+                    <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"Iron rods were top-notch and cost-effective. Helped us reduce overall project expenses."</p>
+                    <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- Mike Johnson, Engineer</p>
+                </div>
 
-                    <!-- CARD 4 – FIXED -->
-                    <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
-                        <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
-                        <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"Customer service was excellent. Helped us select the right materials and delivery was on time."</p>
-                        <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- Sarah Lee, Project Manager</p>
-                    </div>
+                <!-- CARD 4 – FIXED -->
+                <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
+                    <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
+                    <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"Customer service was excellent. Helped us select the right materials and delivery was on time."</p>
+                    <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- Sarah Lee, Project Manager</p>
+                </div>
 
-                    <!-- CLONE CARD 1 – FIXED (exact duplicate for seamless loop) -->
-                    <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
-                        <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
-                        <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"The cement quality was outstanding, ensuring our foundation was rock-solid. Delivery was prompt and reliable."</p>
-                        <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- John Doe, Contractor</p>
-                    </div>
-                    
-                    <!-- CLONE CARD 2 – FIXED -->
-                    <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
-                        <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
-                        <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"Ordered bricks for our new project. Uniform quality and seamless process helped us finish early."</p>
-                        <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- Jane Smith, Home Builder</p>
-                    </div>
-                    
-                    <!-- CLONE CARD 3 – FIXED -->
-                    <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
-                        <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
-                        <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"Iron rods were top-notch and cost-effective. Helped us reduce overall project expenses."</p>
-                        <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- Mike Johnson, Engineer</p>
-                    </div>
-                    
-                    <!-- CLONE CARD 4 – FIXED -->
-                    <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
-                        <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
-                        <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"Customer service was excellent. Helped us select the right materials and delivery was on time."</p>
-                        <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- Sarah Lee, Project Manager</p>
-                    </div>
+                <!-- CLONE CARD 1 – FIXED (exact duplicate for seamless loop) -->
+                <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
+                    <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
+                    <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"The cement quality was outstanding, ensuring our foundation was rock-solid. Delivery was prompt and reliable."</p>
+                    <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- John Doe, Contractor</p>
+                </div>
+                
+                <!-- CLONE CARD 2 – FIXED -->
+                <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
+                    <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
+                    <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"Ordered bricks for our new project. Uniform quality and seamless process helped us finish early."</p>
+                    <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- Jane Smith, Home Builder</p>
+                </div>
+                
+                <!-- CLONE CARD 3 – FIXED -->
+                <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
+                    <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
+                    <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"Iron rods were top-notch and cost-effective. Helped us reduce overall project expenses."</p>
+                    <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- Mike Johnson, Engineer</p>
+                </div>
+                
+                <!-- CLONE CARD 4 – FIXED -->
+                <div style="min-width:260px; max-width:260px; width:260px; background:#fff; border-radius:14px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:left; transition:transform .3s ease; display:inline-block; vertical-align:top;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
+                    <div style="font-size:20px; color:#ff9800; margin-bottom:8px; white-space:nowrap;">★ ★ ★ ★ ★</div>
+                    <p style="font-style:italic; color:#555; line-height:1.5; font-size:14px; margin:0; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; display:block; min-height:70px;">"Customer service was excellent. Helped us select the right materials and delivery was on time."</p>
+                    <p style="margin-top:12px; color:#ff9800; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">- Sarah Lee, Project Manager</p>
                 </div>
             </div>
-            <!-- 
-                Explanation: 
-                - Outer container overflow:hidden ensures nothing spills outside the 1000px bus.
-                - Animation moves the track left by exactly the width of one set (4 cards + gaps). 
-                - Width of one set = (260px * 4) + (25px * 4) = 1040 + 100 = 1140px.
-                - With clones, loop is seamless. 30s speed matches original scrollamount=4.
-                - On hover pause via mouseenter/mouseleave (querySelector works).
-                - No marquee overflow, no scrollbar. All cards fully inside bus.
-                - All inline styles preserved, plus extra inline keyframes (most robust).
-            -->
         </div>
+        <!-- 
+            Explanation: 
+            - Outer container overflow:hidden ensures nothing spills outside the 1000px bus.
+            - Animation moves the track left by exactly the width of one set (4 cards + gaps). 
+            - Width of one set = (260px * 4) + (25px * 4) = 1040 + 100 = 1140px.
+            - With clones, loop is seamless. 30s speed matches original scrollamount=4.
+            - On hover pause via mouseenter/mouseleave (querySelector works).
+            - No marquee overflow, no scrollbar. All cards fully inside bus.
+            - All inline styles preserved, plus extra inline keyframes (most robust).
+        -->
     </div>
+</section>
 
-    <!-- tiny script to ensure animationPlayState works on initial load (just in case) – not strictly needed but safe -->
-    <script>
-        (function() {
-            // optional: ensure that track has initial running state. but default is running.
-            // we also want the hover to work even if element is not found. it's fine.
-            // this small script just guarantees the style override from mouseenter/mouseleave works as intended.
-            // no overflow logic required.
-        })();
-    </script>
-</body>
-</html>
-
-
+<!-- tiny script to ensure animationPlayState works on initial load (just in case) – not strictly needed but safe -->
+<script>
+    (function() {
+        // optional: ensure that track has initial running state. but default is running.
+        // we also want the hover to work even if element is not found. it's fine.
+        // this small script just guarantees the style override from mouseenter/mouseleave works as intended.
+        // no overflow logic required.
+    })();
+</script>
 
 <div id="footer-placeholder"></div>
 
 <script>
-fetch('footer.html')
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById('footer-placeholder').innerHTML = data;
-  })
-  .catch(error => console.error('Footer load error:', error));
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+      // execute any scripts from the injected footer
+      const temp = document.createElement('div');
+      temp.innerHTML = data;
+      temp.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      // the injected script itself initializes subscription, no need to call again
+      // (prevent duplicate listeners causing conflicting messages)
+    })
+    .catch(error => console.error('Footer load error:', error));
 </script>
 
 
@@ -2302,7 +2299,7 @@ fetch('footer.html')
             submitBtn.style.opacity = '0.7';
 
             try {
-                const res = await fetch('https://buildmarts.in/api/subscribe', {
+                const res = await fetch('http://localhost:5000/api/subscribe', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email })
@@ -2344,7 +2341,7 @@ fetch('footer.html')
 
 <script>
 (async function sessionNav() {
-  const API_BASE = 'https://buildmarts.in';
+  const API_BASE = 'http://localhost:5000';
   try {
     // Wait for DOM
     if (document.readyState === 'loading') {
@@ -2402,7 +2399,7 @@ fetch('footer.html')
       const visibleCookies = document.cookie || '(no visible cookies)';
       // If page opened via file://, show explicit instruction
       if (window.location.protocol === 'file:') {
-        hintSpan.textContent = ' (open from https://buildmarts.in to enable login)';
+        hintSpan.textContent = ' (open from http://localhost:5000 to enable login)';
         hintSpan.style.color = '#c00';
       } else {
         hintSpan.textContent = ' (not logged in)';
@@ -2411,7 +2408,7 @@ fetch('footer.html')
       console.log('Document.cookie:', visibleCookies);
       if (!visibleCookies.includes('connect.sid')) {
         console.warn('connect.sid not visible in document.cookie — likely httpOnly (normal) or cookie not set for this origin.');
-        console.info('If you served the frontend from a different origin (e.g. 127.0.0.1:5500), open the site from https://buildmarts.in so cookies are same-origin.');
+        console.info('If you served the frontend from a different origin (e.g. 127.0.0.1:5500), open the site from http://localhost:5000 so cookies are same-origin.');
       }
 
       loginLink.textContent = 'Login';
