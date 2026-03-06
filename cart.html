@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Your Shopping Cart - Building Materials Store</title>
+  <!-- Font Awesome remains (external) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- NO style block – all styles are inline -->
+  <!-- keyframe animation for spinner (inline style can't do keyframes, so minimal style tag remains for animation) -->
+  <style>@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>
+</head>
+<body style="font-family:'Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);color:#1a202c;line-height:1.5;min-height:100vh;margin:0;padding:0;box-sizing:border-box;">
+
+<!-- navbar placeholder -->
+<div id="navbar-container"></div>
+
+
+<!-- Header Section -->
+<div class="top" style="background:linear-gradient(90deg,#2d3748 0%,#4a5568 100%);color:white;padding:24px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.1);position:sticky;top:0;z-index:100;margin-top:-20px;">
+  <div class="top-content" style="max-width:1200px;margin:0 auto;width:100%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+    <div class="header-main" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:20px;">
+      <h1 style="font-size:36px;font-weight:700;margin:0;display:flex;align-items:center;gap:12px;">
+        <i class="fas fa-shopping-cart" style="color:#68d391;font-size:32px;"></i> Your Shopping Cart
+      </h1>
+      <div class="cart-stats" style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,0.1);padding:12px 20px;border-radius:10px;backdrop-filter:blur(10px);">
+        <div class="stat-item" style="display:flex;align-items:center;gap:8px;font-size:15px;">
+          <div class="stat-icon" style="background:#4299e1;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><i class="fas fa-box"></i></div>
+          <span id="itemCount">0 items</span>
+        </div>
+        <div class="stat-item" style="display:flex;align-items:center;gap:8px;font-size:15px;">           
+          <div class="stat-icon" style="background:#4299e1;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><i class="fas fa-weight-hanging"></i></div>
+          <span id="totalWeight">0 kg</span>
+        </div>
+        <div class="stat-item" style="display:flex;align-items:center;gap:8px;font-size:15px;">
+          <div class="stat-icon" style="background:#4299e1;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><i class="fas fa-truck"></i></div>
+          <span id="deliveryStatus">Free Delivery</span>
+        </div>
+      </div>
+    </div>
+    
+    <div id="freeDeliveryMessage" class="free-delivery-badge" style="display:none;background:linear-gradient(90deg,#38a169 0%,#2f855a 100%);color:white;padding:6px 12px;border-radius:20px;font-size:14px;font-weight:600;align-items:center;gap:6px;margin-top:5px;margin-bottom:20px;">
+      <i class="fas fa-check-circle"></i> You qualify for FREE delivery!
+    </div>
+    
+    <div class="actions" style="display:flex;gap:16px;flex-wrap:wrap;">
+      <button id="continue" class="btn btn-secondary" style="padding:14px 28px;border:none;border-radius:8px;font-weight:600;font-size:16px;cursor:pointer;transition:all 0.3s ease;display:flex;align-items:center;justify-content:center;gap:10px;min-width:140px;background:#edf2f7;color:#2d3748;border:2px solid #cbd5e0;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#edf2f7'">
+        <i class="fas fa-arrow-left"></i> Continue Shopping
+      </button>
+      <button id="checkoutBtn" class="btn btn-checkout" style="padding:14px 28px;border:none;border-radius:8px;font-weight:600;font-size:16px;cursor:pointer;transition:all 0.3s ease;display:flex;align-items:center;justify-content:center;gap:10px;min-width:140px;background:linear-gradient(90deg,#ed8936 0%,#dd6b20 100%);color:white;box-shadow:0 4px 12px rgba(237,137,54,0.3);" onmouseover="this.style.background='linear-gradient(90deg,#dd6b20 0%,#c05621 100%)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 16px rgba(237,137,54,0.4)'" onmouseout="this.style.background='linear-gradient(90deg,#ed8936 0%,#dd6b20 100%)';this.style.transform='none';this.style.boxShadow='0 4px 12px rgba(237,137,54,0.3)'">
+        <i class="fas fa-lock"></i> Secure Checkout 
+        <span id="checkoutCount" class="checkout-count" style="background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:20px;font-size:14px;margin-left:8px;">0</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Main Cart Container -->
+<div id="cartContainer" style="max-width:1200px;margin:30px auto;padding:0 20px;margin-top:10px;">
+  <div class="loading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px;background:white;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.06);">
+    <div class="spinner" style="width:50px;height:50px;border:4px solid #e2e8f0;border-top:4px solid #38b2ac;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:20px;"></div>
+    <p>Loading your cart...</p>
+  </div>
+</div>
+
+<!-- related products placeholder -->
+<div id="cart-related-section" style="width:97%;margin:40px auto 20px;padding:20px;background:#f7fafc;border-radius:12px;border:1px solid #e2e8f0;">
+  <div style="font-size:22px;font-weight:600;margin-bottom:15px;">Products related to items in your cart</div>
+  <div id="cart-related-products" style="display:flex;gap:15px;flex-wrap:wrap;justify-content:center;">Loading...</div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+      // execute any scripts from the injected footer
+      const temp = document.createElement('div');
+      temp.innerHTML = data;
+      temp.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      // the injected script itself initializes subscription, no need to call again
+      // (prevent duplicate listeners causing conflicting messages)
+    })
+    .catch(error => console.error('Footer load error:', error));
+</script>
+
+<script>
+  // API_BASE: Always use localhost:5000/api for development
+  const API_BASE = 'https://buildmarts.in/api';
+  const FREE_DELIVERY_THRESHOLD = 1000; // ₹1000 minimum for free delivery
+  const DELIVERY_CHARGE = 99; // ₹99 delivery charge for orders under ₹1000
+
+  let selectedItems = new Set(); // Track selected item IDs
+
+  function getCartKey() { 
+    return localStorage.getItem('cart_key'); 
+  }
+
+  function formatMoney(n) { 
+    return '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
+  }
+
+  // Return a friendly unit label for display
+  function formatUnitLabel(unit) {
+    if (!unit) return 'unit';
+    const map = {
+      'bag': { price: 'Per Bag (50kg)', short: 'Bag (50kg)' },
+      'bag-25kg': { price: 'Per Bag (25kg)', short: 'Bag (25kg)' },
+      'ton': { price: 'Per Ton', short: 'Ton' },
+      'kg': { price: 'Per KG', short: 'KG' },
+      'piece': { price: 'Per Piece', short: 'piece' },
+      '1000-piece': { price: 'Per 1000 Pieces', short: '1000 pcs' },
+      'sqft': { price: 'Per Sq. Ft', short: 'sq. ft' },
+      'cubic': { price: 'Per Cubic Meter', short: 'CBM' },
+      'cft': { price: 'Per CFT', short: 'CFT' },
+      'roll': { price: 'Per Roll', short: 'Roll' },
+      'ltr': { price: 'Per Litre', short: 'Litre' },
+      'box': { price: 'Per Box', short: 'Box' },
+      'set': { price: 'Per Set', short: 'Set' },
+      'meter': { price: 'Per Meter', short: 'Meter' },
+      'sheet': { price: 'Per Sheet', short: 'Sheet' }
+    };
+    const k = unit.toString();
+    return (map[k] && map[k].price) ? map[k].price : (map[k] && map[k].short) ? map[k].short : unit;
+  }
+
+  // Return a short unit label for compact displays (e.g., in cart)
+  function formatUnitShort(unit) {
+    if (!unit || unit === 'unit') return '';
+    const shortMap = {
+      'bag': 'Bag',
+      'bag-25kg': 'Bag',
+      'ton': 'Ton',
+      'kg': 'Kg',
+      'piece': 'Pc',
+      '1000-piece': '1000 pcs',
+      'sqft': 'sq. ft',
+      'cubic': 'CBM',
+      'cft': 'CFT',
+      'roll': 'Roll',
+      'ltr': 'Litre',
+      'box': 'Box',
+      'set': 'Set',
+      'meter': 'Meter',
+      'sheet': 'Sheet'
+    };
+    const k = unit.toString();
+    return shortMap[k] || unit;
+  }
+
+  // Return a cart-friendly label like "Bag (50kg)" — removes leading 'Per '
+  function formatUnitCartLabel(unit) {
+    if (!unit || unit === 'unit') return '';
+    const map = {
+      'bag': { price: 'Per Bag (50kg)', short: 'Bag (50kg)' },
+      'bag-25kg': { price: 'Per Bag (25kg)', short: 'Bag (25kg)' },
+      'ton': { price: 'Per Ton', short: 'Ton' },
+      'kg': { price: 'Per KG', short: 'KG' },
+      'piece': { price: 'Per Piece', short: 'piece' },
+      '1000-piece': { price: 'Per 1000 Pieces', short: '1000 pcs' },
+      'sqft': { price: 'Per Sq. Ft', short: 'sq. ft' },
+      'cubic': { price: 'Per Cubic Meter', short: 'CBM' },
+      'cft': { price: 'Per CFT', short: 'CFT' },
+      'roll': { price: 'Per Roll', short: 'Roll' },
+      'ltr': { price: 'Per Litre', short: 'Litre' },
+      'box': { price: 'Per Box', short: 'Box' },
+      'set': { price: 'Per Set', short: 'Set' },
+      'meter': { price: 'Per Meter', short: 'Meter' },
+      'sheet': { price: 'Per Sheet', short: 'Sheet' }
+    };
+    const k = unit.toString();
+    if (!map[k]) return '';
+    const label = map[k].short || map[k].price || k;
+    return String(label).replace(/^Per\s+/i, '');
+  }
+
+  // Calculate estimated weight (example: 1 unit = 10kg)
+  function calculateWeight(items) {
+    return items.reduce((total, item) => total + (item.qty * 10), 0);
+  }
+
+  // Check if order qualifies for free delivery
+  function qualifiesForFreeDelivery(subtotal) {
+    return subtotal >= FREE_DELIVERY_THRESHOLD;
+  }
+
+  // Calculate delivery charge
+  function calculateDeliveryCharge(subtotal) {
+    return qualifiesForFreeDelivery(subtotal) ? 0 : DELIVERY_CHARGE;
+  }
+
+  // generate small card used for related products
+  function cartRelatedCard(p){
+    return `<div class="product-card" style="width:200px;cursor:pointer;" onclick="window.location='single-product.html?id=${p.id}'">
+      <div class="product-image" style="height:140px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        <img src="${p.imageUrl||p.image||''}" alt="${(p.productName||'').replace(/"/g,'&quot;')}" style="object-fit:cover;width:100%;height:100%;">
+      </div>
+      <div style="padding:10px;text-align:center;">
+        <div style="font-size:14px;font-weight:600;color:#2c3e50;min-height:40px;">${p.productName||''}</div>
+        <div style="margin-top:5px;font-size:16px;font-weight:700;color:#b12704;">₹${parseFloat(p.finalPrice||p.price||0).toFixed(2)}</div>
+      </div>
+    </div>`;
+  }
+
+  // load products related by any of the supplied categories
+  async function loadCartRelatedProducts(categories){
+    if(!categories || !categories.length) return;
+    const cat = categories[0];
+    try{
+      const res = await fetch(API_BASE + '/product_uploads?category='+encodeURIComponent(cat)+'&limit=8');
+      const data = await res.json();
+      if(data.success && Array.isArray(data.products)){
+        const container = document.getElementById('cart-related-products');
+        if(!container) return;
+        container.innerHTML = data.products.map(cartRelatedCard).join('');
+      }
+    }catch(e){ console.error('loadCartRelatedProducts error', e); }
+  }
+
+  async function fetchCart() {
+    const key = getCartKey();
+    if (!key) return { cart: null, items: [] };
+    
+    try {
+      const r = await fetch(API_BASE + '/cart/' + encodeURIComponent(key));
+      if (!r.ok) throw new Error('Server error');
+      const data = await r.json();
+      
+      // Fetch product images if missing
+      if (data && data.items && data.items.length) {
+        await Promise.all(data.items.map(async (it) => {
+          if (!it.image || !it.quantityUnit || it.quantityUnit === 'unit' || !it.category) {
+            try {
+              let pr = await fetch(API_BASE + '/product_uploads/' + encodeURIComponent(it.product_id));
+              let pj = null;
+              if (pr.ok) {
+                pj = await pr.json();
+                if (pj && pj.product) {
+                  it.image = it.image || pj.product.imageUrl || pj.product.image || it.image;
+                  if ((!it.quantityUnit || it.quantityUnit === 'unit') && pj.product.quantityUnit) {
+                    it.quantityUnit = pj.product.quantityUnit;
+                  }
+                  it.category = it.category || pj.product.category;
+                }
+              } else {
+                pr = await fetch(API_BASE + '/product/' + encodeURIComponent(it.product_id));
+                if (pr.ok) {
+                  pj = await pr.json();
+                  if (pj && pj.product) {
+                    it.image = it.image || pj.product.image || it.image;
+                    if ((!it.quantityUnit || it.quantityUnit === 'unit') && pj.product.quantityUnit) {
+                      it.quantityUnit = pj.product.quantityUnit;
+                    }
+                  }
+                }
+              }
+
+              if (it.image && typeof it.image === 'string') {
+                const s = it.image.trim();
+                if (!/^\s*data:|^https?:\/\//i.test(s) && s.length > 200) {
+                  it.image = 'data:image/png;base64,' + s;
+                }
+              }
+
+              it.image = it.image || 'Images/placeholder.jpg';
+            } catch (e) { 
+              it.image = it.image || 'Images/placeholder.jpg';
+            }
+          }
+        }));
+      }
+      try {
+        console.log('fetchCart: items snapshot', (data.items || []).map(i => ({ id: i.id, product_id: i.product_id, image_preview: i.image ? String(i.image).slice(0,80) : null })));
+      } catch(e) { /* ignore */ }
+      return data;
+    } catch (err) {
+      console.error('fetchCart error', err);
+      return { error: err.message, cart: null, items: [] };
+    }
+  }
+
+  function emptyState() {
+    return `
+      <div class="empty" style="background:white;border-radius:16px;padding:60px 30px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,0.06);border:2px dashed #e2e8f0;">
+        <i class="fas fa-shopping-cart" style="font-size:64px;color:#cbd5e0;margin-bottom:20px;"></i>
+        <h3 style="font-size:24px;margin-bottom:12px;color:#4a5568;">Your Cart is Empty</h3>
+        <p style="color:#718096;margin-bottom:30px;max-width:400px;margin-left:auto;margin-right:auto;">Looks like you haven't added any building materials to your cart yet. Start shopping to get the best deals on construction supplies!</p>
+        <button id="startShopping" class="btn btn-primary" style="margin:20px auto;padding:14px 28px;border:none;border-radius:8px;font-weight:600;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;min-width:140px;background:linear-gradient(90deg,#38b2ac 0%,#319795 100%);color:white;box-shadow:0 4px 12px rgba(56,178,172,0.3);" onmouseover="this.style.background='linear-gradient(90deg,#319795 0%,#2c7a7b 100%)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 16px rgba(56,178,172,0.4)'" onmouseout="this.style.background='linear-gradient(90deg,#38b2ac 0%,#319795 100%)';this.style.transform='none';this.style.boxShadow='0 4px 12px rgba(56,178,172,0.3)'">
+          <i class="fas fa-hammer"></i> Start Shopping Now
+        </button>
+      </div>
+    `;
+  }
+
+  function updateRemoveSelectedVisibility() {
+    const bar = document.querySelector('.bulk-actions');
+    if (!bar) return;
+    if (selectedItems.size > 0) bar.classList.remove('hidden');
+    else bar.classList.add('hidden');
+  }
+
+  function updateDeliveryStatus(subtotal) {
+    const deliveryStatus = document.getElementById('deliveryStatus');
+    const freeDeliveryMessage = document.getElementById('freeDeliveryMessage');
+    
+    if (qualifiesForFreeDelivery(subtotal)) {
+      deliveryStatus.textContent = "Free Delivery";
+      deliveryStatus.style.color = "#68d391";
+      freeDeliveryMessage.style.display = 'flex';
+    } else {
+      deliveryStatus.textContent = "Delivery: ₹99";
+      deliveryStatus.style.color = "#f6ad55";
+      freeDeliveryMessage.style.display = 'none';
+    }
+  }
+
+  function updateCheckoutButtonCount() {
+    const checkoutCount = document.getElementById('checkoutCount');
+    
+    if (checkoutCount) {
+      if (selectedItems.size > 0) {
+        checkoutCount.textContent = selectedItems.size;
+        checkoutCount.style.display = 'inline-block';
+      } else {
+        const items = window.currentCartItems || [];
+        checkoutCount.textContent = items.length;
+        checkoutCount.style.display = 'inline-block';
+      }
+    }
+  }
+
+  function toggleSelectAll() {
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const itemCheckboxes = document.querySelectorAll('.item-checkbox input[type="checkbox"]');
+    
+    itemCheckboxes.forEach(cb => {
+      cb.checked = selectAllCheckbox.checked;
+      const itemId = parseInt(cb.dataset.itemId);
+      if (selectAllCheckbox.checked) {
+        selectedItems.add(itemId);
+      } else {
+        selectedItems.delete(itemId);
+      }
+    });
+    
+    updateSelectedCount();
+    updateSummaryForSelected();
+  }
+
+  function toggleItem(itemId, checkbox) {
+    if (checkbox.checked) {
+      selectedItems.add(itemId);
+    } else {
+      selectedItems.delete(itemId);
+      document.getElementById('selectAll').checked = false;
+    }
+    
+    const allCheckboxes = document.querySelectorAll('.item-checkbox input[type="checkbox"]');
+    const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+    document.getElementById('selectAll').checked = allChecked;
+    
+    updateSelectedCount();
+    updateSummaryForSelected();
+  }
+
+  function updateSelectedCount() {
+    const count = selectedItems.size;
+    document.getElementById('selectedCount').textContent = `${count} ${count === 1 ? 'item' : 'items'} selected`;
+    updateCheckoutButtonCount();
+    updateRemoveSelectedVisibility();
+  }
+
+  function updateSummaryForSelected() {
+    const items = window.currentCartItems || [];
+    const selectedItemsArray = items.filter(item => selectedItems.has(item.id));
+    
+    const subtotal = selectedItemsArray.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    const deliveryCharge = calculateDeliveryCharge(subtotal);
+    const tax = subtotal * 0.18;
+    const total = subtotal + deliveryCharge + tax;
+    
+    if (document.getElementById('selectedSubtotal')) {
+      document.getElementById('selectedSubtotal').textContent = formatMoney(subtotal);
+    }
+    if (document.getElementById('selectedDelivery')) {
+      document.getElementById('selectedDelivery').innerHTML = deliveryCharge === 0 ? 
+        '<span style="color:#38a169;font-weight:600;">FREE</span>' : formatMoney(deliveryCharge);
+    }
+    if (document.getElementById('selectedTax')) {
+      document.getElementById('selectedTax').textContent = formatMoney(tax);
+    }
+    if (document.getElementById('selectedTotal')) {
+      document.getElementById('selectedTotal').textContent = formatMoney(total);
+    }
+    
+    updateDeliveryInfo(selectedItemsArray, subtotal, deliveryCharge);
+  }
+
+  function updateDeliveryInfo(selectedItemsArray, subtotal, deliveryCharge) {
+    const deliveryInfoContainer = document.getElementById('deliveryInfoContainer');
+    const amountRemainingContainer = document.getElementById('amountRemainingContainer');
+    
+    if (!deliveryInfoContainer) return;
+    
+    const amountNeeded = Math.max(0, FREE_DELIVERY_THRESHOLD - subtotal);
+    
+    if (qualifiesForFreeDelivery(subtotal)) {
+      deliveryInfoContainer.innerHTML = `
+        <div class="delivery-info free-delivery" style="margin:16px 0;padding:16px;border-radius:10px;font-size:14px;display:flex;align-items:center;gap:10px;background:#f0fff4;border:1px solid #c6f6d5;color:#276749;">
+          <i class="fas fa-check-circle"></i>
+          <div>
+            <strong>FREE Delivery Applied!</strong><br>
+            Your selected items qualify for free delivery on orders over ₹${FREE_DELIVERY_THRESHOLD}
+          </div>
+        </div>`;
+      if (amountRemainingContainer) amountRemainingContainer.innerHTML = '';
+    } else if (selectedItemsArray.length > 0) {
+      deliveryInfoContainer.innerHTML = `
+        <div class="delivery-info paid-delivery" style="margin:16px 0;padding:16px;border-radius:10px;font-size:14px;display:flex;align-items:center;gap:10px;background:#fffaf0;border:1px solid #fbd38d;color:#c05621;">
+          <i class="fas fa-truck"></i>
+          <div>
+            <strong>Delivery Charge: ${formatMoney(deliveryCharge)}</strong><br>
+            Add ${formatMoney(amountNeeded)} more to your selected items to get FREE delivery
+          </div>
+        </div>`;
+      if (amountRemainingContainer) {
+        amountRemainingContainer.innerHTML = amountNeeded > 0 ? `
+          <div class="amount-remaining" style="margin:10px 0;padding:12px;background:linear-gradient(90deg,#fef3c7 0%,#fde68a 100%);border-radius:8px;text-align:center;font-weight:600;color:#92400e;border:1px solid #f59e0b;">
+            <i class="fas fa-bolt"></i> Add just ${formatMoney(amountNeeded)} more to selected items for FREE delivery!
+          </div>
+        ` : '';
+      }
+    }
+  }
+
+  function removeSelected() {
+    if (selectedItems.size === 0) {
+      showAlert('Please select items to remove', 'error');
+      return;
+    }
+    
+    if (!confirm(`Remove ${selectedItems.size} selected item(s) from cart?`)) return;
+    
+    const items = window.currentCartItems || [];
+    const selectedItemsArray = items.filter(item => selectedItems.has(item.id));
+    
+    Promise.all(selectedItemsArray.map(item => removeItem(item.id, true)))
+      .then(() => {
+        selectedItems.clear();
+        render();
+      })
+      .catch(err => {
+        console.error('Error removing items:', err);
+        showAlert('Failed to remove some items', 'error');
+      });
+  }
+
+  async function render() {
+    const container = document.getElementById('cartContainer');
+    const data = await fetchCart();
+    
+    if (data.error) {
+      container.innerHTML = `
+        <div class="alert alert-error" style="padding:16px 20px;border-radius:10px;margin:20px auto;max-width:1200px;display:flex;align-items:center;gap:12px;font-weight:500;background:#fed7d7;color:#c53030;border:1px solid #fc8181;">
+          <i class="fas fa-exclamation-circle"></i>
+          Error loading cart: ${escapeHtml(data.error)}
+        </div>
+        ${emptyState()}
+      `;
+      return;
+    }
+    
+    const items = data.items || [];
+    window.currentCartItems = items;
+    
+    selectedItems.clear();
+    items.forEach(it => selectedItems.add(it.id));
+    
+    if (!data.cart || items.length === 0) {
+      container.innerHTML = emptyState();
+      document.getElementById('startShopping')?.addEventListener('click', () => {
+        location.href = 'cement.html';
+      });
+      updateCartStats(0, 0);
+      updateDeliveryStatus(0);
+      updateCheckoutButtonCount();
+      return;
+    }
+
+    let subtotalAll = 0;
+    items.forEach(it => {
+      subtotalAll += (it.price * it.qty);
+    });
+
+    const totalWeight = calculateWeight(items);
+    updateCartStats(items.length, totalWeight);
+    updateDeliveryStatus(subtotalAll);
+
+    const itemsHtml = items.map((it, index) => {
+      const itemSubtotal = (it.price * it.qty);
+      const imgSrc = (it.image || '').toString().trim();
+      const safeImg = imgSrc ? escapeHtml(imgSrc) : '';
+      const imgHtml = imgSrc ? `<img src="${safeImg}" alt="${escapeHtml(it.name)}" style="width:120px;height:120px;object-fit:cover;border-radius:10px;flex-shrink:0;border:1px solid #edf2f7;cursor:pointer;transition:transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="window.location='single-product.html?id=${it.product_id}'" onerror="this.outerHTML='<div class=\\'img-placeholder\\' style=\\'width:120px;height:120px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#f7fafc;color:#cbd5e0;border:1px solid #edf2f7;font-size:28px;flex-shrink:0;cursor:pointer;\\'>📦</div>'">` : `<div class="img-placeholder" style="width:120px;height:120px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#f7fafc;color:#cbd5e0;border:1px solid #edf2f7;font-size:28px;flex-shrink:0;cursor:pointer;" onclick="window.location='single-product.html?id=${it.product_id}'">📦</div>`;
+
+      return `
+        <div class="item" data-id="${it.id}" style="background:white;border-radius:12px;padding:20px;display:flex;gap:20px;align-items:flex-start;box-shadow:0 4px 15px rgba(0,0,0,0.05);border:1px solid #e2e8f0;transition:transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 25px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 15px rgba(0,0,0,0.05)'">
+          <div class="item-checkbox" style="flex-shrink:0;padding-top:40px;">
+            <input type="checkbox" data-item-id="${it.id}" onchange="toggleItem(${it.id}, this)" ${selectedItems.has(it.id) ? 'checked' : ''} style="width:22px;height:22px;cursor:pointer;accent-color:#38b2ac;">
+          </div>
+          ${imgHtml}
+          <div class="meta" style="flex:1;min-width:0;">
+            <h3 style="font-size:18px;font-weight:600;margin-bottom:8px;color:#2d3748;line-height:1.4;">${escapeHtml(it.name)}</h3>
+            <div class="price-info" style="display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap;">
+              <span class="unit-price" style="font-size:18px;font-weight:700;color:#38b2ac;display:inline-flex;align-items:center;gap:8px;">
+                ${formatMoney(it.price)}
+                ${formatUnitCartLabel(it.quantityUnit) ? `<span style="font-size:13px;color:#718096;display:inline-block;margin-left:6px;">${formatUnitCartLabel(it.quantityUnit)}</span>` : ''}
+              </span>
+              <span class="subtotal" style="font-size:15px;color:#718096;margin-left:12px;">Subtotal: ${formatMoney(itemSubtotal)}</span>
+            </div>
+            <div class="qty" style="display:flex;align-items:center;gap:12px;margin-top:20px;">
+              <button onclick="changeQty(${it.id}, ${Math.max(1,it.qty-1)})" ${it.qty <= 1 ? 'disabled' : ''} style="width:40px;height:40px;border-radius:8px;border:1px solid #e2e8f0;background:white;cursor:pointer;font-weight:600;font-size:18px;transition:all 0.2s ease;color:#4a5568;" onmouseover="this.style.background='#edf2f7';this.style.borderColor='#cbd5e0'" onmouseout="this.style.background='white';this.style.borderColor='#e2e8f0'">-</button>
+              <div id="q-${it.id}" style="min-width:40px;text-align:center;font-weight:600;font-size:18px;color:#2d3748;">${it.qty}</div>
+              <button onclick="changeQty(${it.id}, ${it.qty+1})" style="width:40px;height:40px;border-radius:8px;border:1px solid #e2e8f0;background:white;cursor:pointer;font-weight:600;font-size:18px;transition:all 0.2s ease;color:#4a5568;" onmouseover="this.style.background='#edf2f7';this.style.borderColor='#cbd5e0'" onmouseout="this.style.background='white';this.style.borderColor='#e2e8f0'">+</button>
+              <button class="remove-btn" onclick="removeItem(${it.id})" style="padding:10px 18px;background:#fed7d7;color:#c53030;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;transition:all 0.2s ease;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='#feb2b2'" onmouseout="this.style.background='#fed7d7'">
+                <i class="fas fa-trash"></i> Remove
+              </button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    let summaryItemsArray = items;
+    let summaryLabel = `All Items (${items.length})`;
+    let summaryTotalLabel = 'Total';
+    if (selectedItems.size > 0) {
+      summaryItemsArray = items.filter(item => selectedItems.has(item.id));
+      summaryLabel = `Selected Items (${summaryItemsArray.length})`;
+      summaryTotalLabel = 'Total for Selected';
+    }
+    const summarySubtotal = summaryItemsArray.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    const summaryDeliveryCharge = calculateDeliveryCharge(summarySubtotal);
+    const summaryTax = summarySubtotal * 0.18;
+    const summaryTotal = summarySubtotal + summaryDeliveryCharge + summaryTax;
+    const summaryAmountNeeded = Math.max(0, FREE_DELIVERY_THRESHOLD - summarySubtotal);
+
+    let deliveryInfoHtml = '';
+    if (summaryItemsArray.length > 0) {
+      if (qualifiesForFreeDelivery(summarySubtotal)) {
+        deliveryInfoHtml = `
+          <div class="delivery-info free-delivery" id="deliveryInfoContainer" style="margin:16px 0;padding:16px;border-radius:10px;font-size:14px;display:flex;align-items:center;gap:10px;background:#f0fff4;border:1px solid #c6f6d5;color:#276749;">
+            <i class="fas fa-check-circle"></i>
+            <div>
+              <strong>FREE Delivery Applied!</strong><br>
+              Your ${selectedItems.size > 0 ? 'selected' : 'cart'} items qualify for free delivery on orders over ₹${FREE_DELIVERY_THRESHOLD}
+            </div>
+          </div>`;
+      } else {
+        deliveryInfoHtml = `
+          <div class="delivery-info paid-delivery" id="deliveryInfoContainer" style="margin:16px 0;padding:16px;border-radius:10px;font-size:14px;display:flex;align-items:center;gap:10px;background:#fffaf0;border:1px solid #fbd38d;color:#c05621;">
+            <i class="fas fa-truck"></i>
+            <div>
+              <strong>Delivery Charge: ${formatMoney(summaryDeliveryCharge)}</strong><br>
+              Add ${formatMoney(summaryAmountNeeded)} more to your ${selectedItems.size > 0 ? 'selected' : 'cart'} items to get FREE delivery
+            </div>
+          </div>`;
+      }
+    }
+
+    const html = `
+      <div class="select-all-bar" style="background:white;padding:15px 20px;border-radius:12px;margin-bottom:20px;display:flex;align-items:center;gap:20px;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600;color:#2d3748;">
+          <input type="checkbox" id="selectAll" onchange="toggleSelectAll()" style="width:20px;height:20px;cursor:pointer;accent-color:#38b2ac;" ${items.length === selectedItems.size ? 'checked' : ''}>
+          <span>Select All Items</span>
+        </label>
+        <span class="selected-count" id="selectedCount" style="color:#718096;font-size:14px;margin-left:auto;">${selectedItems.size} ${selectedItems.size === 1 ? 'item' : 'items'} selected</span>
+        <div class="bulk-actions${selectedItems.size === 0 ? ' hidden' : ''}" style="${selectedItems.size === 0 ? 'display:none !important;' : ''}display:flex;gap:10px;">
+          <button class="btn-outline" onclick="removeSelected()" style="padding:8px 16px;background:transparent;border:1px solid #cbd5e0;border-radius:6px;color:#4a5568;font-weight:500;cursor:pointer;transition:all 0.2s ease;" onmouseover="this.style.background='#edf2f7';this.style.borderColor='#a0aec0'" onmouseout="this.style.background='transparent';this.style.borderColor='#cbd5e0'">
+            <i class="fas fa-trash"></i> Remove Selected
+          </button>
+        </div>
+      </div>
+      
+      <div class="cart-grid" style="display:grid;grid-template-columns:1fr 380px;gap:30px;">
+        <div class="items" style="display:flex;flex-direction:column;gap:20px;">${itemsHtml}</div>
+        <div class="summary" style="background:white;padding:28px;border-radius:16px;border:1px solid #e2e8f0;box-shadow:0 8px 25px rgba(0,0,0,0.06);position:sticky;top:120px;height:fit-content;">
+          <h2 style="font-size:22px;margin-bottom:24px;color:#2d3748;padding-bottom:16px;border-bottom:2px solid #edf2f7;display:flex;align-items:center;gap:10px;"><i class="fas fa-receipt"></i> Order Summary</h2>
+          
+          <div class="line" style="display:flex;justify-content:space-between;padding:14px 0;font-size:16px;background:#f7fafc;padding-left:12px;padding-right:12px;margin:0 -12px;border-radius:6px;">
+            <span class="muted" style="color:#718096;">${summaryLabel}</span>
+            <span id="selectedSubtotal">${formatMoney(summarySubtotal)}</span>
+          </div>
+          
+          ${deliveryInfoHtml}
+          
+          <div id="amountRemainingContainer">
+            ${!qualifiesForFreeDelivery(summarySubtotal) && summaryAmountNeeded > 0 ? `
+              <div class="amount-remaining" style="margin:10px 0;padding:12px;background:linear-gradient(90deg,#fef3c7 0%,#fde68a 100%);border-radius:8px;text-align:center;font-weight:600;color:#92400e;border:1px solid #f59e0b;">
+                <i class="fas fa-bolt"></i> Add just ${formatMoney(summaryAmountNeeded)} more to ${selectedItems.size > 0 ? 'selected' : 'cart'} items for FREE delivery!
+              </div>
+            ` : ''}
+          </div>
+          
+          <div class="line" style="display:flex;justify-content:space-between;padding:14px 0;font-size:16px;">
+            <span class="muted" style="color:#718096;">Delivery Charge</span>
+            <span id="selectedDelivery">${summaryDeliveryCharge === 0 ? '<span style="color:#38a169;font-weight:600;">FREE</span>' : formatMoney(summaryDeliveryCharge)}</span>
+          </div>
+          
+          <div class="line" style="display:flex;justify-content:space-between;padding:14px 0;font-size:16px;">
+            <span class="muted" style="color:#718096;">Estimated Tax (GST 18%)</span>
+            <span id="selectedTax">${formatMoney(summaryTax)}</span>
+          </div>
+          
+          <div class="line total" style="display:flex;justify-content:space-between;font-weight:700;font-size:22px;padding-top:20px;border-top:2px solid #e2e8f0;margin-top:16px;color:#2d3748;">
+            <span>${summaryTotalLabel}</span>
+            <span id="selectedTotal">${formatMoney(summaryTotal)}</span>
+          </div>
+          
+          <div class="promo-section" style="margin:24px 0;padding:10px;background:#f0fff4;border-radius:10px;border:1px solid #c6f6d5;">
+            <h4 style="color:#276749;margin-bottom:12px;font-size:16px;"><i class="fas fa-tag"></i> Have a promo code?</h4>
+            <div class="promo-input" style="display:flex;gap:10px;">
+              <input type="text" placeholder="Enter code" id="promoCode" style="flex:1;padding:12px 16px;border:1px solid #c6f6d5;border-radius:8px;font-size:15px;">
+              <button onclick="applyPromo()" style="padding:10px 16px;background:#38a169;color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer;" onmouseover="this.style.background='#2f855a'" onmouseout="this.style.background='#38a169'">Apply</button>
+            </div>
+          </div>
+          
+          <button id="checkoutSelected" class="btn btn-checkout" style="width:100%;margin-top:24px;padding:16px;border:none;border-radius:8px;font-weight:600;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(90deg,#ed8936 0%,#dd6b20 100%);color:white;box-shadow:0 4px 12px rgba(237,137,54,0.3);${summaryItemsArray.length === 0 || (selectedItems.size > 0 && summaryItemsArray.length === 0) ? 'opacity:0.5;cursor:not-allowed;' : ''}" onmouseover="this.style.background='linear-gradient(90deg,#dd6b20 0%,#c05621 100%)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 16px rgba(237,137,54,0.4)'" onmouseout="this.style.background='linear-gradient(90deg,#ed8936 0%,#dd6b20 100%)';this.style.transform='none';this.style.boxShadow='0 4px 12px rgba(237,137,54,0.3)'" ${summaryItemsArray.length === 0 || (selectedItems.size > 0 && summaryItemsArray.length === 0) ? 'disabled' : ''}>
+            <i class="fas fa-lock"></i> Checkout ${selectedItems.size > 0 ? 'Selected' : 'All'} (${summaryItemsArray.length})
+          </button>
+          
+          <p style="text-align:center;color:#718096;font-size:14px;margin-top:16px;">
+            <i class="fas fa-shield-alt"></i> 100% Secure Payment • 30-Day Returns
+          </p>
+          
+          ${!qualifiesForFreeDelivery(summarySubtotal) && summaryItemsArray.length > 0 ? `
+            <div style="margin-top:20px;padding:12px;background:#f7fafc;border-radius:8px;border:1px dashed #cbd5e0;">
+              <div style="display:flex;align-items:center;gap:8px;color:#4a5568;font-size:14px;">
+                <i class="fas fa-info-circle" style="color:#4299e1;"></i>
+                <span>Free delivery on orders over <strong>₹${FREE_DELIVERY_THRESHOLD}</strong></span>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+      <div class="windows-activation" style="text-align:center;color:#718096;font-size:12px;margin-top:20px;padding:10px;background:#f7fafc;border-radius:4px;display:none;">
+        <i class="fas fa-info-circle"></i> Go to Settings to activate Windows
+      </div>
+    `;
+
+    container.innerHTML = html;
+    
+    const categories = [...new Set(items.map(it=>it.category).filter(Boolean))];
+    loadCartRelatedProducts(categories);
+
+    updateCheckoutButtonCount();
+    updateRemoveSelectedVisibility();
+
+    document.getElementById('checkoutSelected')?.addEventListener('click', () => {
+      const key = getCartKey();
+      if (!key) return showAlert('Cart not found', 'error');
+      if (selectedItems.size === 0) {
+        showAlert('Please select items to checkout', 'error');
+        return;
+      }
+      sessionStorage.setItem('checkoutSelectedItems', JSON.stringify(Array.from(selectedItems)));
+      location.href = 'checkout.html?cart_key=' + encodeURIComponent(key) + '&selected=true';
+    });
+  }
+
+  function updateCartStats(itemCount, weight) {
+    document.getElementById('itemCount').textContent = `${itemCount} ${itemCount === 1 ? 'item' : 'items'}`;
+    document.getElementById('totalWeight').textContent = `${weight} kg`;
+  }
+
+  async function changeQty(itemId, qty) {
+    const key = getCartKey();
+    if (!key) return showAlert('No cart found', 'error');
+    
+    try {
+      const response = await fetch(API_BASE + '/cart/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cart_key: key, item_id: itemId, qty })
+      });
+      
+      if (!response.ok) throw new Error('Update failed');
+      
+      await render();
+      if (typeof updateCartBadge === 'function') updateCartBadge();
+      localStorage.setItem('cartLocalCount', '0');
+      showAlert('Quantity updated successfully', 'success');
+    } catch (err) {
+      console.error(err);
+      showAlert('Failed to update quantity', 'error');
+    }
+  }
+
+  async function removeItem(itemId, silent = false) {
+    if (!silent && !confirm('Are you sure you want to remove this item from your cart?')) return;
+    
+    const key = getCartKey();
+    if (!key) return showAlert('No cart found', 'error');
+    
+    try {
+      const response = await fetch(API_BASE + '/cart/remove', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cart_key: key, item_id: itemId })
+      });
+      
+      if (!response.ok) throw new Error('Remove failed');
+      
+      selectedItems.delete(itemId);
+      
+      if (!silent) {
+        await render();
+        if (typeof updateCartBadge === 'function') updateCartBadge();
+        localStorage.setItem('cartLocalCount', '0');
+        showAlert('Item removed from cart', 'success');
+      }
+    } catch (err) {
+      console.error(err);
+      if (!silent) showAlert('Failed to remove item', 'error');
+      throw err;
+    }
+  }
+
+  function applyPromo() {
+    const promoCode = document.getElementById('promoCode')?.value;
+    if (!promoCode) return showAlert('Please enter a promo code', 'error');
+    
+    if (promoCode.toUpperCase() === 'BUILD10') {
+      showAlert('Promo code applied! You got 10% off.', 'success');
+    } else if (promoCode.toUpperCase() === 'FREEDEL') {
+      showAlert('Promo code applied! Free delivery activated.', 'success');
+    } else {
+      showAlert('Invalid promo code', 'error');
+    }
+  }
+
+  function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.style.padding = '16px 20px';
+    alertDiv.style.borderRadius = '10px';
+    alertDiv.style.margin = '20px auto';
+    alertDiv.style.maxWidth = '1200px';
+    alertDiv.style.display = 'flex';
+    alertDiv.style.alignItems = 'center';
+    alertDiv.style.gap = '12px';
+    alertDiv.style.fontWeight = '500';
+    if (type === 'success') {
+      alertDiv.style.background = '#c6f6d5';
+      alertDiv.style.color = '#276749';
+      alertDiv.style.border = '1px solid #9ae6b4';
+    } else {
+      alertDiv.style.background = '#fed7d7';
+      alertDiv.style.color = '#c53030';
+      alertDiv.style.border = '1px solid #fc8181';
+    }
+    alertDiv.innerHTML = `
+      <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+      ${escapeHtml(message)}
+    `;
+    
+    const container = document.getElementById('cartContainer');
+    container.insertBefore(alertDiv, container.firstChild);
+    
+    setTimeout(() => {
+      alertDiv.remove();
+    }, 5000);
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // Event Listeners
+  document.getElementById('continue').addEventListener('click', () => {
+    location.href = 'products.html';
+  });
+  
+  document.getElementById('checkoutBtn').addEventListener('click', () => {
+    const key = getCartKey();
+    if (!key) {
+      showAlert('Your cart is empty. Add some items first!', 'error');
+      return;
+    }
+    
+    if (selectedItems.size > 0) {
+      sessionStorage.setItem('checkoutSelectedItems', JSON.stringify(Array.from(selectedItems)));
+      location.href = 'checkout.html?cart_key=' + encodeURIComponent(key) + '&selected=true';
+    } else {
+      location.href = 'checkout.html?cart_key=' + encodeURIComponent(key);
+    }
+  });
+
+  // Initial render
+  render();
+  
+  // Update cart stats periodically
+  setInterval(async () => {
+    const data = await fetchCart();
+    const items = data.items || [];
+    updateCartStats(items.length, calculateWeight(items));
+  }, 30000);
+</script>
+
+<!-- Load Navbar Script -->
+<script>
+  async function includeNavbar() {
+    try {
+      const res = await fetch('navbar.html');
+      const text = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      document.getElementById('navbar-container').innerHTML = doc.body.innerHTML;
+
+      const __createdScriptPromises = [];
+      doc.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+          newScript.async = false;
+          __createdScriptPromises.push(new Promise(resolve => {
+            newScript.addEventListener('load', resolve);
+            newScript.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      Promise.all(__createdScriptPromises).finally(() => {});
+
+      const __navbarScriptPromises = [];
+      doc.querySelectorAll('script').forEach((s, i) => {
+        const existing = document.querySelectorAll('script')[document.querySelectorAll('script').length - 1 - i];
+        if (existing && existing.src) {
+          __navbarScriptPromises.push(new Promise(resolve => {
+            existing.addEventListener('load', resolve);
+            existing.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        }
+      });
+      Promise.all(__navbarScriptPromises).finally(() => {
+        if (typeof checkScreenSize === 'function') checkScreenSize();
+        if (typeof addDesktopHoverEffects === 'function') addDesktopHoverEffects();
+        if (typeof updateUserUI === 'function') updateUserUI();
+        if (typeof updateCartBadge === 'function') updateCartBadge();
+        if (typeof setActiveNavLink === 'function') setActiveNavLink();
+      });
+    } catch (e) {
+      console.error('Failed to load navbar:', e);
+    }
+  }
+  includeNavbar();
+</script>
+
+</body>
+</html>
