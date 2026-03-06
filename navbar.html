@@ -1,5 +1,5 @@
   <!-- ==================== TOP HEADER BAR ==================== -->
-  <div id="back-button-container"></div>
+  <!-- <div id="back-button-container"></div> -->
     <div id="topHeader" style="position:fixed;top:0;left:0;width:100%;z-index:1000;background:linear-gradient(135deg,#2c3e50 0%,#34495e 100%);color:white;padding:8px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 3px 10px rgba(0,0,0,0.2);height:45px;box-sizing:border-box;">
         
         <!-- Left Hamburger (Mobile Only) -->
@@ -9,13 +9,13 @@
         <div id="desktopContact" style="display:none;align-items:center;gap:20px;">
             <div style="display:flex;align-items:center;gap:8px;">
                 <span style="color:#ecf0f1;font-size:14px;">📞</span>
-                <a href="tel:+919087654321" style="color:#fff;text-decoration:none;font-size:14px;font-weight:bold;">+91 9087654321</a>
+                <a href="tel:+919087654321" style="color:#fff;text-decoration:none;font-size:14px;font-weight:bold;">+91 8790170525</a>
                 <span style="color:#ecf0f1;margin:0 5px;">|</span>
                 <!-- <a href="tel:+919876543210" style="color:#fff;text-decoration:none;font-size:14px;font-weight:bold;">+91 9876543210</a> -->
             </div>
             <div style="display:flex;align-items:center;gap:8px;">
                 <span style="color:#ecf0f1;font-size:14px;">📧</span>
-                <a href="mailto:hitaishiconstuctions@gmail.com" style="color:white;text-decoration:none;font-size:14px;">hitaishiconstuctions@gmail.com</a>
+                <a href="mailto:buildmarts@yahoo.com" style="color:white;text-decoration:none;font-size:14px;">buildmarts@yahoo.com</a>
             </div>
         </div>
         
@@ -48,7 +48,7 @@
 <div id="desktopSocial" 
      style="display:none;align-items:center;gap:10px;">
 
-  <a href="https://facebook.com/hitaishiconstructions" target="_blank"
+  <a href="https://www.facebook.com/profile.php?id=61586901098266" target="_blank"
      style="width:25px;height:25px;border-radius:50%;
             background:rgba(255,255,255,0.15);
             display:flex;align-items:center;justify-content:center;">
@@ -57,7 +57,7 @@
          style="width:18px;height:18px;filter:invert(1);">
   </a>
 
-  <a href="https://twitter.com/hitaishiconst" target="_blank"
+  <a href="https://x.com/build_mart123" target="_blank"
      style="width:25px;height:25px;border-radius:50%;
             background:rgba(255,255,255,0.15);
             display:flex;align-items:center;justify-content:center;">
@@ -66,7 +66,7 @@
          style="width:10px;height:10px;filter:invert(1);">
   </a>
 
-  <a href="https://instagram.com/hitaishiconstructions" target="_blank"
+  <a href="https://www.instagram.com/buildmarting/" target="_blank"
      style="width:25px;height:25px;border-radius:50%;
             background:rgba(255,255,255,0.15);
             display:flex;align-items:center;justify-content:center;">
@@ -75,7 +75,7 @@
          style="width:14px;height:14px;filter:invert(1);">
   </a>
 
-  <a href="https://wa.me/911234567890" target="_blank"
+  <a href="https://web.whatsapp.com/" target="_blank"
      style="width:25px;height:25px;border-radius:50%;
             background:rgba(255,255,255,0.15);
             display:flex;align-items:center;justify-content:center;">
@@ -161,7 +161,7 @@
     
     <!-- Logo Image -->
     <img 
-      src="Images/logo.png" 
+      src="images/logo.png" 
       alt="BUILDMARTS Logo"
       style="
         height:40px;
@@ -201,7 +201,7 @@
         
         <!-- Desktop Navigation Links -->
         <div id="desktopNavLinks" style="display:none;align-items:center;gap:15px;">
-            <a href="about.html" style="text-decoration:none;color:#2c3e50;font-weight:bold;font-size:14px;padding:8px 12px;border-radius:4px;transition:all 0.3s;white-space:nowrap;">ℹ️ About</a>
+            <a href="About.html" style="text-decoration:none;color:#2c3e50;font-weight:bold;font-size:14px;padding:8px 12px;border-radius:4px;transition:all 0.3s;white-space:nowrap;">ℹ️ About</a>
             <a href="storelocater.html" style="text-decoration:none;color:#2c3e50;font-weight:bold;font-size:14px;padding:8px 12px;border-radius:4px;transition:all 0.3s;white-space:nowrap;">📍 Store</a>
                         <a href="contactus.html" style="text-decoration:none;color:#2c3e50;font-weight:bold;font-size:14px;padding:8px 12px;border-radius:4px;transition:all 0.3s;white-space:nowrap;">☎️ Contact</a>
 
@@ -280,7 +280,7 @@
         
         <!-- Main Links -->
         <div style="padding:10px 0;">
-            <a href="about.html" style="text-decoration:none;color:#333;font-weight:500;padding:15px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #eee;font-size:15px;">
+            <a href="About.html" style="text-decoration:none;color:#333;font-weight:500;padding:15px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #eee;font-size:15px;">
                 <span style="color:#f39c12;font-size:18px;">ℹ️</span> About Us
             </a>
             <a href="storelocater.html" style="text-decoration:none;color:#333;font-weight:500;padding:15px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #eee;font-size:15px;">
@@ -531,37 +531,74 @@
         });
         
         // ============ SEARCH FUNCTIONALITY ============
+        const categoryMapping = {
+            'cement': 'cement.html',
+            'bricks': 'bricks.html',
+            'brick': 'bricks.html',
+            'building materials': 'building-materials.html',
+            'building': 'building-materials.html',
+            'materials': 'building-materials.html',
+            'iron': 'iron.html',
+            'steel': 'iron.html',
+            'iron & steel': 'iron.html',
+            'iron and steel': 'iron.html',
+            'plumbing': 'plumbing.html',
+            'home interiors': 'home-interiors.html',
+            'home interior': 'home-interiors.html',
+            'interiors': 'home-interiors.html',
+            'wishlist': 'wishlist.html'
+        };
+
         function handleSearch(searchQuery) {
-            if (searchQuery.trim() !== '') {
-                // Store search query in localStorage
-                localStorage.setItem('searchQuery', searchQuery);
-                localStorage.setItem('searchActive', 'true');
-                
-                // Navigate to products page
-                window.location.href = 'view_products.html';
+            if (searchQuery.trim() === '') return;
+            
+            const query = searchQuery.trim().toLowerCase();
+            let navigateTo = 'allproducts.html'; // Default fallback
+            
+            // Check for exact or partial matches with categories
+            for (const [keyword, page] of Object.entries(categoryMapping)) {
+                if (query.includes(keyword) || keyword.includes(query)) {
+                    navigateTo = page;
+                    break;
+                }
             }
+            
+            // Store search query in localStorage for filtering
+            localStorage.setItem('searchQuery', searchQuery);
+            localStorage.setItem('searchActive', 'true');
+            
+            // Navigate to the appropriate page
+            window.location.href = navigateTo;
         }
 
-        // Search button click handlers
-        document.querySelectorAll('button').forEach(button => {
-            if (button.textContent.includes('Search') || button.textContent.includes('Go')) {
-                button.addEventListener('click', function() {
-                    const searchInput = this.previousElementSibling;
-                    if (searchInput && searchInput.value.trim() !== '') {
-                        handleSearch(searchInput.value);
+        // Search button click handlers - improved version
+        document.addEventListener('click', function(e) {
+            const button = e.target.closest('button');
+            if (!button) return;
+            
+            const buttonText = button.textContent.trim();
+            if (buttonText.includes('Search') || buttonText.includes('Go')) {
+                // Find the nearest input in parent element
+                const container = button.closest('div');
+                if (container) {
+                    const input = container.querySelector('input[type="text"]') || 
+                                  container.querySelector('input[placeholder*="Search"]');
+                    if (input && input.value.trim() !== '') {
+                        handleSearch(input.value);
                     }
-                });
+                }
             }
         });
         
-        // Add Enter key support for search inputs
-        document.querySelectorAll('input[type="text"]').forEach(input => {
-            if (input.placeholder && input.placeholder.includes('Search')) {
-                input.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter' && this.value.trim() !== '') {
-                        handleSearch(this.value);
-                    }
-                });
+        // Add Enter key support for search inputs - improved version
+        document.addEventListener('keypress', function(e) {
+            const input = e.target;
+            if (e.key === 'Enter' && 
+                input.type === 'text' && 
+                input.placeholder && 
+                input.placeholder.includes('Search') && 
+                input.value.trim() !== '') {
+                handleSearch(input.value);
             }
         });
         
@@ -631,7 +668,7 @@
                 }
                 
                 // Fetch cart from API
-                fetch(`https://buildmarts.in/api/cart/${encodeURIComponent(cartKey)}`)
+                fetch(`http://localhost:5000/api/cart/${encodeURIComponent(cartKey)}`)
                     .then(r => r.json())
                     .then(data => {
                         const cartCount = (data.items && data.items.length) ? data.items.reduce((s, it) => s + (it.qty || 0), 0) : 0;
