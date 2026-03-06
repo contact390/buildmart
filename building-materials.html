@@ -31,7 +31,7 @@
 
     <!-- Header -->
     <div class="navbanners" style="
-  background:url('Images/building-materials.png') center/cover no-repeat;
+  background:url('images/building-materials.png') center/cover no-repeat;
 ">
   <div style="
     display:inline-block;
@@ -65,7 +65,7 @@
     </div>
 
     <!-- Products Container -->
-    <div id="productsContainer" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:25px;margin-bottom:30px;"></div>
+    <div id="productsContainer" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:25px;margin-bottom:100px;"></div>
   </div>
 
   <!-- Product Modal -->
@@ -81,12 +81,26 @@
 <div id="footer-placeholder"></div>
 
 <script>
-fetch('footer.html')
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById('footer-placeholder').innerHTML = data;
-  })
-  .catch(error => console.error('Footer load error:', error));
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+      // execute any scripts from the injected footer
+      const temp = document.createElement('div');
+      temp.innerHTML = data;
+      temp.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      // the injected script itself initializes subscription, no need to call again
+      // (prevent duplicate listeners causing conflicting messages)
+    })
+    .catch(error => console.error('Footer load error:', error));
 </script>
 
 

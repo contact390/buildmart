@@ -12,30 +12,30 @@
 
   <div id="navbar-container"></div>
 
-  <form id="registerForm" onsubmit="submitForm(event)" style="width:90%;max-width:300px;margin:190px auto 50px;background:#fff;padding:25px 20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+  <form id="registerForm" onsubmit="submitForm(event)" style="width:90%;max-width:300px;margin:10px auto 50px;background:#fff;padding:25px 20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
     <h2 style="text-align:center;margin-bottom:20px;">Buyer Registration</h2>
 
-    <label style="display:block;margin-bottom:5px;font-weight:bold;">Name *</label>
+    <label style="display:block;margin-bottom:5px;font-weight:normal;">Name *</label>
     <input type="text" id="name" style="width:90%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;" placeholder="Full Name" required>
 
-    <label style="display:block;margin-bottom:5px;font-weight:bold;">Email *</label>
+    <label style="display:block;margin-bottom:5px;font-weight:normal;">Email *</label>
     <input type="email" id="email" style="width:90%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;" placeholder="your@email.com" required>
 
-    <label style="display:block;margin-bottom:5px;font-weight:bold;">Phone Number *</label>
+    <label style="display:block;margin-bottom:5px;font-weight:normal;">Phone Number *</label>
     <input type="tel" id="phone" style="width:90%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;" placeholder="10-digit number" required>
 
-    <label style="display:block;margin-bottom:5px;font-weight:bold;">Address *</label>
+    <label style="display:block;margin-bottom:5px;font-weight:normal;">Address *</label>
     <input type="text" id="address" style="width:90%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;" placeholder="Your address" required>
 
-    <label style="display:block;margin-bottom:5px;font-weight:bold;">Password *</label>
+    <label style="display:block;margin-bottom:5px;font-weight:normal;">Password *</label>
     <input type="password" id="password" style="width:90%;padding:10px;margin-bottom:20px;border:1px solid #ccc;border-radius:5px;" placeholder="Min 6 characters" required>
 
-    <div style="text-align:center;">
-      <button type="submit" style="width:50%;padding:12px;background:#28a745;color:#fff;border:none;border-radius:5px;font-size:16px;cursor:pointer;font-weight:bold;">Register</button>
+    <div style="text-align:right;">
+      <button type="submit" style="width:50%;padding:12px;background:#28a745;color:#fff;border:none;border-radius:5px;font-size:16px;cursor:pointer;font-weight:bold;margin-right: 10px;">Register</button>
     </div>
 
     <p style="margin-top:15px;text-align:center;font-size:14px;">Already have an account?
-      <a href="login.html" style="color:#007BFF;text-decoration:none;font-weight:bold;">Login</a>
+      <a href="login.html" style="color:#007BFF;text-decoration:underline;font-weight:bold;">Login</a>
     </p>
 
     <p id="message" style="margin-top:15px;padding:10px;border-radius:5px;text-align:center;font-size:14px;display:none;font-weight:bold;"></p>
@@ -117,6 +117,31 @@
   </script>
   
   <div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+      // execute any scripts from the injected footer
+      const temp = document.createElement('div');
+      temp.innerHTML = data;
+      temp.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      // the injected script itself initializes subscription, no need to call again
+      // (prevent duplicate listeners causing conflicting messages)
+    })
+    .catch(error => console.error('Footer load error:', error));
+</script>
+
+<div id="footer-placeholder"></div>
 
 <script>
 fetch('footer.html')
