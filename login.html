@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body style="margin:0;font-family:'Poppins',Arial,sans-serif;background: linear-gradient(rgba(0,0,0,0.45), rgba(143, 123, 123, 0.45)), url('Images/login.png') center/cover no-repeat fixed;background-size:cover;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:15px;color:#fff;overflow:hidden;">
+<body style="margin:0;font-family:'Poppins',Arial,sans-serif;background: linear-gradient(rgba(0,0,0,0.45), rgba(143, 123, 123, 0.45)), url('images/login.png') center/cover no-repeat fixed;background-size:cover;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:15px;color:#fff;overflow:hidden;">
 
   
 
@@ -62,7 +62,7 @@
     </div>
 
     <div style="text-align:right;margin-bottom:15px;">
-      <a href="#" style="font-size:13px;color:#f1f5fa;text-decoration:none;">Forgot Password?</a>
+      <a href="#" style="font-size:13px;color:#f1f5fa;text-decoration:underline;">Forgot Password?</a>
     </div>
 
     <button type="submit"
@@ -85,9 +85,9 @@
     </p>
 
     <div style="text-align:center;font-size:14px;">
-      <a href="buyer_register.html" style="color:#e6ebf0;text-decoration:none;margin-right:12px;">Buyer Register</a>
+      <a href="buyer_register.html" style="color:#e6ebf0;text-decoration:underline;margin-right:12px;">Buyer Register</a>
       |
-      <a href="seller_register.html" style="color:#e2e7ec;text-decoration:none;margin-left:12px;">Seller Register</a>
+      <a href="seller_register.html" style="color:#e2e7ec;text-decoration:underline;margin-left:12px;">Seller Register</a>
     </div>
 
   </form>
@@ -141,51 +141,52 @@
 
   <!-- Your existing JS (unchanged) -->
   <script>
-    async function submitLogin(event) {
-  event.preventDefault();
+  async function submitLogin(event) {
+    event.preventDefault();
+    const identifier = document.getElementById('identifier').value.trim();
+    const password = document.getElementById('password').value;
+    const userType = document.querySelector('input[name="userType"]:checked').value;
 
-  const identifier = document.getElementById("identifier").value;
-  const password = document.getElementById("password").value;
-  const userType = document.querySelector('input[name="userType"]:checked').value;
+    const API_BASE = 'http://localhost:5000';
+    try{
+      const res = await fetch(API_BASE + '/api/login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier, password, userType })
+      });
 
-  try {
+      const data = await res.json();
 
-    const res = await fetch("https://buildmarts.in/api/login", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        identifier,
-        password,
-        userType
-      })
-    });
-
-    if (!res.ok) {
-      throw new Error("Server error: " + res.status);
-    }
-
-    const data = await res.json();
-
-    if (data.success) {
-      alert("Login successful");
-
-      if (userType === "buyer") {
-        window.location.href = "index.html";
+      if (data && data.success) {
+        // ========== STORE USER SESSION IN LOCALSTORAGE ==========
+        const userInfo = {
+          id: data.userId || data.id,
+          name: data.name || data.username || identifier.split('@')[0],
+          email: data.email || identifier,
+          userType: userType,
+          loginTime: new Date().toISOString()
+        };
+        
+        localStorage.setItem('userSession', JSON.stringify(userInfo));
+        localStorage.setItem('isLoggedIn', 'true');
+        
+        alert("Login successful!");
+        setTimeout(() => {
+          if (userType === 'buyer') {
+            window.location.href = "/index.html";
+          } else {
+            window.location.href = "/seller_dashboard.html";
+          }
+        }, 500);
       } else {
-        window.location.href = "seller_dashboard.html";
+        alert(data.message || "Login failed");
       }
-
-    } else {
-      alert(data.message);
+    } catch (err) {
+      alert("Error logging in");
+      console.error(err);
     }
-
-  } catch (err) {
-    console.error("Login error:", err);
   }
-}
   </script>
 
   <script>
