@@ -289,7 +289,22 @@ router.post('/product_uploads', upload.single('image'), (req, res) => {
     });
   }
 });
+const db = require("../db");
 
+router.post("/upload", async (req, res) => {
+  try {
+
+    const sql = "INSERT INTO products (name, price) VALUES (?,?)";
+
+    await db.query(sql, [req.body.name, req.body.price]);
+
+    res.json({ success: true });
+
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
 // ============ GET ALL PRODUCTS ============
 // GET /api/product_uploads - Get all products with filters
 router.get('/product_uploads', (req, res) => {
