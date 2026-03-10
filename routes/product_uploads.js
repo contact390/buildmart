@@ -292,21 +292,35 @@ router.post('/product_uploads', upload.single('image'), (req, res) => {
 
 // ============ GET ALL PRODUCTS ============
 // GET /api/product_uploads - Get all products with filters
-const db = require("../db");
+router.get('/product_uploads', (req, res) => {
+  const { category, status = 'active', limit = 100, offset = 0 } = req.query;
 
-router.post("/upload", async (req, res) => {
-  try {
+  let query = 'SELECT * FROM products_extended WHERE status = ?';
+  const params = [status];
 
-    const sql = "INSERT INTO products (name, price) VALUES (?,?)";
-
-    await db.query(sql, [req.body.name, req.body.price]);
-
-    res.json({ success: true });
-
-  } catch (err) {
-    console.error("Database error:", err);
-    res.status(500).json({ error: "Database error" });
+  if (category) {
+    query += ' AND category = ?';
+    params.push(category);
   }
+
+  query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+  params.push(parseInt(limit), parseInt(offset));
+
+  db.query(query, params, (err, products) => {
+    if (err) {
+      console.error('❌ Database error:', err);
+      return res.status(500).json({
+        success: false,
+        error: 'Failed to fetch products'
+      });
+    }
+
+    res.json({
+      success: true,
+      total: products.length,
+      products
+    });
+  });
 });
 
 // ============ GET PRODUCTS BY CATEGORY ============
