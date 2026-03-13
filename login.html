@@ -148,7 +148,7 @@
     const password = document.getElementById('password').value;
     const userType = document.querySelector('input[name="userType"]:checked').value;
 
-    const API_BASE = 'https://buildmarts.in';
+    const API_BASE = 'https://www.buildmarts.in/';
     try{
       const res = await fetch(API_BASE + '/api/login', {
         method: 'POST',
@@ -161,19 +161,34 @@
 
       if (data && data.success) {
         // ========== STORE USER SESSION IN LOCALSTORAGE ==========
+        // backend returns the logged-in user under `data.user`
+        const usr = data.user || {};
         const userInfo = {
-          id: data.userId || data.id,
-          name: data.name || data.username || identifier.split('@')[0],
-          email: data.email || identifier,
+          id: usr.id || usr.userId || null,
+          userId: usr.id || usr.userId || null, // also store under userId for compatibility
+          name: usr.name || usr.username || identifier.split('@')[0],
+          email: usr.email || identifier,
           userType: userType,
           loginTime: new Date().toISOString()
         };
         
-        localStorage.setItem('userSession', JSON.stringify(userInfo));
-        localStorage.setItem('isLoggedIn', 'true');
+        if (userInfo.id) {
+          localStorage.setItem('userSession', JSON.stringify(userInfo));
+          localStorage.setItem('isLoggedIn', 'true');
+        } else {
+          console.warn('Login did not return user id', data);
+        }
         
         alert("Login successful!");
+        const redirectAfterLogin = localStorage.getItem('afterLoginRedirect');
+        if (redirectAfterLogin) {
+          localStorage.removeItem('afterLoginRedirect');
+        }
         setTimeout(() => {
+          if (redirectAfterLogin) {
+            window.location.href = redirectAfterLogin;
+            return;
+          }
           if (userType === 'buyer') {
             window.location.href = "/index.html";
           } else {
