@@ -132,6 +132,8 @@
       font-weight: 600;
       transition: all 0.3s ease;
       text-align: center;
+      text-decoration: none;
+      display: inline-block;
     }
     
     .action-btn:hover {
@@ -202,10 +204,10 @@
       <div class="card">
         <h3>⚡ Quick Actions</h3>
         <div class="quick-actions">
-          <button class="action-btn" onclick="alert('Upload product functionality coming soon!')">📤 Upload Product</button>
-          <button class="action-btn" onclick="alert('Manage inventory functionality coming soon!')">📦 Manage Stock</button>
-          <button class="action-btn" onclick="alert('View orders functionality coming soon!')">📋 View Orders</button>
-          <button class="action-btn" onclick="goToSellerProfile()">👤 Edit Profile</button>
+         <a href="productslatestuploads.html" class="action-btn">📤 Upload Product</a>
+         <a href="manage_stock.html" class="action-btn">📦 Manage Stock</a>
+         <a href="seller_orders.html" class="action-btn">📋 View Orders</a>
+         <a href="seller_profile.html" class="action-btn">👤 Edit Profile</a>
         </div>
       </div>
     </div>
@@ -244,12 +246,53 @@
         </div>
       </div>
     </div>
+
+    <!-- Products Section -->
+    <div class="card">
+      <h3>📦 Your Products</h3>
+      <div id="productsList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;"></div>
+      <div id="noProducts" style="text-align: center; padding: 30px; color: #666;">
+        <p>📭 No products uploaded yet.</p>
+        <a href="productslatestuploads.html" style="color: #667eea; text-decoration: none; font-weight: 600;">Upload your first product →</a>
+      </div>
+    </div>
   </div>
 
   <script>
+    let currentSellerId = null;
+    let sellerProducts = [];
+
+    // Attempt to populate session from server if not already in localStorage
+    async function syncSession() {
+      let userSession = localStorage.getItem('userSession');
+      if (!userSession) {
+        try {
+          const res = await fetch('https://www.buildmarts.in/api/me', { method: 'GET', credentials: 'include' });
+          const result = await res.json();
+          if (result.success && result.user) {
+            const u = result.user;
+            const info = {
+              id: u.id,
+              userId: u.id,
+              name: u.name,
+              email: u.email,
+              userType: u.userType,
+              loginTime: new Date().toISOString()
+            };
+            localStorage.setItem('userSession', JSON.stringify(info));
+            localStorage.setItem('isLoggedIn', 'true');
+            userSession = JSON.stringify(info);
+          }
+        } catch (err) {
+          console.warn('Could not sync session from server', err);
+        }
+      }
+      return userSession;
+    }
+
     // Load seller info from localStorage
-    function loadSellerInfo() {
-      const userSession = localStorage.getItem('userSession');
+    async function loadSellerInfo() {
+      let userSession = await syncSession();
       
       if (!userSession) {
         alert('Please login first!');
@@ -265,6 +308,9 @@
         return;
       }
       
+      // Store seller ID for later use (accept both id and userId keys)
+      currentSellerId = user.id || user.userId || user.seller_id || null;
+      
       // Update navbar and display
       document.getElementById('sellerName').textContent = user.name || 'Seller';
       document.getElementById('sellerProfileBtn').textContent = `👤 ${user.name || 'Profile'}`;
@@ -273,6 +319,70 @@
       // Calculate member since date
       const memberDate = new Date(user.loginTime);
       document.getElementById('memberSince').textContent = memberDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+      
+      // Fetch seller's products (only if we have an ID)
+      if (currentSellerId) {
+        fetchSellerProducts(currentSellerId);
+      } else {
+        console.warn('Seller ID missing in session, cannot fetch products');
+      }
+    }
+    
+    // Fetch products for this seller
+    async function fetchSellerProducts(sellerId) {
+      try {
+        const response = await fetch(`https://www.buildmarts.in/api/product_uploads/seller/${sellerId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+          sellerProducts = data.products || [];
+          // Update product count
+          document.getElementById('statsProducts').textContent = data.total || 0;
+          
+          // Display products
+          displaySellerProducts(sellerProducts);
+        } else {
+          console.error('Failed to fetch products:', data.error);
+          document.getElementById('statsProducts').textContent = '0';
+          document.getElementById('productsList').innerHTML = '';
+          document.getElementById('noProducts').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error fetching seller products:', error);
+        document.getElementById('statsProducts').textContent = '0';
+        document.getElementById('productsList').innerHTML = '';
+        document.getElementById('noProducts').style.display = 'block';
+      }
+    }
+    
+    // Display seller products
+    function displaySellerProducts(products) {
+      const productsList = document.getElementById('productsList');
+      const noProducts = document.getElementById('noProducts');
+      
+      if (!products || products.length === 0) {
+        productsList.innerHTML = '';
+        noProducts.style.display = 'block';
+        return;
+      }
+      
+      noProducts.style.display = 'none';
+      
+      productsList.innerHTML = products.map(product => `
+        <div style="border: 1px solid #ddd; border-radius: 8px; padding: 12px; background: #f9f9f9; cursor: pointer; transition: all 0.3s;" onclick="goToProductEdit(${product.id})">
+          <div style="width: 100%; height: 120px; background: #f0f0f0; border-radius: 6px; overflow: hidden; margin-bottom: 10px;">
+            ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.productName}" style="width: 100%; height: 100%; object-fit: cover;">` : '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">No Image</div>'}
+          </div>
+          <h4 style="margin: 8px 0; font-size: 14px; color: #333;">${product.productName}</h4>
+          <p style="margin: 5px 0; font-size: 12px; color: #666;">₹${parseFloat(product.finalPrice).toFixed(2)}</p>
+          <p style="margin: 5px 0; font-size: 12px; color: #999;">${product.status || 'active'}</p>
+        </div>
+      `).join('');
+    }
+    
+    // Edit product (placeholder function)
+    function goToProductEdit(productId) {
+      alert('Product editing coming soon: ' + productId);
     }
     
     // Go to seller profile

@@ -36,8 +36,8 @@
     <span>Checkout</span>
   </div>
   <div class="step-divider" style="flex:1;height:2px;background:#e2e8f0;margin:0 10px;"></div>
-  <div class="step" style="display:flex;align-items:center;gap:8px;color:#a0aec0;font-weight:500;">
-    <div class="step-number" style="width:28px;height:28px;border-radius:50%;background:#edf2f7;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#2d3748;">3</div>
+  <div class="step" style="display:flex;align-items:center;gap:8px;color:#3182ce;font-weight:500;">
+    <div class="step-number" style="width:28px;height:28px;border-radius:50%;background:#3182ce;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:white;">3</div>
     <span>Confirmation</span>
   </div>
 </div>
@@ -152,6 +152,15 @@
   </div>
 </div>
 
+<!-- Login Required Modal -->
+<div id="loginModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:10000;justify-content:center;align-items:center;">
+  <div style="background:white;border-radius:12px;padding:30px;max-width:400px;width:90%;box-shadow:0 10px 30px rgba(0,0,0,0.3);text-align:center;">
+    <h3 style="margin-bottom:15px;color:#2d3748;font-size:20px;"><i class="fas fa-user-lock" style="color:#3182ce;margin-right:10px;"></i>Login Required</h3>
+    <p style="margin-bottom:20px;color:#718096;font-size:16px;">You must be logged in as a buyer to proceed to checkout.</p>
+    <button type="button" style="padding:12px 24px;background:#3182ce;color:white;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;" onclick="redirectToLogin()">Login as Buyer</button>
+  </div>
+</div>
+
 <div id="footer-placeholder"></div>
 
 <!-- load footer -->
@@ -162,7 +171,7 @@ fetch('footer.html').then(r=>r.text()).then(d=>document.getElementById('footer-p
 <!-- main inline script (identical to original, but note: CSS moved inline) -->
 <script>
   // API Configuration
-  const API_BASE = 'https://buildmarts.in/api';
+  const API_BASE = 'https://www.buildmarts.in/api';
   const FREE_DELIVERY_THRESHOLD = 1000;
   const COD_HANDLING_FEE = 50;
   const ONLINE_DISCOUNT = 0.02; // 2%
@@ -481,7 +490,8 @@ fetch('footer.html').then(r=>r.text()).then(d=>document.getElementById('footer-p
   // Handle form submission
   async function handleSubmit(event) {
     event.preventDefault();
-    
+
+    if (!ensureBuyerLoggedIn()) return;
     if (!validateForm()) return;
     if (!cart_key) {
       showResult('Please add items to your cart first', 'error');
@@ -517,7 +527,8 @@ fetch('footer.html').then(r=>r.text()).then(d=>document.getElementById('footer-p
       const data = await response.json();
       
       if (data.success && data.orderId) {
-        saveShippingAddress();
+        saveShippingAddressFromData(formData);
+        saveOrderToUserProfile(data.orderId, formData, cartData);
         showResult(`
           <h3 style="margin-bottom:10px;"><i class="fas fa-check-circle"></i> Order Placed Successfully!</h3>
           <p style="margin-bottom:15px;">Your order <strong>#${data.orderId}</strong> has been confirmed.</p>
@@ -537,7 +548,7 @@ fetch('footer.html').then(r=>r.text()).then(d=>document.getElementById('footer-p
         if (typeof updateCartBadge === 'function') updateCartBadge();
         
         setTimeout(() => {
-          window.location.href = `https://buildmarts.in/order-details.html?id=${data.orderId}`;
+          window.location.href = `https://www.buildmarts.in/order-details.html?id=${data.orderId}`;
         }, 3000);
         
       } else {
@@ -567,6 +578,39 @@ fetch('footer.html').then(r=>r.text()).then(d=>document.getElementById('footer-p
     resultEl.style.color = type==='success'?'#276749':'#c53030';
     resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
+
+  function redirectToLogin() {
+    // Remember where the user was trying to go, so we can send them back after login
+    localStorage.setItem('afterLoginRedirect', window.location.pathname + window.location.search);
+    window.location.href = 'login.html';
+  }
+
+  function showLoginRequired(message) {
+    const modal = document.getElementById('loginModal');
+    modal.style.display = 'flex';
+  }
+
+  function ensureBuyerLoggedIn() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const userSessionJSON = localStorage.getItem('userSession');
+
+    if (!isLoggedIn || !userSessionJSON) {
+      showLoginRequired('You must be logged in as a buyer to proceed to checkout.');
+      return false;
+    }
+
+    try {
+      const userSession = JSON.parse(userSessionJSON);
+      if (userSession.userType !== 'buyer') {
+        showLoginRequired('Please login as a buyer to complete the checkout process.');
+        return false;
+      }
+      return true;
+    } catch (e) {
+      showLoginRequired('Please login to continue.');
+      return false;
+    }
+  }
   
   function loadSavedAddress() {
     const saved = localStorage.getItem('shippingAddress');
@@ -583,6 +627,73 @@ fetch('footer.html').then(r=>r.text()).then(d=>document.getElementById('footer-p
       instructions: document.getElementById('instructions').value.trim()
     };
     localStorage.setItem('shippingAddress', JSON.stringify(address));
+  }
+  
+  // Save address from formData (used after successful order to preserve saved address)
+  function saveShippingAddressFromData(formData) {
+    const address = {
+      name: formData.customer_name || '',
+      email: formData.email || '',
+      phone: formData.phone || '',
+      address: formData.address || '',
+      instructions: formData.instructions || ''
+    };
+    // Only save if all fields have values (don't save empty addresses)
+    if (address.name && address.email && address.phone && address.address) {
+      localStorage.setItem('shippingAddress', JSON.stringify(address));
+    }
+  }
+  
+  // Save order to user's order history for profile page
+  function saveOrderToUserProfile(orderId, formData, cartData) {
+    try {
+      // Get existing orders
+      let userOrders = JSON.parse(localStorage.getItem('userOrders')) || [];
+      
+      // Calculate order total
+      let subtotal = 0;
+      if (cartData && cartData.items) {
+        cartData.items.forEach(item => {
+          subtotal += item.price * item.qty;
+        });
+      }
+      
+      const deliveryCharge = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : 99;
+      const paymentAdjustment = currentPaymentMethod === 'cod' ? COD_HANDLING_FEE : -(subtotal * ONLINE_DISCOUNT);
+      const tax = (subtotal + deliveryCharge + paymentAdjustment) * 0.18;
+      const totalAmount = subtotal + deliveryCharge + paymentAdjustment + tax;
+      
+      // Create order object
+      const orderObject = {
+        orderId: orderId,
+        customerName: formData.customer_name,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        paymentMethod: currentPaymentMethod,
+        subtotal: subtotal,
+        deliveryCharge: deliveryCharge,
+        tax: tax,
+        totalAmount: totalAmount,
+        status: 'pending',
+        items: cartData && cartData.items ? cartData.items.map(item => ({
+          name: item.name,
+          price: item.price,
+          qty: item.qty,
+          image: item.image
+        })) : [],
+        createdAt: new Date().toISOString()
+      };
+      
+      // Add order to beginning of array (newest first)
+      userOrders.unshift(orderObject);
+      
+      // Save to localStorage
+      localStorage.setItem('userOrders', JSON.stringify(userOrders));
+      console.log('Order saved to user profile:', orderObject);
+    } catch (error) {
+      console.error('Error saving order to profile:', error);
+    }
   }
   
   function displaySavedAddress(saved) {
@@ -646,6 +757,8 @@ fetch('footer.html').then(r=>r.text()).then(d=>document.getElementById('footer-p
   }
   
   async function init() {
+    if (!ensureBuyerLoggedIn()) return;
+
     const savedAddress = loadSavedAddress();
     if (savedAddress) {
       displaySavedAddress(savedAddress);

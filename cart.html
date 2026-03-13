@@ -69,7 +69,18 @@
   <div id="cart-related-products" style="display:flex;gap:15px;flex-wrap:wrap;justify-content:center;">Loading...</div>
 </div>
 
-<div id="footer-placeholder"></div>
+<!-- custom confirm modal -->
+  <div id="confirmModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:2000;">
+    <div style="background:#fff;padding:30px;border-radius:12px;max-width:400px;width:90%;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+      <p id="confirmMessage" style="margin-bottom:20px;font-size:16px;color:#2d3748;"></p>
+      <div style="display:flex;justify-content:center;gap:20px;">
+        <button id="confirmYes" style="padding:10px 20px;background:#e53e3e;color:#fff;border:none;border-radius:6px;cursor:pointer;">Yes</button>
+        <button id="confirmNo" style="padding:10px 20px;background:#a0aec0;color:#fff;border:none;border-radius:6px;cursor:pointer;">No</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
 
 <script>
   fetch('footer.html')
@@ -96,7 +107,7 @@
 
 <script>
   // API_BASE: Always use localhost:5000/api for development
-  const API_BASE = 'https://buildmarts.in/api';
+  const API_BASE = 'https://www.buildmarts.in/api';
   const FREE_DELIVERY_THRESHOLD = 1000; // ₹1000 minimum for free delivery
   const DELIVERY_CHARGE = 99; // ₹99 delivery charge for orders under ₹1000
 
@@ -458,6 +469,9 @@
       .then(() => {
         selectedItems.clear();
         render();
+        if (typeof updateCartBadge === 'function') updateCartBadge();
+        localStorage.setItem('cartLocalCount', '0');
+        showAlert('Selected items removed from cart', 'success');
       })
       .catch(err => {
         console.error('Error removing items:', err);
@@ -704,8 +718,30 @@
     }
   }
 
-  async function removeItem(itemId, silent = false) {
-    if (!silent && !confirm('Are you sure you want to remove this item from your cart?')) return;
+async function showConfirm(message) {
+      return new Promise(resolve => {
+        const modal = document.getElementById('confirmModal');
+        const msgEl = document.getElementById('confirmMessage');
+        const yesBtn = document.getElementById('confirmYes');
+        const noBtn = document.getElementById('confirmNo');
+        msgEl.textContent = message;
+        modal.style.display = 'flex';
+        const cleanup = () => {
+          yesBtn.removeEventListener('click', onYes);
+          noBtn.removeEventListener('click', onNo);
+        };
+        const onYes = () => { cleanup(); modal.style.display = 'none'; resolve(true); };
+        const onNo = () => { cleanup(); modal.style.display = 'none'; resolve(false); };
+        yesBtn.addEventListener('click', onYes);
+        noBtn.addEventListener('click', onNo);
+      });
+    }
+
+    async function removeItem(itemId, silent = false) {
+      if (!silent) {
+        const ok = await showConfirm('Are you sure you want to remove this item from your cart?');
+        if (!ok) return;
+      }
     
     const key = getCartKey();
     if (!key) return showAlert('No cart found', 'error');

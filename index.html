@@ -249,7 +249,7 @@ window.addEventListener('resize',()=>{
   <!-- Plans Section section -->
 
 <!-- Plans Section -->
-<div style="background: linear-gradient(to bottom, #f5f7fa 0%, #e4e8eb 100%); padding: 50px 10px; font-family: Arial, sans-serif;">
+<div style="background:white;padding: 50px 10px; font-family: Arial, sans-serif;">
   <div style="max-width: 1200px; margin: 0 auto; padding-top: 50px; padding-bottom: 0px;">
 
      <!-- Heading Section -->
@@ -438,37 +438,48 @@ window.addEventListener('resize',()=>{
     
     <!-- Popup Body -->
     <div style="padding: 30px;">
-      <form id="planForm" onsubmit="submitPlanForm(event)" style="margin-top: 10px;">
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; margin-bottom: 8px; color: #2c3e50; font-weight: 600; font-size: 15px;">Full Name</label>
-          <input type="text" id="fullName" required style="width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; transition: border 0.3s ease;">
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; margin-bottom: 8px; color: #2c3e50; font-weight: 600; font-size: 15px;">Email Address</label>
-          <input type="email" id="email" required style="width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; transition: border 0.3s ease;">
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; margin-bottom: 8px; color: #2c3e50; font-weight: 600; font-size: 15px;">Phone Number</label>
-          <input type="tel" id="phone" required style="width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; transition: border 0.3s ease;">
-        </div>
-        
-        <div style="margin-bottom: 30px;">
-          <label style="display: block; margin-bottom: 8px; color: #2c3e50; font-weight: 600; font-size: 15px;">Company Name (Optional)</label>
-          <input type="text" id="company" style="width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; transition: border 0.3s ease;">
-        </div>
-        
-        <div id="formError" style="color: #e74c3c; margin-bottom: 20px; padding: 12px; background: #ffebee; border-radius: 8px; border-left: 4px solid #e74c3c; display: none;"></div>
-        <div id="formSuccess" style="color: #27ae60; margin-bottom: 20px; padding: 12px; background: #e8f5e9; border-radius: 8px; border-left: 4px solid #27ae60; display: none;">
-          <strong>Thank you!</strong> We'll contact you shortly.
-        </div>
-        
-        <button id="submitButton" type="submit" 
-                style="width: 100%; padding: 16px; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;">
-          Submit Application
-        </button>
-      </form>
+
+     <form id="planForm" onsubmit="submitPlanForm(event)" style="margin-top:10px;font-family:Arial,sans-serif;max-width:420px;margin:auto;">
+
+  <div style="margin-bottom:14px;">
+    <label style="display:block;margin-bottom:4px;color:#2c3e50;font-weight:600;font-size:14px;">Full Name</label>
+    <input type="text" id="fullName" required 
+    style="width:100%;padding:10px 12px;border:1px solid #dcdcdc;border-radius:6px;font-size:14px;outline:none;">
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="display:block;margin-bottom:4px;color:#2c3e50;font-weight:600;font-size:14px;">Email Address</label>
+    <input type="email" id="email" required 
+    style="width:100%;padding:10px 12px;border:1px so             lid #dcdcdc;border-radius:6px;font-size:14px;outline:none;">
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="display:block;margin-bottom:4px;color:#2c3e50;font-weight:600;font-size:14px;">Phone Number</label>
+    <input type="tel" id="phone" required 
+    style="width:100%;padding:10px 12px;border:1px solid #dcdcdc;border-radius:6px;font-size:14px;outline:none;">
+  </div>
+
+  <div style="margin-bottom:16px;">
+    <label style="display:block;margin-bottom:4px;color:#2c3e50;font-weight:600;font-size:14px;">Company Name (Optional)</label>
+    <input type="text" id="company" 
+    style="width:100%;padding:10px 12px;border:1px solid #dcdcdc;border-radius:6px;font-size:14px;outline:none;">
+  </div>
+
+  <div id="formError" 
+  style="color:#e74c3c;margin-bottom:12px;padding:8px 10px;background:#fff2f2;border-radius:6px;border-left:3px solid #e74c3c;font-size:13px;display:none;"></div>
+
+  <div id="formSuccess" 
+  style="color:#27ae60;margin-bottom:12px;padding:8px 10px;background:#e9f9ee;border-radius:6px;border-left:3px solid #27ae60;font-size:13px;display:none;">
+    <strong>Thank you!</strong> We'll contact you shortly.
+  </div>
+
+  <button id="submitButton" type="submit"
+  style="width:100%;padding:12px;background:linear-gradient(135deg,#ff7a18,#ffb347);color:#fff;border:none;border-radius:6px;font-size:15px;cursor:pointer;font-weight:600;">
+    Submit Application
+  </button>
+
+</form>
+
     </div>
   </div>
 </div>
@@ -599,7 +610,7 @@ function submitPlanForm(event) {
   }
 
   // Send data to backend
-  fetch('http://localhost:5000/api/bm_plans', {
+  fetch('https://www.buildmarts.in/api/bm_plans', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -1571,7 +1582,7 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
                     position: relative;
                     background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
                 ">
-                    <img src="https://www.shutterstock.com/image-illustration/stainless-steel-profiles-tubes-warehouse-600nw-1517885144.jpg" 
+                    <img src="Images/plumbing.png" 
                          alt="Plumbing materials and fittings" 
                          style="
                             width: 100%;
@@ -1775,7 +1786,7 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
         "
         onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 30px rgba(0, 48, 135, 0.15)'; this.style.borderColor='#003087'"
         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.08)'; this.style.borderColor='#e2e8f0'">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/SBI_state_bank_of_india.jpg" 
+            <img src="Images/sbi.png" 
                  alt="State Bank of India Home Loan Logo" 
                  style="
                     height: clamp(60px, 15vw, 90px);
@@ -1820,8 +1831,7 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
         "
         onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 30px rgba(30, 42, 120, 0.15)'; this.style.borderColor='#1e2a78'"
         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.08)'; this.style.borderColor='#e2e8f0'">
-            <img src="https://play-lh.googleusercontent.com/3k0f2yWl15mhkyltVQoqwmfRcm6ywTDYOttNHusElScrqjxYHLK82oVnjt3wQJQyPw" 
-                 alt="HDFC Bank Home Loan Logo" 
+     <img src="https://5.imimg.com/data5/RE/SP/EN/SELLER-95153528/hdfc-logo-500x500.png"                  alt="HDFC Bank Home Loan Logo" 
                  style="
                     height: clamp(60px, 15vw, 90px);
                     width: clamp(60px, 15vw, 90px);
@@ -1865,7 +1875,9 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
         "
         onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 30px rgba(215, 31, 38, 0.15)'; this.style.borderColor='#d71f26'"
         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.08)'; this.style.borderColor='#e2e8f0'">
-            <img src="https://5.imimg.com/data5/RE/SP/EN/SELLER-95153528/hdfc-logo-500x500.png" 
+       
+                        <img src="https://play-lh.googleusercontent.com/3k0f2yWl15mhkyltVQoqwmfRcm6ywTDYOttNHusElScrqjxYHLK82oVnjt3wQJQyPw" 
+
                  alt="ICICI Bank Home Loan Logo" 
                  style="
                     height: clamp(60px, 15vw, 90px);
@@ -2125,7 +2137,155 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
    
 </section>
 
+<section style="display:block; width:100%; padding:0px 0;">
+    
+    <div style="width:100%; margin:0 auto; background-color:#c7d1d4; padding:80px 0;">
 
+        <!-- header -->
+        <div style=" display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 50px;
+        flex-wrap: nowrap;
+        gap: clamp(15px, 3vw, 25px);
+        width: 100%;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 clamp(15px, 3vw, 30px);
+        box-sizing: border-box;">
+             <span style="
+            flex: 1;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #0f172a);
+            margin: 0;
+            width: 20px;
+        "></span>
+        <h2 style=" font-size: clamp(22px, 6vw, 36px);
+            color: #222;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0 clamp(15px, 3vw, 30px);
+            font-weight: 800;
+            text-align: center;
+            white-space: normal;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 1px;margin-top: 0px;">
+                BUILDERS OUR CUSTOMERS TRUST
+            </h2>
+             <span style="
+            flex: 1;
+            height: 3px;
+            background: linear-gradient(90deg, #0f172a, transparent);
+            margin: 0;
+            min-width: 40px;
+        "></span>
+        </div>
+
+        <!-- cards row -->
+        <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center; padding:0 20px;">
+
+            <!-- CARD 1 -->
+            <div style="flex:1 1 220px; min-width:250px; max-width:300px; background:white; border-radius:32px; box-shadow:0 12px 28px rgba(0,35,55,0.12); overflow:hidden; border:1px solid rgba(80,160,200,0.25); display:flex; flex-direction:column;">
+                <div style="background:linear-gradient(105deg,#063b4a,#0a5e74); padding:18px 16px;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="background:rgba(255,255,255,0.2); color:white; font-weight:600; padding:5px 14px; border-radius:60px;">🏢 IRONBUILT</span>
+                        <span style="background:#ffcb8a; color:#1f3f4d; font-weight:600; padding:5px 14px; border-radius:60px;">4.9 ★</span>
+                    </div>
+                </div>
+
+                <div style="padding:20px 18px 22px; flex:1; display:flex; flex-direction:column;">
+                    <p style="font-size:17px; font-weight:500; color:#0a2835; margin:0 0 8px;">
+                        ⭐ “Like their own home”
+                    </p>
+                    <p style="color:#3d6072; font-size:15px; margin:0 0 18px; padding-left:8px; border-left:3px solid #3f9ec0;">
+                        — S. Kumar, Chennai
+                    </p>
+
+                    <div style="display:flex; justify-content:space-between; margin-top:auto;">
+                        <span style="background:#e8f2f9; color:#035269; padding:6px 14px; border-radius:60px;">35+ homes</span>
+                        <span style="background:#022b3a; color:white; padding:6px 16px; border-radius:60px;">'09</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div style="flex:1 1 220px; min-width:250px; max-width:300px; background:white; border-radius:32px; box-shadow:0 12px 28px rgba(0,35,55,0.12); overflow:hidden; border:1px solid rgba(80,160,200,0.25); display:flex; flex-direction:column;">
+                <div style="background:linear-gradient(105deg,#0b3f4d,#1b6c85); padding:18px 16px;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="background:rgba(255,255,255,0.2); color:white; font-weight:600; padding:5px 14px; border-radius:60px;">🏙️ SKYHARBOR</span>
+                        <span style="background:#ffcb8a; color:#1f3f4d; font-weight:600; padding:5px 14px; border-radius:60px;">4.8 ★</span>
+                    </div>
+                </div>
+
+                <div style="padding:20px 18px 22px; flex:1; display:flex; flex-direction:column;">
+                    <p style="font-size:17px; font-weight:500; color:#0a2835; margin:0 0 8px;">
+                        🏡 “Perfect finish”
+                    </p>
+                    <p style="color:#3d6072; font-size:15px; margin:0 0 18px; padding-left:8px; border-left:3px solid #3f9ec0;">
+                        — Priya M., B'lore
+                    </p>
+
+                    <div style="display:flex; justify-content:space-between; margin-top:auto;">
+                        <span style="background:#e8f2f9; color:#035269; padding:6px 14px; border-radius:60px;">50+ designs</span>
+                        <span style="background:#022b3a; color:white; padding:6px 16px; border-radius:60px;">family</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div style="flex:1 1 220px; min-width:250px; max-width:300px; background:white; border-radius:32px; box-shadow:0 12px 28px rgba(0,35,55,0.12); overflow:hidden; border:1px solid rgba(80,160,200,0.25); display:flex; flex-direction:column;">
+                <div style="background:linear-gradient(105deg,#0e4152,#1d6c82); padding:18px 16px;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="background:rgba(255,255,255,0.2); color:white; font-weight:600; padding:5px 14px; border-radius:60px;">🔨 NOVACRAFT</span>
+                        <span style="background:#ffcb8a; color:#1f3f4d; font-weight:600; padding:5px 14px; border-radius:60px;">4.7 ★</span>
+                    </div>
+                </div>
+
+                <div style="padding:20px 18px 22px; flex:1; display:flex; flex-direction:column;">
+                    <p style="font-size:17px; font-weight:500; color:#0a2835; margin:0 0 8px;">
+                        🛠️ “Cared about budget”
+                    </p>
+                    <p style="color:#3d6072; font-size:15px; margin:0 0 18px; padding-left:8px; border-left:3px solid #3f9ec0;">
+                        — Rohan & Anjali
+                    </p>
+
+                    <div style="display:flex; justify-content:space-between; margin-top:auto;">
+                        <span style="background:#e8f2f9; color:#035269; padding:6px 14px; border-radius:60px;">100% sat.</span>
+                        <span style="background:#022b3a; color:white; padding:6px 16px; border-radius:60px;">custom</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 4 -->
+            <div style="flex:1 1 220px; min-width:250px; max-width:300px; background:white; border-radius:32px; box-shadow:0 12px 28px rgba(0,35,55,0.12); overflow:hidden; border:1px solid rgba(80,160,200,0.25); display:flex; flex-direction:column;">
+                <div style="background:linear-gradient(105deg,#124857,#1f6e85); padding:18px 16px;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="background:rgba(255,255,255,0.2); color:white; font-weight:600; padding:5px 14px; border-radius:60px;">🧱 STONE&SOUL</span>
+                        <span style="background:#ffcb8a; color:#1f3f4d; font-weight:600; padding:5px 14px; border-radius:60px;">5.0 ★</span>
+                    </div>
+                </div>
+
+                <div style="padding:20px 18px 22px; flex:1; display:flex; flex-direction:column;">
+                    <p style="font-size:17px; font-weight:500; color:#0a2835; margin:0 0 8px;">
+                        ❤️ “Dream home with trust”
+                    </p>
+                    <p style="color:#3d6072; font-size:15px; margin:0 0 18px; padding-left:8px; border-left:3px solid #3f9ec0;">
+                        — Meera K.
+                    </p>
+
+                    <div style="display:flex; justify-content:space-between; margin-top:auto;">
+                        <span style="background:#e8f2f9; color:#035269; padding:6px 14px; border-radius:60px;">80+ homes</span>
+                        <span style="background:#022b3a; color:white; padding:6px 16px; border-radius:60px;">4.9★</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
 
 
   <!-- Customer Feedback section -->
@@ -2299,7 +2459,7 @@ onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25
             submitBtn.style.opacity = '0.7';
 
             try {
-                const res = await fetch('http://localhost:5000/api/subscribe', {
+                const res = await fetch('https://www.buildmarts.in/api/subscribe', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email })

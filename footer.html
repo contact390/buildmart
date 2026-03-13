@@ -1,6 +1,6 @@
 <!-- Footer (embedded snippet) -->
 
-<footer id="site-footer" style="background-color:#333;color:#fff;padding:40px 0;position:relative;left:50%;transform:translateX(-50vw);width:100vw;max-width:99.3vw;box-sizing:border-box;z-index:10;clear:both;overflow-x:hidden;margin-bottom: -10;">
+<footer id="site-footer" style="background-color:#333;color:#fff;padding:40px 0 0;position:relative;left:50%;transform:translateX(-50vw);width:100vw;max-width:99.3vw;box-sizing:border-box;z-index:10;clear:both;overflow-x:hidden;margin-bottom: 0;">
     <div style="max-width:1600px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:50px;">
         <div style="flex:1;min-width:250px;">
             <h3 style="color:#ffd700;border-bottom:2px solid #ffd700;padding-bottom:10px;">Hitaishi Constructions</h3>
@@ -11,8 +11,8 @@
         <div style="flex:1;min-width:250px;">
             <h3 style="color:#ffd700;border-bottom:2px solid #ffd700;padding-bottom:10px;">Quick Links</h3>
             <ul style="list-style:none;padding:0;margin:0;">
-                <li style="margin:8px 0;"><a href="/about-us" style="color:white;text-decoration:none;">About Us</a></li>
-                <li style="margin:8px 0;"><a href="/contact-us" style="color:white;text-decoration:none;">Contact Us</a></li>
+                <li style="margin:8px 0;"><a href="about.html" style="color:white;text-decoration:none;">About Us</a></li>
+                <li style="margin:8px 0;"><a href="contactus.html" style="color:white;text-decoration:none;">Contact Us</a></li>
                 <li style="margin:8px 0;"><a href="/privacy-policy" style="color:white;text-decoration:none;">Privacy Policy</a></li>
                 <li style="margin:8px 0;"><a href="/terms-conditions" style="color:white;text-decoration:none;">Terms &amp; Conditions</a></li>
                 <li style="margin:8px 0;"><a href="/careers" style="color:white;text-decoration:none;">Careers</a></li>
@@ -22,8 +22,8 @@
         <div style="flex:1;min-width:250px;">
             <h3 style="color:#ffd700;border-bottom:2px solid #ffd700;padding-bottom:10px;">Contact Us</h3>
             <p style="margin:8px 0;">📍 123 Construction Street, Delhi, India</p>
-            <p style="margin:8px 0;">📞 <a href="tel:+911234567890" style="color:white;text-decoration:none;">+91-123-456-7890</a></p>
-            <p style="margin:8px 0;">📧 <a href="mailto:hitaishiconstuctions@gmail.com" style="color:white;text-decoration:none;">hitaishiconstuctions@gmail.com</a></p>
+            <p style="margin:8px 0;">📞 <a href="tel:+911234567890" style="color:white;text-decoration:none;">+91 8790170525</a></p>
+            <p style="margin:8px 0;">📧 <a href="mailto:hitaishiconstuctions@gmail.com" style="color:white;text-decoration:none;">buildmarts@yahoo.com</a></p>
             <div style="margin-top:15px;display:flex;gap:15px;flex-wrap:wrap;">
                 <!-- icons omitted for brevity, keep same svg markup -->
             </div>
@@ -41,50 +41,71 @@
         </div>
     </div>
 
-    <div style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #555;max-width:1200px;margin:40px auto 0;padding:20px 20px 0;">
+    <div style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #555;max-width:1200px;margin:20px auto 0;padding:20px 20px 0;margin-bottom: 20px;">
         <p style="margin:0;">© 2025 Hitaishi Constructions. All rights reserved.</p>
         <!-- <p style="margin:5px 0 0;">ISO 9001 Certified | GSTIN: 07AAACH0000A1Z5</p> -->
     </div>
+
+    
 </footer>
 
 <script>
-(function initFooter() {
-    function setup() {
-        const form = document.getElementById('footerNewsletterForm');
-        const messageBox = document.getElementById('footerMessageBox');
-        const emailInput = document.getElementById('footerEmailInput');
-        const submitBtn = document.getElementById('footerSubmitBtn');
-        if (!form) return; // safe-guard when snippet not present
+function initFooterSubscription() {
+    // guard against multiple registrations
+    if (window.footerSubscriptionInitialized) return;
+    window.footerSubscriptionInitialized = true;
 
-        form.addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const email = emailInput.value.trim();
-            if (!email) {
-                showMessage('Please enter your email.', 'red');
-                return;
+    const form = document.getElementById('footerNewsletterForm');
+    const messageBox = document.getElementById('footerMessageBox');
+    const emailInput = document.getElementById('footerEmailInput');
+    const submitBtn = document.getElementById('footerSubmitBtn');
+    if (!form) return; // safe-guard when snippet not present
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+        if (!email) {
+            showMessage('Please enter your email.', 'red');
+            return;
+        }
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Submitting...';
+        submitBtn.style.opacity = '0.7';
+        try {
+            const res = await fetch('https://www.buildmarts.in/api/subscribe', {
+                method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ email })
+            });
+            const message = await res.text();
+            // prefer status codes but also catch duplicate email messages returned with 200
+            if (res.status === 200) {
+                const lower = message.toLowerCase();
+                if (lower.includes('already') || lower.includes('exists')) {
+                    showMessage('⚠️ ' + message, '#e67e22');
+                } else {
+                    showMessage('🎉 ' + message, 'green');
+                    form.reset();
+                }
+            } else if (res.status === 409) {
+                showMessage('⚠️ ' + message, '#e67e22');
+            } else {
+                showMessage('❌ ' + message, 'red');
             }
-            submitBtn.disabled = true;
-            submitBtn.innerText = 'Submitting...';
-            submitBtn.style.opacity = '0.7';
-            try {
-                const res = await fetch('http://localhost:5000/api/subscribe', {
-                    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ email })
-                });
-                const message = await res.text();
-                if (res.status === 200) { showMessage('🎉 ' + message, 'green'); form.reset(); }
-                else if (res.status === 409) { showMessage('⚠️ ' + message, '#e67e22'); }
-                else { showMessage('❌ ' + message, 'red'); }
-            } catch (error) {
-                console.error('Error:', error); showMessage('❌ Network error. Please try again later.', 'red');
-            } finally {
-                submitBtn.disabled = false; submitBtn.innerText = 'Subscribe'; submitBtn.style.opacity = '1';
-            }
-            function showMessage(msg, bgColor) {
-                messageBox.innerText = msg; messageBox.style.backgroundColor = bgColor; messageBox.style.color = '#fff'; messageBox.style.display = 'block';
-                setTimeout(() => { messageBox.style.display = 'none'; }, 4000);
-            }
-        });
-    }
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup); else setup();
-})();
+        } catch (error) {
+            console.error('Error:', error); showMessage('❌ Network error. Please try again later.', 'red');
+        } finally {
+            submitBtn.disabled = false; submitBtn.innerText = 'Subscribe'; submitBtn.style.opacity = '1';
+        }
+        function showMessage(msg, bgColor) {
+            messageBox.innerText = msg; messageBox.style.backgroundColor = bgColor; messageBox.style.color = '#fff'; messageBox.style.display = 'block';
+            setTimeout(() => { messageBox.style.display = 'none'; }, 4000);
+        }
+    });
+}
+
+// if this file is loaded directly (not injected) run initialization immediately
+if (document.readyState !== 'loading') {
+    initFooterSubscription();
+} else {
+    document.addEventListener('DOMContentLoaded', initFooterSubscription);
+}
 </script>

@@ -6,7 +6,7 @@
   <title>Product Details (inline styles)</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: none; min-height: 100vh; padding: 20px; color: #333; box-sizing: border-box;">
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background:linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; padding: 20px; color: #333; box-sizing: border-box;">
  
    <div id="navbar-container"></div>
  
@@ -69,7 +69,7 @@
 
 
 
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+  <div style="width: 100%; margin: 0 auto; padding: 0 20px;">
 
 
 
@@ -160,9 +160,9 @@
     .gallery-thumb { width: 80px; height: 60px; border-radius: 8px; overflow: hidden; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     .gallery-thumb:hover, .gallery-thumb.active { border-color: #667eea; transform: scale(1.1); }
     .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .wishlist-btn { position: absolute; top: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.9); border: none; cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.3s ease; z-index: 10; }
+    .wishlist-btn { position: absolute; top: 20px; left: 20px; width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.9); border: none; cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.3s ease; z-index: 10; }
     .wishlist-btn:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
-    .wishlist-btn.active { background: #e74c3c; color: white; }
+    .wishlist-btn.active { background: rgba(255,255,255,0.9); color: #e74c3c; }
     .breadcrumb { font-size: 14px; color: #007185; }
     .about-section ul { padding-left: 20px; line-height: 1.6; color: #333; }
     /* responsive overrides (inline on elements, but needed for media) */
@@ -184,7 +184,7 @@
   </style>
 
 <script>
-  const API_BASE = 'https://buildmarts.in/api';
+  const API_BASE = 'https://www.buildmarts.in/api';
   const wishlistKey = 'productWishlist';
 
   function getSelectedId(){
@@ -328,7 +328,7 @@
         </div>
       `;
       // create breadcrumb
-      const breadcrumb = `<div class="breadcrumb" style="font-size:14px;color:#007185;margin-bottom:10px;">Home${product.category?` &gt; ${product.category}`:''} &gt; ${product.productName||''}</div>`;
+      const breadcrumb = `<div class="breadcrumb" style="font-size:14px;color:#007185;margin-bottom:10px;"><a href="index.html" style="color:#007185;text-decoration:none;">Home</a>${product.category?` &gt; <a href="${product.category.toLowerCase()}.html" style="color:#007185;text-decoration:none;">${product.category}</a>`:''} &gt; ${product.productName||''}</div>`;
       // about section bullet list
       const aboutHtml = product.description ? `<div class="about-section" style="margin:20px 0;background:#f8f8f8;padding:20px;border-radius:8px;"><div style="font-size:18px;font-weight:600;margin-bottom:10px;">About this item</div><ul style="padding-left:20px;line-height:1.6;color:#333;">${product.description.split('.').filter(s=>s.trim()).slice(0,5).map(s=>`<li>${s.trim()}.</li>`).join('')}</ul></div>` : '';
       const relatedHtml = `<div style="margin:20px 0;"><div style="font-size:18px;font-weight:600;margin-bottom:10px;">Frequently Bought Together</div><div style="display:flex;gap:15px;flex-wrap:wrap;color:#555;">(related products placeholder)</div></div>`;      const html = `

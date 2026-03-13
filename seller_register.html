@@ -39,7 +39,7 @@
 
 
 
-  <div style="width:90%;max-width:300px;margin:10px auto 50px;background:#fff;padding:25px 20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-top: -160px;">
+  <div style="width:90%;max-width:360px;margin:10px auto 50px;background:#fff;padding:25px 20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-top: -160px;">
     <h2 style="text-align:center;margin-bottom:20px;">Create Seller Profile</h2>
     
     <form id="sellerForm">
@@ -162,7 +162,7 @@ document.getElementById('sellerForm').addEventListener('submit', async function(
   if (gst) data.gst = gst;
 
   try {
-    const response = await fetch('https://buildmarts.in/api/seller-profile', {
+    const response = await fetch('https://www.buildmarts.in/api/seller-profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -172,14 +172,29 @@ document.getElementById('sellerForm').addEventListener('submit', async function(
 
     if (response.status === 200) {
       messageEl.style.color = 'green';
-      messageEl.innerText = '✅ ' + (result.message || 'Registration successful! Redirecting...');
+      messageEl.innerText = '✅ ' + (result.message || 'Registration successful! Logging you in...');
       messageEl.style.display = 'block';
 
       this.reset();
 
+      // automatically save session and redirect to seller dashboard
+      if (result.user) {
+        const u = result.user;
+        const userInfo = {
+          id: u.id,
+          userId: u.id,
+          name: u.name,
+          email: u.email,
+          userType: u.userType || 'seller',
+          loginTime: new Date().toISOString()
+        };
+        localStorage.setItem('userSession', JSON.stringify(userInfo));
+        localStorage.setItem('isLoggedIn', 'true');
+      }
+
       setTimeout(() => {
-        window.location.href = 'login.html';
-      }, 2000);
+        window.location.href = 'seller_dashboard.html';
+      }, 1500);
 
     } else {
 
@@ -246,7 +261,7 @@ document.getElementById('sellerForm').addEventListener('submit', async function(
           newScript.async = false;
           __createdScriptPromises.push(new Promise(resolve => {
             newScript.addEventListener('load', resolve);
-            newScript.addEventListener('error', resolve);
+            newScript.addEventListener('error', resolve);                
             setTimeout(resolve, 2000);
           }));
         } else {
