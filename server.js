@@ -11,6 +11,11 @@ const cartRoutes = require('./routes/cart');
 const productsRoutes = require('./routes/products');
 const formRoutes = require('./routes/form');
 const productUploadsRoutes = require('./routes/product_uploads'); // Import product uploads routes
+const dealerRoutes = require('./routes/dealer'); // Import dealer routes
+const workforceRoutes = require('./routes/workforce'); // Import workforce routes
+const salesRoutes = require('./routes/sales'); // Import sales routes 
+const factoryRoutes = require('./routes/factory'); // Import factory routes
+const consultationsRoutes = require('./routes/consultations'); // Import consultations routes 
 
 
 const app = express();
@@ -61,6 +66,11 @@ app.use('/api', cartRoutes);
 app.use('/api', productsRoutes);
 app.use('/api', formRoutes);
 app.use('/api', productUploadsRoutes); // Use product uploads routes
+app.use('/api', dealerRoutes); // Use dealer routes
+app.use('/api', workforceRoutes); // Use workforce routes
+app.use('/api', salesRoutes); // Use sales routes
+app.use('/api', factoryRoutes); // Use factory routes
+app.use('/api', consultationsRoutes); // Use consultations routes
 
 // Start server
 const server = app.listen(port, () => {
