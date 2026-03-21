@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workforce Hyderabad · 100% width · multi‑role registration</title>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #eef3f7; margin: 0; padding: 0; color: #152b3a; width: 100%;">
+
+     <div id="navbar-container"></div>
+
+   <!-- Load Navbar Script -->
+  <script>
+  // Load shared navbar (injects navbar.html body and executes its scripts)
+  async function includeNavbar() {
+    try {
+      const res = await fetch('navbar.html');
+      const text = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      document.getElementById('navbar-container').innerHTML = doc.body.innerHTML;
+
+      // Execute scripts from navbar.html and wait for external scripts to load
+      const __createdScriptPromises = [];
+      doc.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+          newScript.async = false;
+          __createdScriptPromises.push(new Promise(resolve => {
+            newScript.addEventListener('load', resolve);
+            newScript.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      Promise.all(__createdScriptPromises).finally(() => {});
+
+      // Ensure navbar init functions run after dynamic injection (wait for external scripts to load)
+      const __navbarScriptPromises = [];
+      doc.querySelectorAll('script').forEach((s, i) => {
+        const existing = document.querySelectorAll('script')[document.querySelectorAll('script').length - 1 - i];
+        if (existing && existing.src) {
+          __navbarScriptPromises.push(new Promise(resolve => {
+            existing.addEventListener('load', resolve);
+            existing.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        }
+      });
+      Promise.all(__navbarScriptPromises).finally(() => {
+        if (typeof checkScreenSize === 'function') checkScreenSize();
+        if (typeof addDesktopHoverEffects === 'function') addDesktopHoverEffects();
+        if (typeof updateUserUI === 'function') updateUserUI();
+        if (typeof updateCartBadge === 'function') updateCartBadge();
+        if (typeof setActiveNavLink === 'function') setActiveNavLink();
+      });
+    } catch (e) {
+      console.error('Failed to load navbar:', e);
+    }
+  }
+  includeNavbar();
+</script>
+<!-- main wrapper full width with soft gradient -->
+<div style="width: 100%; background: linear-gradient(145deg, #f6fafd 0%, #eaf1f7 100%); padding: 30px 0 40px 0; box-sizing: border-box;">
+    
+    <!-- centered content container (still 100% width background, but inner max-width for readability) -->
+    <div style="width: 100%; margin: 0 auto; background: white; border-radius: 0px; box-shadow: none; overflow: hidden; border: none;">
+
+        <!-- header with hyderabad stamp - full width inside card -->
+        <div style="background: linear-gradient(100deg, #0f4b5ecc 0%, #0f4b5ecc 100%), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center; padding: 60px 35px; border-bottom: 4px solid #f05b1e; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; color: white;">
+            <div>
+                <h1 style="font-size: 3.5rem; font-weight: 800; margin: 0 0 10px 0; letter-spacing: -0.02em; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">🏗️ Workforce Hyderabad</h1>
+                <p style="font-size: 1.4rem; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.5); line-height: 1.6;">Register as a skilled construction worker in Hyderabad. Select multiple trades and connect directly with contractors for job opportunities.</p>
+            </div>
+            <div style="background: #f05b1e; color: white; border-radius: 100px; padding: 15px 40px; font-weight: 700; font-size: 1.5rem; box-shadow: 0 8px 0 #a33f00; transform: rotate(-1deg); text-shadow: 0 2px 4px rgba(0,0,0,0.5);">📍 HYDERABAD ONLY</div>
+        </div>
+
+        <!-- how it works – 5 modern tiles (full width style) -->
+        <div style="background: #e2f0f7; padding: 40px 35px; margin: 0; border-bottom: 2px dashed #b1cfec;">
+            <div style="display:flex; align-items:center; gap:20px; justify-content:center; margin:0 0 30px 0; flex-wrap:wrap;">
+                <span style="flex:1; height:3px; background:linear-gradient(90deg, transparent, #003f5c); margin:0; min-width:40px;"></span>
+                <h2 style="margin:0 10px; font-size:clamp(1.8rem,3vw,2.0rem); color:#0f4b5e; text-transform:uppercase; font-weight:bold; letter-spacing:1px; white-space:nowrap;">
+                    ⚡ HOW IT WORKS
+                </h2>
+                <span style="flex:1; height:3px; background:linear-gradient(90deg, #003f5c, transparent); margin:0; min-width:40px;"></span>
+            </div>
+            <div style="text-align:center; margin:0 0 30px 0;">
+                <span style="background: #f05b1e; color: white; font-size: 1.2rem; padding: 5px 30px; border-radius: 60px; display:inline-block; font-weight:600;">5 STEPS</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-evenly;">
+                <!-- step cards with stronger style -->
+                <div style="flex: 1 1 170px; min-width: 150px; background: white; border-radius: 40px; padding: 28px 16px; text-align: center; box-shadow: 0 15px 0 #b6d3e6, 0 10px 20px rgba(0, 50, 70, 0.2); transition: 0.2s; border: 1px solid white;">
+                    <span style="background: #f05b1e; color: white; font-size: 2rem; font-weight: 800; width: 75px; height: 75px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50px; margin-bottom: 20px; box-shadow: 0 6px 0 #963a00;">1</span>
+                    <h3 style="margin: 0 0 12px; font-size: 1.8rem; font-weight: 700; color: #1d4e6b;">register</h3>
+                    <p style="font-size: 1.1rem; color: #255e7a;">fill form · choose multiple works</p>
+                </div>
+                <div style="flex: 1 1 170px; min-width: 150px; background: white; border-radius: 40px; padding: 28px 16px; text-align: center; box-shadow: 0 15px 0 #b6d3e6, 0 10px 20px rgba(0, 50, 70, 0.2);">
+                    <span style="background: #1f7a8c; color: white; font-size: 2rem; font-weight: 800; width: 75px; height: 75px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50px; margin-bottom: 20px; box-shadow: 0 6px 0 #0a4753;">2</span>
+                    <h3 style="margin: 0 0 12px; font-size: 1.8rem; font-weight: 700; color: #1d4e6b;">hyd verification</h3>
+                    <p style="font-size: 1.1rem; color: #255e7a;">local team confirms</p>
+                </div>
+                <div style="flex: 1 1 170px; min-width: 150px; background: white; border-radius: 40px; padding: 28px 16px; text-align: center; box-shadow: 0 15px 0 #b6d3e6, 0 10px 20px rgba(0, 50, 70, 0.2);">
+                    <span style="background: #2a9d8f; color: white; font-size: 2rem; font-weight: 800; width: 75px; height: 75px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50px; margin-bottom: 20px; box-shadow: 0 6px 0 #166b60;">3</span>
+                    <h3 style="margin: 0 0 12px; font-size: 1.8rem; font-weight: 700; color: #1d4e6b;">profile live</h3>
+                    <p style="font-size: 1.1rem; color: #255e7a;">visible to contractors</p>
+                </div>
+                <div style="flex: 1 1 170px; min-width: 150px; background: white; border-radius: 40px; padding: 28px 16px; text-align: center; box-shadow: 0 15px 0 #b6d3e6, 0 10px 20px rgba(0, 50, 70, 0.2);">
+                    <span style="background: #e9c46a; color: #1e3b4a; font-size: 2rem; font-weight: 800; width: 75px; height: 75px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50px; margin-bottom: 20px; box-shadow: 0 6px 0 #b18f38;">4</span>
+                    <h3 style="margin: 0 0 12px; font-size: 1.8rem; font-weight: 700; color: #1d4e6b;">contractors call</h3>
+                    <p style="font-size: 1.1rem; color: #255e7a;">direct site contact</p>
+                </div>
+                <div style="flex: 1 1 170px; min-width: 150px; background: white; border-radius: 40px; padding: 28px 16px; text-align: center; box-shadow: 0 15px 0 #b6d3e6, 0 10px 20px rgba(0, 50, 70, 0.2);">
+                    <span style="background: #f4a261; color: white; font-size: 2rem; font-weight: 800; width: 75px; height: 75px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50px; margin-bottom: 20px; box-shadow: 0 6px 0 #b4622a;">5</span>
+                    <h3 style="margin: 0 0 12px; font-size: 1.8rem; font-weight: 700; color: #1d4e6b;">get paid</h3>
+                    <p style="font-size: 1.1rem; color: #255e7a;">hyd wages</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- full list of roles – compact chips (full width) -->
+        <div style="background: #ffffff; padding: 25px 35px; border-bottom: 1px solid #bed9ec;">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 25px;">
+                <span style="font-weight: 800; font-size: 1.5rem; color: #003f5c;">👥 all roles:</span>
+                <span style="background: #e2eaf1; padding: 10px 22px; border-radius: 60px;">Civil · Site · PM · supervisor · QS · architect · structural</span>
+                <span style="background: #e2eaf1; padding: 10px 22px; border-radius: 60px;">Mason 🧱 · concrete · bar bender · shuttering · excavator</span>
+                <span style="background: #e2eaf1; padding: 10px 22px; border-radius: 60px;">Carpenter · elec ⚡ · plumber 🚰 · welder · tile · painter 🎨</span>
+                <span style="background: #e2eaf1; padding: 10px 22px; border-radius: 60px;">Finishing · HVAC · solar · JCB · crane · helper · store</span>
+                <span style="background: #f05b1e20; padding: 10px 22px; border-radius: 60px; font-weight: 600;">⬇️ select multiple below</span>
+            </div>
+        </div>
+
+        <!-- MAIN FORM - 100% width inside, better styling, multi-select checkboxes with modern look -->
+        <div style="background: linear-gradient(125deg, #ffffff 0%, #f6fcff 100%); padding: 45px 40px 50px 40px;">
+            <div style="display:flex; align-items:center; gap:20px; justify-content:center; margin:0 0 30px 0; flex-wrap:wrap;">
+                <span style="flex:1; height:3px; background:linear-gradient(90deg, transparent, #003353); margin:0; min-width:40px;"></span>
+                <h2 style="margin:0 10px; font-size:clamp(1.8rem,3vw,2.0rem); color:#0f4b5e; text-transform:uppercase; font-weight:bold; letter-spacing:1px; white-space:nowrap;">
+                    📋 WORKER REGISTRATION
+                </h2>
+                <span style="flex:1; height:3px; background:linear-gradient(90deg, #003353, transparent); margin:0; min-width:40px;"></span>
+            </div>
+            <div style="text-align:center; margin:0 0 30px 0;">
+                <span style="background: #f8e1d4; color: #b64900; font-size: 1.3rem; padding: 8px 35px; border-radius: 60px; font-weight: 600; display:inline-block; text-transform:uppercase;">HYD ONLY</span>
+                <p style="font-size: 1.2rem; margin: 0 0 30px 0; color: #f15a22; font-weight: 500; border-left: 8px solid #f05b1e; padding-left: 22px;">✔️ you can select <strong>more than one work</strong> (check all that apply). hyderabad location mandatory.</p>
+            </div>
+            
+
+          
+
+<form id="workforceForm" style="width:60%; margin:auto; display:flex; flex-direction:column; gap:25px;">
+
+<!-- Personal Details -->
+<div style="background:white; padding:25px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+        
+        <div style="flex:2;">
+            <label for="fullName" style="font-weight:600; display:block; margin-bottom:6px;">👤 Full Name *</label>
+            <input id="fullName" name="fullName" type="text" placeholder="Venkatesh Rao" required 
+                style="width:100%; padding:14px; border-radius:10px; border:1px solid #d6e4ef;">
+        </div>
+
+        <div style="flex:1;">
+            <label for="mobile" style="font-weight:600; display:block; margin-bottom:6px;">📱 Mobile *</label>
+            <input id="mobile" name="mobile" type="tel" placeholder="+91 98765 43210" required 
+                style="width:100%; padding:14px; border-radius:10px; border:1px solid #d6e4ef;">
+        </div>
+
+        <div style="flex:1;">
+            <label for="area" style="font-weight:600; display:block; margin-bottom:6px;">📍 Area *</label>
+            <input id="area" name="area" type="text" placeholder="Kukatpally, Gachibowli" required 
+                style="width:100%; padding:14px; border-radius:10px; border:1px solid #d6e4ef;">
+        </div>
+
+    </div>
+</div>
+
+<!-- Work selection checkboxes -->
+<div style="background:white; padding:25px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+    <label style="font-weight:600; margin-bottom:10px; display:block; font-size:1.2rem;">🔧 Select Your Work(s)</label>
+
+    <div id="workCheckboxes" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px;">
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Daily Worker">
+            <span>Daily Worker </span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Site Engineer">
+            <span>Site Engineer</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Project Manager">
+            <span>Project Manager</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Construction Manager">
+            <span>Construction Manager</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Site Supervisor">
+            <span>Site Supervisor</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Quantity Surveyor">
+            <span>Quantity Surveyor</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Architect">
+            <span>Architect</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Structural Engineer">
+            <span>Structural Engineer</span>
+        </label>
+
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Mason (Bricklayer)">
+            <span>Mason (Bricklayer)</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Concrete Worker">
+            <span>Concrete Worker</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Bar Bender">
+            <span>Bar Bender</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Shuttering Carpenter">
+            <span>Shuttering Carpenter</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Excavator Operator">
+            <span>Excavator Operator</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Piling Worker">
+            <span>Piling Worker</span>
+        </label>
+
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Carpenter">
+            <span>Carpenter</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Electrician">
+            <span>Electrician</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Plumber">
+            <span>Plumber</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Welder">
+            <span>Welder</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Tile Fixer">
+            <span>Tile Fixer</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Painter">
+            <span>Painter</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="POP Worker">
+            <span>POP Worker</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Flooring Worker">
+            <span>Flooring Worker</span>
+        </label>
+
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Interior Designer">
+            <span>Interior Designer</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="False Ceiling Worker">
+            <span>False Ceiling Worker</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Glass Installer">
+            <span>Glass Installer</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Aluminum Fabricator">
+            <span>Aluminum Fabricator</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Polish Worker">
+            <span>Polish Worker</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Wallpaper Installer">
+            <span>Wallpaper Installer</span>
+        </label>
+
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="HVAC Technician">
+            <span>HVAC Technician</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Solar Panel Installer">
+            <span>Solar Panel Installer</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Fire Safety Technician">
+            <span>Fire Safety Technician</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Waterproofing Worker">
+            <span>Waterproofing Worker</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Lift Technician">
+            <span>Lift Technician</span>
+        </label>
+
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Crane Operator">
+            <span>Crane Operator</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="JCB Operator">
+            <span>JCB Operator</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Bulldozer Operator">
+            <span>Bulldozer Operator</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Mixer Machine Operator">
+            <span>Mixer Machine Operator</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Lift Operator">
+            <span>Lift Operator</span>
+        </label>
+
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Helper / Labor">
+            <span>Helper / Labor</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Head Mason (Mestri)">
+            <span>Head Mason (Mestri)</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Watchman">
+            <span>Watchman</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Store Keeper">
+            <span>Store Keeper</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" name="works" value="Cleaner">
+            <span>Cleaner</span>
+        </label>
+    </div>
+
+    <p style="font-size:0.9rem; color:gray; margin-top:8px;">
+        👉 Check all works that apply
+    </p>
+
+</div>
+
+<!-- Experience -->
+<div style="background:white; padding:25px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+        
+        <div style="flex:1;">
+            <label for="experience" style="font-weight:600; margin-bottom:6px; display:block;">⏳ Experience (Years)</label>
+            <input id="experience" name="experience" type="number" placeholder="e.g. 5"
+                style="width:100%; padding:14px; border-radius:10px; border:1px solid #d6e4ef;">
+        </div>
+
+        <div style="flex:2;">
+            <label for="languages" style="font-weight:600; margin-bottom:6px; display:block;">🗣️ Languages</label>
+            <input id="languages" name="languages" type="text" placeholder="Telugu, Hindi, English"
+                style="width:100%; padding:14px; border-radius:10px; border:1px solid #d6e4ef;">
+        </div>
+
+    </div>
+</div>
+
+<!-- Upload -->
+<div style="background:white; padding:25px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+        
+        <div style="flex:2;">
+            <label for="idProof" style="font-weight:600; margin-bottom:6px; display:block;">🆔 Upload ID</label>
+            <input id="idProof" name="idProof" type="file" 
+                style="width:100%; padding:10px; border-radius:10px; border:1px solid #d6e4ef;">
+        </div>
+
+        <div style="flex:1;">
+            <label for="availableFrom" style="font-weight:600; margin-bottom:6px; display:block;">📅 Available From</label>
+            <input id="availableFrom" name="availableFrom" type="date"
+                style="width:100%; padding:14px; border-radius:10px; border:1px solid #d6e4ef;">
+        </div>
+
+        <div style="flex:1;">
+            <label for="availableTo" style="font-weight:600; margin-bottom:6px; display:block;">📅 Available To</label>
+            <input id="availableTo" name="availableTo" type="date"
+                style="width:100%; padding:14px; border-radius:10px; border:1px solid #d6e4ef;">
+        </div>
+
+    </div>
+</div>
+
+<!-- Confirmation -->
+<div style="background:white; padding:20px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+    <label style="display:flex; gap:10px; align-items:center;">
+        <input type="checkbox" required>
+        I confirm I will work in Hyderabad
+    </label>
+</div>
+
+<!-- Submit -->
+<button type="submit"
+    style="background:linear-gradient(135deg,#f05b1e,#ff7a3d); color:white; font-size:1.2rem; font-weight:700; padding:16px; border:none; border-radius:10px; cursor:pointer;">
+    Register Now
+</button>
+
+</form>
+
+
+<script>
+const form = document.getElementById('workforceForm');
+
+form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const checkedWorks = Array.from(form.querySelectorAll("input[name='works']:checked")).map(cb => cb.value);
+    const worksValue = checkedWorks.length ? checkedWorks.join(', ') : null;
+
+    const formData = new FormData();
+    formData.append('fullName', form.querySelector('#fullName').value);
+    formData.append('mobile', form.querySelector('#mobile').value);
+    formData.append('area', form.querySelector('#area').value);
+    if (worksValue) formData.append('works', worksValue);
+    formData.append('experience', form.querySelector('#experience').value);
+    formData.append('languages', form.querySelector('#languages').value);
+    formData.append('availableFrom', form.querySelector('#availableFrom').value);
+    formData.append('availableTo', form.querySelector('#availableTo').value);
+
+    const fileInput = form.querySelector('#idProof');
+    if (fileInput && fileInput.files[0]) {
+        formData.append('idProof', fileInput.files[0]);
+    }
+
+    try {
+        const res = await fetch('https://www.buildmarts.in/api/register-worker', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            alert('✅ Registered Successfully!');
+            form.reset();
+        } else {
+            alert('❌ Error: ' + (data.error || data.message || 'unknown'));
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Server error');
+    }
+});
+</script>
+
+
+        </div>
+
+        <!-- final footer (full width) -->
+        <div style="background: #003f5c; color: white; padding: 25px 40px; text-align: center; font-size: 1.2rem; letter-spacing: 0.3px;">🏡 workforce hyd · 100% for hyderabad building workers · you can choose more than one work · © 2026</div>
+    </div>
+</div>
+
+    <div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+      // execute any scripts from the injected footer
+      const temp = document.createElement('div');
+      temp.innerHTML = data;
+      temp.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      // the injected script itself initializes subscription, no need to call again
+      // (prevent duplicate listeners causing conflicting messages)
+    })
+    .catch(error => console.error('Footer load error:', error));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>buildmarts.in · Supplier Registration & Information</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f8fc;
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        input, select, textarea {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f8fc; width: 100%; min-height: 100vh; margin: 0; padding: 0;">
+
+   <div id="navbar-container"></div>
+
+   <!-- Load Navbar Script -->
+  <script>
+  // Load shared navbar (injects navbar.html body and executes its scripts)
+  async function includeNavbar() {
+    try {
+      const res = await fetch('navbar.html');
+      const text = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      document.getElementById('navbar-container').innerHTML = doc.body.innerHTML;
+
+      // Execute scripts from navbar.html and wait for external scripts to load
+      const __createdScriptPromises = [];
+      doc.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+          newScript.async = false;
+          __createdScriptPromises.push(new Promise(resolve => {
+            newScript.addEventListener('load', resolve);
+            newScript.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      Promise.all(__createdScriptPromises).finally(() => {});
+
+      // Ensure navbar init functions run after dynamic injection (wait for external scripts to load)
+      const __navbarScriptPromises = [];
+      doc.querySelectorAll('script').forEach((s, i) => {
+        const existing = document.querySelectorAll('script')[document.querySelectorAll('script').length - 1 - i];
+        if (existing && existing.src) {
+          __navbarScriptPromises.push(new Promise(resolve => {
+            existing.addEventListener('load', resolve);
+            existing.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        }
+      });
+      Promise.all(__navbarScriptPromises).finally(() => {
+        if (typeof checkScreenSize === 'function') checkScreenSize();
+        if (typeof addDesktopHoverEffects === 'function') addDesktopHoverEffects();
+        if (typeof updateUserUI === 'function') updateUserUI();
+        if (typeof updateCartBadge === 'function') updateCartBadge();
+        if (typeof setActiveNavLink === 'function') setActiveNavLink();
+      });
+    } catch (e) {
+      console.error('Failed to load navbar:', e);
+    }
+  }
+  includeNavbar();
+</script>
+
+
+  
+  
+    <!-- MAIN WRAPPER - 100% WIDTH, NO HEADER/FOOTER -->
+    <div style="width: 100%; background: white;">
+
+        <!-- SECTION 1: SUPPLIER HERO - FULL WIDTH -->
+        <div style="width: 100%; background: linear-gradient(145deg, #eef6fd 0%, #dae9f5 100%); padding: 60px 5%;">
+            <div style="max-width: 1400px; margin: 0 auto;">
+                <span style="background: #ff9f1c; color: #0a2e44; font-weight: 700; padding: 8px 24px; border-radius: 40px; font-size: 1.1rem; display: inline-block; margin-bottom: 25px;">⚡ INDIA'S LARGEST B2B PLATFORM</span>
+                <h1 style="font-size: 3.5rem; font-weight: 800; color: #0a2e44; line-height: 1.1; margin-bottom: 20px; max-width: 900px;">Become a Supplier on buildmarts.in</h1>
+                <p style="font-size: 1.3rem; color: #2b4c6a; max-width: 700px; line-height: 1.6;">Join 5,000+ manufacturers and suppliers reaching 50,000+ verified builders, contractors, and dealers across India.</p>
+            </div>
+        </div>
+
+        <!-- SECTION 2: TWO-COLUMN SUPPLIER INFO + FORM -->
+        <div style="width: 100%; padding: 60px 5%; background: white;">
+            <div style="max-width: 1400px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px;">
+                
+                <!-- LEFT COLUMN: SUPPLIER INFORMATION -->
+                <div style="flex: 1.2; min-width: 350px;">
+                    <h2 style="font-size: 2.2rem; font-weight: 700; color: #0a2e44; margin-bottom: 25px;">Why Supply with buildmarts?</h2>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                            <span style="background: #ff9f1c; min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #0a2e44;">📈</span>
+                            <div>
+                                <h3 style="font-size: 1.4rem; color: #0a2e44; margin-bottom: 8px;">Direct Market Access</h3>
+                                <p style="color: #3a6279; line-height: 1.6;">Connect with 50,000+ verified buyers including builders, contractors, and dealers across 22 states and 150+ cities.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                            <span style="background: #ff9f1c; min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #0a2e44;">💰</span>
+                            <div>
+                                <h3 style="font-size: 1.4rem; color: #0a2e44; margin-bottom: 8px;">Better Margins, Faster Payments</h3>
+                                <p style="color: #3a6279; line-height: 1.6;">Remove middlemen. Get fair pricing with 7-day settlement cycle. Average supplier margin improvement: 15-25%.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                            <span style="background: #ff9f1c; min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #0a2e44;">📊</span>
+                            <div>
+                                <h3 style="font-size: 1.4rem; color: #0a2e44; margin-bottom: 8px;">Real-time Analytics Dashboard</h3>
+                                <p style="color: #3a6279; line-height: 1.6;">Track demand trends, pricing insights, and buyer behavior to optimize your production and inventory.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                            <span style="background: #ff9f1c; min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #0a2e44;">🚚</span>
+                            <div>
+                                <h3 style="font-size: 1.4rem; color: #0a2e44; margin-bottom: 8px;">Pan-India Logistics Support</h3>
+                                <p style="color: #3a6279; line-height: 1.6;">Integrated shipping network with bulk transport optimization and real-time tracking.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f0f7fe; border-radius: 30px; padding: 30px; margin-top: 20px;">
+                        <h3 style="font-size: 1.5rem; color: #0a2e44; margin-bottom: 20px;">Materials we source</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <span style="background: white; padding: 10px 20px; border-radius: 40px; font-size: 0.95rem;">🧱 Cement & Concrete</span>
+                            <span style="background: white; padding: 10px 20px; border-radius: 40px;">🪨 Aggregates & Sand</span>
+                            <span style="background: white; padding: 10px 20px; border-radius: 40px;">🪵 Timber & Plywood</span>
+                            <span style="background: white; padding: 10px 20px; border-radius: 40px;">🔩 Steel & TMT</span>
+                            <span style="background: white; padding: 10px 20px; border-radius: 40px;">🚰 Plumbing</span>
+                            <span style="background: white; padding: 10px 20px; border-radius: 40px;">⚡ Electricals</span>
+                            <span style="background: white; padding: 10px 20px; border-radius: 40px;">🎨 Paints</span>
+                            <span style="background: white; padding: 10px 20px; border-radius: 40px;">🔨 Hardware</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- RIGHT COLUMN: SUPPLIER REGISTRATION FORM (based on actual process [citation:1]) -->
+                <div style="flex: 0.9; min-width: 350px; background: #f8fafc; border-radius: 40px; padding: 40px; box-shadow: 0 20px 40px rgba(0,20,40,0.08); border: 1px solid #e2eaf2;">
+                    <h2 style="font-size: 2rem; font-weight: 700; color: #0a2e44; margin-bottom: 10px;">Supplier Registration</h2>
+                    <p style="color: #4a6f8c; margin-bottom: 30px;">Fill the form below. Our team will review and activate your account within 48 hours [citation:1].</p>
+                    
+                    <form style="display: flex; flex-direction: column; gap: 20px;">
+                        <!-- Registration Method Info -->
+                        <div style="background: #e8f0fe; border-radius: 16px; padding: 15px; margin-bottom: 5px;">
+                            <p style="font-size: 0.95rem; color: #0a2e44;"><strong>Two registration methods available [citation:1]:</strong><br>1. New supplier registration (form below)<br>2. If you have a buyer account, you can also become a vendor from your dashboard.</p>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #0a2e44;">Company / Manufacturer Name *</label>
+                            <input type="text" placeholder="e.g., Shree Cement Ltd." value="Sample Cement Company" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%; background: white;">
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #0a2e44;">GST Number *</label>
+                            <input type="text" placeholder="27AAACB1234C1Z5" value="27AAACB1234C1Z5" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%;">
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #0a2e44;">Email (for account verification) *</label>
+                            <input type="email" placeholder="supplier@company.com" value="sales@samplecement.com" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%;">
+                        </div>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                            <div style="flex: 1; min-width: 150px;">
+                                <label style="font-weight: 600; color: #0a2e44; display: block; margin-bottom: 8px;">Contact Person *</label>
+                                <input type="text" placeholder="Full name" value="Ramesh Patel" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%;">
+                            </div>
+                            <div style="flex: 1; min-width: 150px;">
+                                <label style="font-weight: 600; color: #0a2e44; display: block; margin-bottom: 8px;">Phone *</label>
+                                <input type="tel" placeholder="98765 43210" value="98765 43210" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%;">
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #0a2e44;">Primary Product Category *</label>
+                            <select style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; background: white;">
+                                <option selected>Cement & Concrete</option>
+                                <option>Aggregates & Sand</option>
+                                <option>Timber & Plywood</option>
+                                <option>Steel & TMT</option>
+                                <option>Plumbing & Sanitary</option>
+                                <option>Electrical & Wiring</option>
+                                <option>Paints & Coatings</option>
+                                <option>Hardware & Tools</option>
+                            </select>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #0a2e44;">Manufacturing Capacity (monthly)</label>
+                            <input type="text" placeholder="e.g., 5000 tons" value="5000 tons" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%;">
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #0a2e44;">City / State *</label>
+                            <input type="text" placeholder="e.g., Mumbai, Maharashtra" value="Ahmedabad, Gujarat" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%;">
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+                            <input type="checkbox" id="terms" checked style="width: 20px; height: 20px;">
+                            <label for="terms" style="color: #2b4c6a;">I agree to the terms and conditions. My information is correct [citation:1].</label>
+                        </div>
+                        
+                        <button type="submit" style="background: #ff9f1c; color: #0a2e44; border: none; padding: 18px; border-radius: 50px; font-weight: 700; font-size: 1.2rem; cursor: default; margin-top: 10px;">Submit Registration Request →</button>
+                        
+                        <p style="font-size: 0.9rem; color: #6f8da3; text-align: center; margin-top: 10px;">Our team will review your request. If all information is correct, your account will be activated and you will be notified via email [citation:1].</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: SUPPLIER CATEGORIES - FULL WIDTH -->
+        <div style="width: 100%; background: #f0f7fe; padding: 60px 5%;">
+            <div style="max-width: 1400px; margin: 0 auto;">
+                <h2 style="font-size: 2.2rem; font-weight: 700; color: #0a2e44; margin-bottom: 40px; text-align: center;">Categories with High Demand</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+                    <div style="background: white; border-radius: 30px; padding: 30px;">
+                        <span style="font-size: 2.5rem;">🧱</span>
+                        <h3 style="font-size: 1.5rem; margin: 15px 0 5px;">Cement</h3>
+                        <p style="color: #4a6f8c;">12,000+ tons/month demand</p>
+                    </div>
+                    <div style="background: white; border-radius: 30px; padding: 30px;">
+                        <span style="font-size: 2.5rem;">🔩</span>
+                        <h3 style="font-size: 1.5rem; margin: 15px 0 5px;">Steel</h3>
+                        <p style="color: #4a6f8c;">15,000+ tons/year</p>
+                    </div>
+                    <div style="background: white; border-radius: 30px; padding: 30px;">
+                        <span style="font-size: 2.5rem;">🪨</span>
+                        <h3 style="font-size: 1.5rem; margin: 15px 0 5px;">Aggregates</h3>
+                        <p style="color: #4a6f8c;">8,500+ loads/month</p>
+                    </div>
+                    <div style="background: white; border-radius: 30px; padding: 30px;">
+                        <span style="font-size: 2.5rem;">🪵</span>
+                        <h3 style="font-size: 1.5rem; margin: 15px 0 5px;">Timber</h3>
+                        <p style="color: #4a6f8c;">4,500+ cu.ft/month</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: TESTIMONIALS - FULL WIDTH -->
+        <div style="width: 100%; background: white; padding: 60px 5%;">
+            <div style="max-width: 1400px; margin: 0 auto;">
+                <h2 style="font-size: 2.2rem; font-weight: 700; color: #0a2e44; margin-bottom: 40px;">What Suppliers Say</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                    <div style="background: #f8fcff; border-radius: 30px; padding: 30px;">
+                        <span style="font-size: 3rem; color: #ff9f1c;">“</span>
+                        <p style="font-size: 1rem; line-height: 1.6;">buildmarts helped us expand from Gujarat to pan-India. Monthly revenue grew 3x in 8 months.</p>
+                        <div style="margin-top: 15px;"><strong>— Ramesh Patel</strong>, Shree Cement</div>
+                    </div>
+                    <div style="background: #f8fcff; border-radius: 30px; padding: 30px;">
+                        <span style="font-size: 3rem; color: #ff9f1c;">“</span>
+                        <p style="font-size: 1rem; line-height: 1.6;">Connected us with 200+ dealers directly. The dashboard gives real-time demand insights.</p>
+                        <div style="margin-top: 15px;"><strong>— Priya Menon</strong>, Western Ply</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+
+
+  <div id="footer-placeholder"></div>
+
+  <!-- Your original footer loader script -->
+  <script>
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+        const temp = document.createElement('div');
+        temp.innerHTML = data;
+        temp.querySelectorAll('script').forEach(s => {
+          const newScript = document.createElement('script');
+          if (s.src) {
+            newScript.src = s.src;
+          } else {
+            newScript.textContent = s.textContent;
+          }
+          document.body.appendChild(newScript);
+        });
+      })
+      .catch(error => console.error('Footer load error:', error));
+  </script>
+</body>
+</html>

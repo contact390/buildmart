@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>home interiors · direct form link</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { 
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+      background-color: #fdf9f2; 
+      line-height:1.5; 
+      scroll-behavior:smooth;
+    }
+  </style>
+</head>
+<body style="margin:0; background:#fdf9f2; color:#1f2c33;">
+
+      <div id="navbar-container"></div>
+
+      <!-- Load Navbar Script -->
+  <script>
+  // Load shared navbar (injects navbar.html body and executes its scripts)
+  async function includeNavbar() {
+    try {
+      const res = await fetch('navbar.html');
+      const text = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      document.getElementById('navbar-container').innerHTML = doc.body.innerHTML;
+
+      // Execute scripts from navbar.html and wait for external scripts to load
+      const __createdScriptPromises = [];
+      doc.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+          newScript.async = false;
+          __createdScriptPromises.push(new Promise(resolve => {
+            newScript.addEventListener('load', resolve);
+            newScript.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      Promise.all(__createdScriptPromises).finally(() => {});
+
+      // Ensure navbar init functions run after dynamic injection (wait for external scripts to load)
+      const __navbarScriptPromises = [];
+      doc.querySelectorAll('script').forEach((s, i) => {
+        const existing = document.querySelectorAll('script')[document.querySelectorAll('script').length - 1 - i];
+        if (existing && existing.src) {
+          __navbarScriptPromises.push(new Promise(resolve => {
+            existing.addEventListener('load', resolve);
+            existing.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        }
+      });
+      Promise.all(__navbarScriptPromises).finally(() => {
+        if (typeof checkScreenSize === 'function') checkScreenSize();
+        if (typeof addDesktopHoverEffects === 'function') addDesktopHoverEffects();
+        if (typeof updateUserUI === 'function') updateUserUI();
+        if (typeof updateCartBadge === 'function') updateCartBadge();
+        if (typeof setActiveNavLink === 'function') setActiveNavLink();
+      });
+    } catch (e) {
+      console.error('Failed to load navbar:', e);
+    }
+  }
+  includeNavbar();
+</script>
+
+<!-- SECTION 1 : hero (header in caps 28px) with form anchor link -->
+<section style="max-width:1400px; margin:0 auto; padding:4rem 2.5rem 2.5rem; display:flex; flex-wrap:wrap; gap:3rem; justify-content:space-between; align-items:flex-start; background:linear-gradient(145deg, #fffbf3 0%, #fcf3e9 100%); border-radius:0 0 48px 48px;">
+  <div style="flex:2 1 300px;">
+    <span style="font-size:1.2rem; font-weight:500; letter-spacing:0.3px; color:#bf7f4a; background:#faeadc; padding:0.3rem 1.2rem; border-radius:40px; display:inline-block; margin-bottom:1.8rem;">✨ Transform Your Space Into a Dream Interior</span>
+    <h1 style="font-size:3.2rem; font-weight:300; line-height:1.2; color:#2c3e4a;">your story,<br><span style="font-weight:500; color:#a56334;">crafted in every corner</span></h1>
+    <p style="font-size:1.25rem; max-width:600px; margin:2rem 0 2rem; color:#3e4f59;">From elegant designs to quality materials, BuildMarts delivers complete interior solutions that turn your house into a modern, functional, and beautiful living space.</p>
+    <div style="display:flex; gap:2rem; flex-wrap:wrap;">
+      <!-- this link jumps to the consultation form below (section 6) -->
+      <a href="#consultation-form" style="background:#1f2c33; color:#ffffff; text-decoration:none; padding:1.1rem 3rem; font-size:1.2rem; border-radius:60px; display:inline-block; box-shadow:0 12px 20px -12px #1f2c3340;">📅 BOOK FREE CONSULTATION</a>
+      <button style="background:#e7d7c5; color:#2c3e4a; border:none; padding:1.1rem 3rem; font-size:1.2rem; border-radius:60px; cursor:pointer;">🎨 SEE COLOUR STORIES</button>
+    </div>
+  </div>
+  <div style="flex:1 1 240px; background:#dccfbe; border-radius:48px; min-height:240px; display:flex; align-items:center; justify-content:center; color:#5e4d3b; font-size:1.2rem; box-shadow:20px 20px 0 #f3e1d2;">[VIBRANT MOOD BOARD]</div>
+</section>
+
+<!-- SECTION 3 : crave (header caps 28px) with form link -->
+<section style="max-width:1400px; margin:3rem auto 0; padding:4rem 2.5rem; background:#f9e3d0; border-radius:48px; display:flex; flex-wrap:wrap; gap:3rem; align-items:center;">
+  <div style="flex:1.2 1 350px;">
+    <h2 style="font-size:28px; font-weight:500; text-transform:uppercase; letter-spacing:0.5px; color:#2c3e4a;">THE HOME DESIGN YOU TRULY CRAVE</h2>
+    <p style="margin:1.8rem 0; font-size:1.2rem; color:#3b423f;">when aesthetics meet soul — we blend modern technology with hand‑picked textures, colour psychology and biophilic touches. every room tells your story.</p>
+    <p style="margin-bottom:2.2rem;">✨ NEW: IMMERSIVE 3D WALKTHROUGHS · 100+ MATERIAL SWATCHES · AUGMENTED REALITY PREVIEW</p>
+    <a href="#consultation-form" style="background:#b04513; color:white; text-decoration:none; padding:1rem 3rem; font-size:1.2rem; border-radius:60px; display:inline-block;">EXPLORE COLOUR WORLDS + FORM</a>
+  </div>
+  <div style="flex:1 1 280px; background:#c1aa95; border-radius:48px; min-height:240px; display:flex; align-items:flex-end; justify-content:center; padding:2rem; color:white; font-size:1.4rem; font-weight:300; box-shadow:0 30px 25px -15px #8f7864;">[LIVING COLLAGE]</div>
+</section>
+
+<!-- SECTION 2 : numbers (header caps 28px) -->
+<section style="max-width:1400px; margin:3rem auto 0; padding:3rem 2.5rem; background:#eef2e6; border-radius:64px 64px 32px 32px;">
+  <h2 style="font-size:28px; font-weight:500; margin-bottom:2.8rem; color:#2c5f2d; letter-spacing:0.02em; text-transform:uppercase;">LET OUR NUMBERS DO THE TALKING! ✦</h2>
+  <div style="display:flex; flex-wrap:wrap; justify-content:space-evenly; gap:2.5rem 3rem;">
+    <div style="background:white; padding:2rem 2.8rem; border-radius:80px; box-shadow:0 10px 20px #b7c4a7;"><span style="font-size:4.2rem; font-weight:300; color:#5f8b4b;">125k+</span><p style="font-size:1.3rem; font-weight:400;">#LivspaceHomes</p></div>
+    <div style="background:white; padding:2rem 2.8rem; border-radius:80px; box-shadow:0 10px 20px #b7c4a7;"><span style="font-size:4.2rem; font-weight:300; color:#5f8b4b;">3800+</span><p style="font-size:1.3rem;">designers</p></div>
+    <div style="background:white; padding:2rem 2.8rem; border-radius:80px; box-shadow:0 10px 20px #b7c4a7;"><span style="font-size:4.2rem; font-weight:300; color:#5f8b4b;">125+</span><p style="font-size:1.3rem;">cities</p></div>
+    <div style="background:white; padding:2rem 2.8rem; border-radius:80px; box-shadow:0 10px 20px #b7c4a7;"><span style="font-size:4.2rem; font-weight:300; color:#5f8b4b;">3</span><p style="font-size:1.3rem;">countries</p></div>
+  </div>
+  <p style="margin-top:2.5rem; font-size:1.2rem; color:#3b6e3b;">⭐ NEWLY OPENED: DUBAI · SINGAPORE · LONDON STUDIO</p>
+</section>
+
+
+
+<!-- SECTION 4 : budget (header caps 28px) -->
+<section style="max-width:1400px; margin:3rem auto 0; padding:3.5rem 2.5rem; background:linear-gradient(125deg, #d3e0d3, #f5efe0); border-radius:48px;">
+  <div style="display:flex; flex-wrap:wrap; align-items:center; gap:2.5rem;">
+    <div style="flex:2 1 300px;">
+      <h2 style="font-size:28px; font-weight:500; text-transform:uppercase; letter-spacing:0.3px;">HOMES FOR EVERY BUDGET</h2>
+      <p style="font-size:1.3rem; margin:1rem 0 0.5rem; max-width:600px;">design that respects your wallet — from compact luxury to grand minimalism. our designers curate options starting at ₹4.5L* (modular).</p>
+      <p style="color:#4b6250; margin-top:2rem;">💡 0% EMI AVAILABLE · PRICE‑MATCH ASSURANCE³ · EXCLUSIVE TEXTILE UPGRADES</p>
+    </div>
+    <div style="flex:0 0 auto;">
+      <a href="#consultation-form" style="background:#1f5436; color:white; text-decoration:none; padding:1.3rem 3.5rem; font-size:1.4rem; border-radius:60px; display:inline-block; box-shadow:0 15px 25px -8px #1f543670;">GET FREE QUOTE →</a>
+    </div>
+  </div>
+  <p style="font-size:0.98rem; margin-top:2rem; color:#4e6752;">*The prices include only modular interiors for new homes. ask for detailed estimate.</p>
+</section>
+
+<!-- SECTION 5 : testimonials (header caps 28px) with link -->
+<section style="max-width:1400px; margin:3rem auto 0; padding:4rem 2.5rem; background:#fcf3ea; border-radius:48px;">
+  <h2 style="font-size:28px; font-weight:500; text-transform:uppercase; margin-bottom:0.5rem;">WHY 1 LAKH+ HOMEOWNERS ❤️ US</h2>
+  <p style="font-size:1.4rem; margin-bottom:3rem;">hear it from our clients — real stories, real colours</p>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem;">
+    <div style="background:#ffe5d9; padding:2rem; border-radius:32px; box-shadow:10px 10px 0 #e3c4b4;"><span style="font-size:2.2rem;">🧿</span><p style="font-style:italic; margin:1rem 0;">“We wanted contemporary global vibes – they added indigo & terracotta accents. obsessed!”</p><p style="font-weight:600;">– Priyanka & Tarun</p></div>
+    <div style="background:#d9f0ec; padding:2rem; border-radius:32px; box-shadow:10px 10px 0 #b4d4cf;"><span style="font-size:2.2rem;">🪴</span><p style="font-style:italic;">“Dedication made the place beautiful; earthy tones, sustainable wood – dream home.”</p><p style="font-weight:600;">– Kanchan & Sumit</p></div>
+    <div style="background:#fae1d1; padding:2rem; border-radius:32px; box-shadow:10px 10px 0 #e7c2ab;"><span style="font-size:2.2rem;">🔆</span><p style="font-style:italic;">“Perfect collaboration – modern with pops of mustard and deep green. exactly what we wanted.”</p><p style="font-weight:600;">– Nidhi & Vikas</p></div>
+    <div style="background:#d5d0e5; padding:2rem; border-radius:32px; box-shadow:10px 10px 0 #bcb5d4;"><span style="font-size:2.2rem;">🌙</span><p style="font-style:italic;">“Minimalist dream shaped into reality – soft neutrals + brass details. pure bliss.”</p><p style="font-weight:600;">– Neha & Omkar</p></div>
+  </div>
+  <div style="margin-top:3rem; text-align:center;"><a href="#consultation-form" style="background:#a56334; color:white; text-decoration:none; padding:1rem 3.5rem; border-radius:60px; font-size:1.2rem; display:inline-block;">📞 BOOK FREE CONSULTATION</a></div>
+</section>
+
+<!-- SECTION 6 : CONSULTATION FORM (removed estimator) with id="consultation-form" -->
+<section id="consultation-form" style="max-width:1400px; margin:3rem auto 0; padding:4rem 2.5rem; background:#e1dac9; border-radius:48px; scroll-margin-top:2rem;">
+  <div style="display:flex; flex-wrap:wrap; gap:3rem; align-items:center; justify-content:center;">
+    <div style="flex:1 1 400px; background:#faf1e6; border-radius:64px; padding:3rem; box-shadow:0 30px 30px -15px #9c8b78;">
+      <h2 style="font-size:28px; font-weight:500; text-transform:uppercase; margin-bottom:1.8rem; color:#a56334; text-align:center;">📋 BOOK FREE CONSULTATION</h2>
+      <p style="text-align:center; margin-bottom:2rem; font-size:1.2rem;">Fill the form — we’ll reach out within 24h</p>
+
+
+      <form id="consultation-form-element" style="display:flex; flex-direction:column; gap:.8rem;">
+        <input type="text" id="name" placeholder="full name *" style="padding:1.1rem 1.5rem; border-radius:60px; border:1px solid #d4bc9f; background:white; font-size:1rem;" required>
+        <input type="email" id="email" placeholder="email address *" style="padding:1.1rem 1.5rem; border-radius:60px; border:1px solid #d4bc9f; background:white; font-size:1rem;" required>
+        <input type="tel" id="phone" placeholder="phone number" style="padding:1.1rem 1.5rem; border-radius:60px; border:1px solid #d4bc9f; background:white; font-size:1rem;">
+        <select id="city" style="padding:1.1rem 1.5rem; border-radius:60px; border:1px solid #d4bc9f; background:white;">
+          <option value="">preferred city</option>
+          <option value="Mumbai">Mumbai</option><option value="Delhi NCR">Delhi NCR</option><option value="Bangalore">Bangalore</option><option value="Pune">Pune</option><option value="Chennai">Chennai</option>
+        </select>
+        <textarea id="project_description" placeholder="tell us about your dream project (rooms, style...)" rows="3" style="padding:1.1rem 1.5rem; border-radius:32px; border:1px solid #d4bc9f; background:white;"></textarea>
+        <button type="submit" id="submit-btn" style="background:#b04513; color:white; border:none; padding:1.2rem; border-radius:60px; font-size:1.3rem; font-weight:500; margin-top:0.8rem; cursor:pointer;">SUBMIT → SCHEDULE CALL</button>
+        <div id="form-message" style="margin-top:1rem; text-align:center; display:none;"></div>
+      </form>
+
+
+
+      <p style="font-size:0.85rem; margin-top:1.5rem; color:#6e5e4d; text-align:center;">we respect your privacy · no spam</p>
+    </div>
+    <div style="flex:0 1 300px; text-align:center;">
+      <div style="background:#c5b2a0; border-radius:48px; padding:2rem; color:white; font-size:1.3rem;">📞 +91 8790170525<br>✉️ contact@buildmarts.in<br>💬 live chat 24/7</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7 : what we offer (header caps 28px) with link to form -->
+<section style="max-width:1400px; margin:3rem auto 0; padding:4rem 2.5rem; background:#ffffff; border-radius:48px; box-shadow:0 10px 25px #d3cbbc;">
+  <h2 style="font-size:28px; font-weight:500; text-transform:uppercase;">WHAT WE OFFER — <span style="color:#b8612b;">FULL SPECTRUM</span></h2>
+  <div style="display:flex; flex-wrap:wrap; gap:0.8rem 1rem; margin:2.5rem 0;">
+    <span style="background:#ffe0c0; padding:0.7rem 1.8rem; border-radius:60px; font-weight:500;">MODULAR KITCHENS</span>
+    <span style="background:#ddeee8; padding:0.7rem 1.8rem; border-radius:60px; font-weight:500;">WARDROBES + CUSTOM</span>
+    <span style="background:#f9d9d9; padding:0.7rem 1.8rem; border-radius:60px; font-weight:500;">LIGHTING DESIGN</span>
+    <span style="background:#d9d0f0; padding:0.7rem 1.8rem; border-radius:60px;">FLOORING (HERRINGBONE, TILES)</span>
+    <span style="background:#fbe38e; padding:0.7rem 1.8rem; border-radius:60px;">ELECTRICAL & SMART HOME</span>
+    <span style="background:#cbe5c9; padding:0.7rem 1.8rem; border-radius:60px;">CIVIL WORK / PARTITION</span>
+    <span style="background:#fbc0b0; padding:0.7rem 1.8rem; border-radius:60px;">FALSE CEILING (POP, GYPSUM)</span>
+    <span style="background:#b8d9e6; padding:0.7rem 1.8rem; border-radius:60px;">WALL DESIGN / TEXTURE</span>
+  </div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:2rem; margin:3rem 0;">
+    <div style="background:#fcf2e5; border-radius:32px; padding:1.8rem;"><span style="font-size:2rem;">🛡️</span><h3 style="margin:0.8rem 0;">FLAT 10‑YEAR WARRANTY¹</h3><p>modular & hardware · anti‑corrosion coating</p></div>
+    <div style="background:#e7f1e8; border-radius:32px; padding:1.8rem;"><span style="font-size:2rem;">💧</span><h3 style="margin:0.8rem 0;">AQUABLOC® / ANTIBUBBLE®</h3><p>moisture‑proof edges · seamless finish</p></div>
+    <div style="background:#fff0d9; border-radius:32px; padding:1.8rem;"><span style="font-size:2rem;">⚡</span><h3 style="margin:0.8rem 0;">DURABUILD™ + DESIGN SCIENCE</h3><p>robust cabinets · ergonomic workflows</p></div>
+    <div style="background:#eeddf5; border-radius:32px; padding:1.8rem;"><span style="font-size:2rem;">🏷️</span><h3 style="margin:0.8rem 0;">PRICE‑MATCH + 0% EMI</h3><p>transparent, flexible, no hidden costs</p></div>
+  </div>
+  <a href="#consultation-form" style="background:#b8612b; color:white; text-decoration:none; padding:1rem 3rem; border-radius:60px; font-size:1.2rem; display:inline-block;">GET FREE QUOTE →</a>
+</section>
+
+<!-- SECTION 8 : trusted partners + download guide (header caps 28px) with link -->
+<section style="max-width:1400px; margin:3rem auto 0; padding:4rem 2.5rem; background:#e2cfb9; border-radius:48px;">
+  <div style="display:flex; flex-wrap:wrap; gap:3rem;">
+    <div style="flex:1.3 1 300px; background:#f7eae1; border-radius:48px; padding:2rem;">
+      <h3 style="font-size:28px; font-weight:500; text-transform:uppercase;">OUR TRUSTED PARTNERS</h3>
+      <p style="font-size:1.1rem; margin:1rem 0 1.5rem;">winning collaborations: godrej, nobilia, hafele, kohler, jaquar + emerging indian artisans.</p>
+      <div style="display:flex; gap:2.5rem; flex-wrap:wrap; color:#5e4f41;"><span style="font-weight:600;">🏭 NOBILIA</span> <span style="font-weight:600;">🚰 KOHLER</span> <span style="font-weight:600;">🪑 GODREJ</span> <span style="font-weight:600;">🔩 HAFELE</span></div>
+    </div>
+    <div style="flex:1 1 280px; background:#f1c8a3; border-radius:48px; padding:2rem;">
+      <span style="font-size:2.8rem;">📘</span>
+      <h4 style="font-size:28px; font-weight:500; text-transform:uppercase; margin:0.2rem 0 0.8rem;">HOME INTERIOR GUIDE</h4>
+      <p style="margin-bottom:1.5rem;">fundamental design guidelines, colour wheel, lighting tips — 28 pages</p>
+      <a href="#consultation-form" style="background:#2e4a33; color:white; text-decoration:none; padding:1rem 2rem; border-radius:60px; display:inline-block;">📥 DOWNLOAD FREE GUIDE</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 9 : how it works (header caps 28px) with link -->
+<section style="max-width:1400px; margin:3rem auto 0; padding:4rem 2.5rem; background:#cfd9d2; border-radius:48px;">
+  <h2 style="font-size:28px; font-weight:500; text-transform:uppercase; margin-bottom:2rem;">HOW IT WORKS — SMOOTH PROCESS</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:center;">
+    <div style="background:#fef8ec; flex:1 1 200px; padding:2rem; border-radius:48px; box-shadow:0 15px 0 #b8ab99;"><span style="font-size:3rem;">1</span><br><b style="font-size:1.5rem;">MEET A DESIGNER</b><br><span style="color:#735e4b;">(5% payment⁴) · coffee on us</span></div>
+    <div style="background:#f0dfcc; flex:1 1 200px; padding:2rem; border-radius:48px; box-shadow:0 15px 0 #b8ab99;"><span style="font-size:3rem;">2</span><br><b style="font-size:1.5rem;">BOOK RENOVATION</b><br><span style="color:#735e4b;">(60% payment) · material selection</span></div>
+    <div style="background:#e9d4bd; flex:1 1 200px; padding:2rem; border-radius:48px; box-shadow:0 15px 0 #b8ab99;"><span style="font-size:3rem;">3</span><br><b style="font-size:1.5rem;">EXECUTION BEGINS</b><br><span style="color:#735e4b;">(100% payment) · on‑site updates</span></div>
+    <div style="background:#dabd9b; flex:1 1 200px; padding:2rem; border-radius:48px; box-shadow:0 15px 0 #b8ab99;"><span style="font-size:3rem;">4</span><br><b style="font-size:1.5rem;">INSTALL & MOVE IN</b><br><span style="color:#3a2f27;">final walkthrough · enjoy!</span></div>
+  </div>
+  <div style="text-align:center; margin-top:3.5rem;"><a href="#consultation-form" style="background:#1f2c33; color:white; text-decoration:none; padding:1.2rem 4rem; border-radius:60px; font-size:1.4rem; display:inline-block;">BOOK FREE CONSULTATION</a></div>
+</section>
+
+<!-- SECTION 10 : dream home – final CTA (header caps 28px) with link to form -->
+<section style="max-width:1400px; margin:3rem auto 4rem; padding:5rem 2.5rem; background:linear-gradient(145deg, #ffedd7, #fad7bb); border-radius:80px 80px 40px 40px;">
+  <div style="text-align:center;">
+    <h2 style="font-size:28px; font-weight:500; text-transform:uppercase; letter-spacing:1px; color:#2a363b;">YOUR DREAM HOME</h2>
+    <h2 style="font-size:25px; font-weight:500; color:#b04513; margin-bottom:1.5rem;">IS JUST A CLICK AWAY</h2>
+    <p style="font-size:1.6rem; max-width:700px; margin:0 auto 2.5rem;">book a free consultation — we’ll bring colour swatches, material decks, and a smile.</p>
+    <div style="display:flex; gap:1.5rem; flex-wrap:wrap; justify-content:center; margin-bottom:3rem;">
+      <a href="#consultation-form" style="background:#1f2c33; color:white; text-decoration:none; padding:1.3rem 3.8rem; border-radius:60px; font-size:1.3rem; display:inline-block;">START YOUR DESIGN JOURNEY</a>
+      <a href="#consultation-form" style="background:#f5e2d2; color:#2c3e4a; border:2px solid #b04513; padding:1.3rem 3.8rem; border-radius:60px; font-size:1.3rem; text-decoration:none; display:inline-block;">💬 CHAT WITH US</a>
+    </div>
+    <!-- contact note -->
+    <div style="background:#ffffffc9; max-width:500px; margin:2rem auto 0; padding:1.5rem; border-radius:60px;">
+      <span style="display:block; font-size:1rem;">📞 +91 8790170525  ·  ✉️ contact@buildmarts.in  ·  LIVE CHAT 24/7</span>
+    </div>
+    <p style="margin-top:3rem; color:#6f5e4e;">*NO HEADER/FOOTER · ALL SECTIONS LINK TO THE CONSULTATION FORM BELOW</p>
+  </div>
+</section>
+  <div id="footer-placeholder"></div>
+
+  <!-- Your original footer loader script -->
+  <script>
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+        const temp = document.createElement('div');
+        temp.innerHTML = data;
+        temp.querySelectorAll('script').forEach(s => {
+          const newScript = document.createElement('script');
+          if (s.src) {
+            newScript.src = s.src;
+          } else {
+            newScript.textContent = s.textContent;
+          }
+          document.body.appendChild(newScript);
+        });
+      })
+      .catch(error => console.error('Footer load error:', error));
+  </script>
+
+  <!-- Consultation Form Submission Script -->
+  <script>
+    document.getElementById('consultation-form-element').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById('submit-btn');
+      const messageDiv = document.getElementById('form-message');
+
+      // Get form data
+      const formData = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        city: document.getElementById('city').value,
+        project_description: document.getElementById('project_description').value.trim()
+      };
+
+      const apiUrl = 'https://www.buildmarts.in/api/consultations';
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          messageDiv.style.display = 'block';
+          messageDiv.style.color = '#2c3e4a';
+          messageDiv.textContent = result.message;
+          
+          // Reset form
+          document.getElementById('consultation-form-element').reset();
+        } else {
+          throw new Error(result.message || 'Submission failed');
+        }
+      } catch (error) {
+        console.error('Form submission error:', error);
+        messageDiv.style.display = 'block';
+        messageDiv.style.color = '#b04513';
+        messageDiv.textContent = 'Error submitting form. Please try again or contact us directly.';
+      } finally {
+        // Re-enable button
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'SUBMIT → SCHEDULE CALL';
+      }
+    });
+  </script>
+<!-- end: estimator removed, every "book / get quote" link jumps to #consultation-form -->
+</body>
+</html>

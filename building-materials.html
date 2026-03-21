@@ -56,7 +56,7 @@
   <div id="navbar-container"></div>
 
  <!-- Your original banner (preserved) -->
-      <div class="navbanners" style="background:url('Images/building-materials.png') center/cover no-repeat; margin-bottom: 20px;">
+      <div class="navbanners" style="background:url('images/building-materials.png') center/cover no-repeat; margin-bottom: 20px;">
         <div style="display:inline-block; background:rgba(44,62,80,0.88); padding:20px 30px; border-radius:10px;">
           <h1 style="font-size:36px;margin-bottom:10px;color:#fff;">🏗️ Building Materials</h1>
           <p style="color:#ecf0f1;margin:0; font-size: clamp(14px, 3.5vw, 18px);">Premium construction materials</p>
@@ -183,11 +183,13 @@
         <select id="sortFilter" style="padding:10px 15px;border:2px solid #ddd;border-radius:6px;">
           <option>Newest First</option>
           <option value="price-low">Price: Low to High</option>
-          <option value="price-high">Price: High to Low</option>
+          <option value="price-high">Price: High to Low</option>                                                                          
           <option value="rating">Rating</option>
         </select>
         <button onclick="applySort()" style="padding:10px 25px;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:bold;background:linear-gradient(135deg,#34495e 0%,#2c3e50 100%);">🔍 Sort</button>
         <button onclick="resetFilters()" style="padding:10px 25px;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:bold;background:#95a5a6;">↺ Reset</button>
+        <button onclick="filterByCategory('sand')" style="padding:10px 25px;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:bold;background:linear-gradient(135deg,#d4a574 0%,#c9915a 100%);">🏜️ Sand</button>
+        <button onclick="filterByCategory('aggregates')" style="padding:10px 25px;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:bold;background:linear-gradient(135deg,#8b8b8b 0%,#696969 100%);">⬜ Aggregates</button>
       </div>
 
       <!-- Loading Container (your original) -->
@@ -779,6 +781,24 @@
       updateActiveFiltersDisplay();
       loadProducts();
     }
+
+    // ----- ADDED: Filter by Category (Sand/Aggregates) -----
+    window.filterByCategory = function(category) {
+      const categoryMap = {
+        'sand': 'sand',
+        'aggregates': 'aggregates'
+      };
+      
+      const filtered = allProducts.filter(p => {
+        const productName = (p.productName || '').toLowerCase();
+        const description = (p.description || '').toLowerCase();
+        const searchTerm = categoryMap[category];
+        return productName.includes(searchTerm) || description.includes(searchTerm);
+      });
+      
+      displayProducts(filtered);
+      document.getElementById('productCountDisplay').innerText = filtered.length + ' Products';
+    };
 
     function updateStats() {
       const totalCount = allProducts.length;

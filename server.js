@@ -11,10 +11,13 @@ const cartRoutes = require('./routes/cart');
 const productsRoutes = require('./routes/products');
 const formRoutes = require('./routes/form');
 const productUploadsRoutes = require('./routes/product_uploads'); // Import product uploads routes
-
-
+const dealerRoutes = require('./routes/dealer'); // Import dealer routes
+const workforceRoutes = require('./routes/workforce'); // Import workforce routes
+const salesRoutes = require('./routes/sales'); // Import sales routes 
+const factoryRoutes = require('./routes/factory'); // Import factory routes
+const consultationsRoutes = require('./routes/consultations'); // Import consultations routes 
 const app = express();
-const port = 5001;
+const port = 5000;
 
 // Middleware
 app.use(cors({ 
@@ -49,7 +52,7 @@ app.use(session({
 const path = require('path');
 
 // Serve static files (HTML/CSS/JS) from project root so pages like allproducts.html
-// can be opened from http://localhost:5001/allproducts.html
+// can be opened from http://localhost:5000/allproducts.html
 app.use(express.static(path.join(__dirname)));
 
 // Routes
@@ -61,7 +64,11 @@ app.use('/api', cartRoutes);
 app.use('/api', productsRoutes);
 app.use('/api', formRoutes);
 app.use('/api', productUploadsRoutes); // Use product uploads routes
-
+app.use('/api', dealerRoutes); // Use dealer routes
+app.use('/api', workforceRoutes); // Use workforce routes
+app.use('/api', salesRoutes); // Use sales routes
+app.use('/api', factoryRoutes); // Use factory routes
+app.use('/api', consultationsRoutes); // Use consultations routes
 // Start server
 const server = app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);

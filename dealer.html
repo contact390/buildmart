@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>buildmarts.in · Dealer Network & Registration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f4f7fb;
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        input, select, textarea {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f4f7fb; width: 100%; min-height: 100vh; margin: 0; padding: 0;">
+
+
+
+
+     <div id="navbar-container"></div>
+
+   <!-- Load Navbar Script -->
+  <script>
+  // Load shared navbar (injects navbar.html body and executes its scripts)
+  async function includeNavbar() {
+    try {
+      const res = await fetch('navbar.html');
+      const text = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      document.getElementById('navbar-container').innerHTML = doc.body.innerHTML;
+
+      // Execute scripts from navbar.html and wait for external scripts to load
+      const __createdScriptPromises = [];
+      doc.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+          newScript.async = false;
+          __createdScriptPromises.push(new Promise(resolve => {
+            newScript.addEventListener('load', resolve);
+            newScript.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      Promise.all(__createdScriptPromises).finally(() => {});
+
+      // Ensure navbar init functions run after dynamic injection (wait for external scripts to load)
+      const __navbarScriptPromises = [];
+      doc.querySelectorAll('script').forEach((s, i) => {
+        const existing = document.querySelectorAll('script')[document.querySelectorAll('script').length - 1 - i];
+        if (existing && existing.src) {
+          __navbarScriptPromises.push(new Promise(resolve => {
+            existing.addEventListener('load', resolve);
+            existing.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        }
+      });
+      Promise.all(__navbarScriptPromises).finally(() => {
+        if (typeof checkScreenSize === 'function') checkScreenSize();
+        if (typeof addDesktopHoverEffects === 'function') addDesktopHoverEffects();
+        if (typeof updateUserUI === 'function') updateUserUI();
+        if (typeof updateCartBadge === 'function') updateCartBadge();
+        if (typeof setActiveNavLink === 'function') setActiveNavLink();
+      });
+    } catch (e) {
+      console.error('Failed to load navbar:', e);
+    }
+  }
+  includeNavbar();
+</script>
+
+
+
+
+
+    <!-- MAIN WRAPPER - 100% WIDTH, NO HEADER/FOOTER -->
+    <div style="width: 100%; background: white;">
+
+        <!-- SECTION 1: DEALER HERO - FULL WIDTH -->
+        <div style="width: 100%; background: linear-gradient(120deg, #f7f3e9 0%, #fff7e6 100%); padding: 60px 5%;">
+            <div style="max-width: 1400px; margin: 0 auto;">
+                <span style="background: #f4b740; color: #1a4a5f; font-weight: 700; padding: 8px 24px; border-radius: 40px; font-size: 1.1rem; display: inline-block; margin-bottom: 25px;">🏷️ AUTHORIZED DEALER PROGRAM</span>
+                <h1 style="font-size: 3.5rem; font-weight: 800; color: #1a4a5f; line-height: 1.1; margin-bottom: 20px; max-width: 900px;">Become a buildmarts Authorized Dealer in Hyderabad</h1>
+                <p style="font-size: 1.3rem; color: #3a6279; max-width: 700px; line-height: 1.6;">Join leading dealers in Hyderabad’s Kukatpally area. Offer top-quality construction materials, connect with local builders, and grow your business with trusted brands.</p>
+            </div>
+        </div>
+
+        <!-- SECTION 2: TWO-COLUMN DEALER INFO + FORM -->
+        <div style="width: 100%; padding: 60px 5%; background: white;">
+            <div style="max-width: 1400px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px;">
+                
+                <!-- LEFT COLUMN: DEALER INFORMATION -->
+                <div style="flex: 1.2; min-width: 350px;">
+                    <h2 style="font-size: 2.2rem; font-weight: 700; color: #1a4a5f; margin-bottom: 25px;">Why Partner with buildmarts?</h2>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                            <span style="background: #f4b740; min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #1a4a5f;">💰</span>
+                            <div>
+                                <h3 style="font-size: 1.4rem; color: #1a4a5f; margin-bottom: 8px;">Higher Margins (18-25%)</h3>
+                                <p style="color: #3a6279; line-height: 1.6;">Factory-direct pricing with no middlemen. Average dealer margin: 18-25% across categories.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                            <span style="background: #f4b740; min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #1a4a5f;">📍</span>
+                            <div>
+                                <h3 style="font-size: 1.4rem; color: #1a4a5f; margin-bottom: 8px;">Exclusive Territory Protection in  Kukatpally Hyderabad</h3>
+                                <p style="color: #3a6279; line-height: 1.6;">Authorized dealers get protected geographical territories in Hyderabad's  Kukatpally Hyderabad area — no competition within designated zones.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                            <span style="background: #f4b740; min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #1a4a5f;">📱</span>
+                            <div>
+                                <h3 style="font-size: 1.4rem; color: #1a4a5f; margin-bottom: 8px;">Dealer App & Dashboard</h3>
+                                <p style="color: #3a6279; line-height: 1.6;">Real-time inventory, order tracking, lead alerts, and business analytics at your fingertips.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                            <span style="background: #f4b740; min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #1a4a5f;">🚚</span>
+                            <div>
+                                <h3 style="font-size: 1.4rem; color: #1a4a5f; margin-bottom: 8px;">Direct Dispatch to Customers</h3>
+                                <p style="color: #3a6279; line-height: 1.6;">Materials shipped directly from manufacturer to your customer — zero inventory holding cost option available.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                            <span style="background: #f4b740; min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #1a4a5f;">📢</span>
+                            <div>
+                                <h3 style="font-size: 1.4rem; color: #1a4a5f; margin-bottom: 8px;">Marketing & Lead Support in Hyderabad</h3>
+                                <p style="color: #3a6279; line-height: 1.6;">Local advertising in  Kukatpally Hyderabad area, branded merchandise, and digital leads delivered to your dealership.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f0f7fb; border-radius: 30px; padding: 30px; margin-top: 20px;">
+                        <h3 style="font-size: 1.5rem; color: #1a4a5f; margin-bottom: 15px;">Dealer Requirements</h3>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li style="margin-bottom: 12px; display: flex; gap: 10px;"><span style="color: #f4b740;">✓</span> Minimum investment: ₹5L - ₹25L (category dependent)</li>
+                            <li style="margin-bottom: 12px; display: flex; gap: 10px;"><span style="color: #f4b740;">✓</span> Shop front required (min. 300 sq.ft)</li>
+                            <li style="margin-bottom: 12px; display: flex; gap: 10px;"><span style="color: #f4b740;">✓</span> GST registration mandatory</li>
+                            <li style="margin-bottom: 12px; display: flex; gap: 10px;"><span style="color: #f4b740;">✓</span> Local market knowledge preferred</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- RIGHT COLUMN: DEALER REGISTRATION FORM (based on real process) -->
+                <div style="flex: 0.9; min-width: 350px; background: #f8fafc; border-radius: 40px; padding: 40px; box-shadow: 0 20px 40px rgba(0,20,40,0.08); border: 1px solid #e2eaf2;">
+                    <h2 style="font-size: 2rem; font-weight: 700; color: #1a4a5f; margin-bottom: 10px;">Dealer Registration - Hyderabad</h2>
+                    <p style="color: #4a6f8c; margin-bottom: 30px;">Fill the form below for dealership in Hyderabad's  Kukatpally Hyderabad area. Our dealer relationship manager will contact you within 24 hours.</p>
+                    
+                    <form id="dealerForm" style="display: flex; flex-direction: column; gap: 20px;">
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #1a4a5f;">Dealership / Firm Name *</label>
+                            <input type="text" name="dealership_name" placeholder="e.g., Kumar Building Materials" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%; background: white;">
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #1a4a5f;">GST Number *</label>
+                            <input type="text" name="gst_number" placeholder="27AAACB1234C1Z5" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%;">
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #1a4a5f;">Email *</label>
+                            <input type="email" name="email" placeholder="dealer@business.com" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%;">
+                        </div>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                            <div style="flex: 1; min-width: 150px;">
+                                <label style="font-weight: 600; color: #1a4a5f; display: block; margin-bottom: 8px;">Owner Name *</label>
+                                <input type="text" name="owner_name" placeholder="Full name" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%;">
+                            </div>
+                            <div style="flex: 1; min-width: 150px;">
+                                <label style="font-weight: 600; color: #1a4a5f; display: block; margin-bottom: 8px;">Phone *</label>
+                                <input type="tel" name="phone" placeholder="98765 43210" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%;">
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #1a4a5f;">City / Location *</label>
+                            <input type="text" name="city" placeholder="e.g., Hyderabad, Telangana" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; width: 100%;">
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #1a4a5f;">Shop Area (sq.ft) *</label>
+                            <select name="shop_area" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; background: white;">
+                                <option value="">Choose a range</option>
+                                <option>300-500 sq.ft</option>
+                                <option>500-1000 sq.ft</option>
+                                <option>1000-2000 sq.ft</option>
+                                <option>2000+ sq.ft</option>
+                            </select>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #1a4a5f;">Preferred Product Categories</label>
+                            <select name="preferred_categories" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; background: white;" multiple size="3">
+                                <option value="">Select one or more categories</option>
+                                <option>Cement & Concrete</option>
+                                <option>Steel & TMT</option>
+                                <option>Timber & Plywood</option>
+                                <option>Plumbing & Sanitary</option>
+                                <option>Electricals</option>
+                                <option>Paints & Hardware</option>
+                            </select>
+                            <span style="font-size: 0.85rem; color: #6f8da3;">Hold Ctrl to select multiple</span>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600; color: #1a4a5f;">Investment Capacity *</label>
+                            <select name="investment_capacity" style="padding: 16px 20px; border-radius: 30px; border: 1px solid #cbdae8; font-size: 1rem; background: white;">
+                                <option value="">Select investment range</option>
+                                <option>₹5L - ₹10L</option>
+                                <option>₹10L - ₹25L</option>
+                                <option>₹25L - ₹50L</option>
+                                <option>₹50L+</option>
+                            </select>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+                            <input type="checkbox" id="terms-dealer" checked style="width: 20px; height: 20px;">
+                            <label for="terms-dealer" style="color: #2b4c6a;">I confirm that the information provided is accurate and I meet the dealer requirements.</label>
+                        </div>
+                        
+                        <button type="submit" style="background: #f4b740; color: #1a4a5f; border: none; padding: 18px; border-radius: 50px; font-weight: 700; font-size: 1.2rem; cursor: pointer; margin-top: 10px;">Submit Dealership Application →</button>
+                        
+                        <p style="font-size: 0.9rem; color: #6f8da3; text-align: center; margin-top: 10px;">Our dealer team will contact you within 24 hours to discuss next steps.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: DEALER NETWORK STATS - FULL WIDTH -->
+        <!-- <div style="width: 100%; background: #1a4a5f; padding: 60px 5%;">
+            <div style="max-width: 1400px; margin: 0 auto; color: white;">
+                <h2 style="font-size: 2.2rem; font-weight: 700; margin-bottom: 40px; text-align: center;">buildmarts Dealer Network in Hyderabad</h2>
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 30px; text-align: center;">
+                    <div>
+                        <span style="font-size: 3rem; font-weight: 800;">150+</span>
+                        <p style="font-size: 1.2rem; opacity: 0.9;">Active Dealers</p>
+                    </div>
+                    <div>
+                        <span style="font-size: 3rem; font-weight: 800;">₹500Cr+</span>
+                        <p style="font-size: 1.2rem; opacity: 0.9;">Annual GMV</p>
+                    </div>
+                    <div>
+                        <span style="font-size: 3rem; font-weight: 800;"> Kukatpally Hyderabad</span>
+                        <p style="font-size: 1.2rem; opacity: 0.9;">Focus Area</p>
+                    </div>
+                    <div>
+                        <span style="font-size: 3rem; font-weight: 800;">25+</span>
+                        <p style="font-size: 1.2rem; opacity: 0.9;">Localities</p>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- SECTION 4: PRODUCT CATEGORIES FOR DEALERS -->
+        <div style="width: 100%; background: white; padding: 60px 5%;">
+            <div style="max-width: 1400px; margin: 0 auto;">
+                <h2 style="font-size: 2.2rem; font-weight: 700; color: #1a4a5f; margin-bottom: 30px;">Products You Can Stock in Hyderabad</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                    <span style="background: #f0f7fb; padding: 15px 30px; border-radius: 60px; font-size: 1.1rem;">🧱 Cement (OPC, PPC)</span>
+                    <span style="background: #f0f7fb; padding: 15px 30px; border-radius: 60px;">🔩 TMT Bars & Structural Steel</span>
+                    <span style="background: #f0f7fb; padding: 15px 30px; border-radius: 60px;">🪨 M-Sand & Aggregates</span>
+                    <span style="background: #f0f7fb; padding: 15px 30px; border-radius: 60px;">🪵 Plywood & Timber</span>
+                    <span style="background: #f0f7fb; padding: 15px 30px; border-radius: 60px;">🚰 PVC Pipes & Fittings</span>
+                    <span style="background: #f0f7fb; padding: 15px 30px; border-radius: 60px;">⚡ Wires & Cables</span>
+                    <span style="background: #f0f7fb; padding: 15px 30px; border-radius: 60px;">🎨 Paints & Primers</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: TESTIMONIALS -->
+        <div style="width: 100%; background: #f8fcff; padding: 60px 5%;">
+            <div style="max-width: 1400px; margin: 0 auto;">
+                <h2 style="font-size: 2.2rem; font-weight: 700; color: #1a4a5f; margin-bottom: 40px;">Success Stories from Hyderabad Dealers</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                    <div style="background: white; border-radius: 30px; padding: 30px;">
+                        <p style="font-size: 1rem; line-height: 1.6;">"Turnover went from ₹8L to ₹45L in 18 months. The lead generation in Kukatpally Hyderabad is phenomenal."</p>
+                        <div style="margin-top: 15px;"><strong>— Rajesh Kumar</strong>, Hyderabad</div>
+                    </div>
+                    <div style="background: white; border-radius: 30px; padding: 30px;">
+                        <p style="font-size: 1rem; line-height: 1.6;">" Hitaishi Dealer is a game changer. Real-time stock and order tracking for Hyderabad builders."</p>
+                        <div style="margin-top: 15px;"><strong>— Priya Sharma</strong>, Secunderabad</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+
+
+  <div id="footer-placeholder"></div>
+
+  <!-- Your original footer loader script -->
+  <script>
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+        const temp = document.createElement('div');
+        temp.innerHTML = data;
+        temp.querySelectorAll('script').forEach(s => {
+          const newScript = document.createElement('script');
+          if (s.src) {
+            newScript.src = s.src;
+          } else {
+            newScript.textContent = s.textContent;
+          }
+          document.body.appendChild(newScript);
+        });
+      })
+      .catch(error => console.error('Footer load error:', error));
+  </script>
+
+  <!-- Dealer Form Submission Script -->
+  <script>
+    document.getElementById('dealerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const data = {};
+      
+      // Handle multiple select
+      const selectedCategories = [];
+      const categorySelect = this.querySelector('select[name="preferred_categories"]');
+      for (let option of categorySelect.options) {
+        if (option.selected) {
+          selectedCategories.push(option.value);
+        }
+      }
+      
+      // Build data object
+      for (let [key, value] of formData.entries()) {
+        if (key !== 'preferred_categories') {
+          data[key] = value;
+        }
+      }
+      data.preferred_categories = selectedCategories;
+      
+      // Check terms checkbox
+      if (!this.querySelector('#terms-dealer').checked) {
+        alert('Please confirm that the information provided is accurate.');
+        return;
+      }
+      
+      console.log('Submitting dealer form with data:', data);
+      
+      try {
+        // Use explicit API endpoint pointing to port 5000
+        const apiUrl = 'https://www.buildmarts.in/api/dealer_application';
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+        
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+          console.error('Server responded with status:', response.status);
+          alert('Server error: ' + response.status + '. Please make sure the server is running on port 5000.');
+          return;
+        }
+        
+        const result = await response.json();
+        console.log('Response data:', result);
+        
+        if (result.success) {
+          alert('✅ Dealer application submitted successfully! Our team will contact you within 24 hours.');
+          this.reset();
+        } else {
+          alert('❌ Error: ' + result.error);
+        }
+      } catch (error) {
+        console.error('Submission error:', error);
+        alert('❌ An error occurred: ' + error.message + '\n\nMake sure the server is running at http://localhost:5000');
+      }
+    });
+  </script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Builders · BuildMarts</title>
+</head>
+
+<body style="margin:0;font-family:Arial, sans-serif;background:#eef3f6;">
+    
+     <div id="navbar-container"></div>
+
+   <!-- Load Navbar Script -->
+  <script>
+  // Load shared navbar (injects navbar.html body and executes its scripts)
+  async function includeNavbar() {
+    try {
+      const res = await fetch('navbar.html');
+      const text = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      document.getElementById('navbar-container').innerHTML = doc.body.innerHTML;
+
+      // Execute scripts from navbar.html and wait for external scripts to load
+      const __createdScriptPromises = [];
+      doc.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+          newScript.async = false;
+          __createdScriptPromises.push(new Promise(resolve => {
+            newScript.addEventListener('load', resolve);
+            newScript.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      Promise.all(__createdScriptPromises).finally(() => {});
+
+      // Ensure navbar init functions run after dynamic injection (wait for external scripts to load)
+      const __navbarScriptPromises = [];
+      doc.querySelectorAll('script').forEach((s, i) => {
+        const existing = document.querySelectorAll('script')[document.querySelectorAll('script').length - 1 - i];
+        if (existing && existing.src) {
+          __navbarScriptPromises.push(new Promise(resolve => {
+            existing.addEventListener('load', resolve);
+            existing.addEventListener('error', resolve);
+            setTimeout(resolve, 2000);
+          }));
+        }
+      });
+      Promise.all(__navbarScriptPromises).finally(() => {
+        if (typeof checkScreenSize === 'function') checkScreenSize();
+        if (typeof addDesktopHoverEffects === 'function') addDesktopHoverEffects();
+        if (typeof updateUserUI === 'function') updateUserUI();
+        if (typeof updateCartBadge === 'function') updateCartBadge();
+        if (typeof setActiveNavLink === 'function') setActiveNavLink();
+      });
+    } catch (e) {
+      console.error('Failed to load navbar:', e);
+    }
+  }
+  includeNavbar();
+</script>
+
+<div style="width:100%;">
+
+<!-- HERO -->
+<div style="background:linear-gradient(120deg,#0f4b5ecc,#0f4b5ecc),url('https://images.unsplash.com/photo-1503387762-592deb58ef4e');background-size:cover;background-position:center;padding:clamp(60px,8vw,100px) 15px;text-align:center;color:white;">
+<h1 style="font-size:clamp(28px,5vw,46px);margin-bottom:10px;">🏗️ Builders Hub</h1>
+<p style="font-size:clamp(15px,2.5vw,20px);">Take Contracts · Order Bulk Materials · We Supply Directly</p>
+<p style="font-size:clamp(13px,2vw,16px);margin-top:10px;">No middlemen · Factory pricing · Safe delivery</p>
+</div>
+
+<!-- INTRO -->
+<div style="padding:clamp(30px,5vw,60px) 15px;text-align:center;background:white;">
+<h2 style="font-size:clamp(22px,4vw,32px);color:#0f4b5e;">For Builders & Contractors</h2>
+<p style="font-size:clamp(14px,2vw,17px);color:#555;max-width:900px;margin:auto;">
+BuildMarts helps builders and contractors manage construction materials easily. Once you take a project, you can submit your bulk material requirement, and we ensure direct factory supply with safe delivery to your site.
+</p>
+</div>
+
+<!-- HOW IT WORKS -->
+<div style="background:#e1f0f5;padding:clamp(30px,5vw,60px) 15px;">
+<h2 style="text-align:center;font-size:clamp(22px,4vw,30px);color:#0f4b5e;margin-bottom:30px;">How It Works</h2>
+
+<div style="display:flex;flex-wrap:wrap;gap:15px;justify-content:center;">
+
+<div style="flex:1 1 220px;max-width:260px;background:white;padding:20px;border-radius:12px;border:2px solid #d7761e;text-align:center;">
+<h3>1️⃣ Take Contract</h3>
+<p style="font-size:14px;">Accept construction project from client</p>
+</div>
+
+<div style="flex:1 1 220px;max-width:260px;background:white;padding:20px;border-radius:12px;border:2px solid #d7761e;text-align:center;">
+<h3>2️⃣ Submit Requirement</h3>
+<p style="font-size:14px;">Share bulk materials or BOQ</p>
+</div>
+
+<div style="flex:1 1 220px;max-width:260px;background:white;padding:20px;border-radius:12px;border:2px solid #d7761e;text-align:center;">
+<h3>3️⃣ We Source</h3>
+<p style="font-size:14px;">Direct factory procurement</p>
+</div>
+
+<div style="flex:1 1 220px;max-width:260px;background:white;padding:20px;border-radius:12px;border:2px solid #d7761e;text-align:center;">
+<h3>4️⃣ Delivery</h3>
+<p style="font-size:14px;">Safe delivery to your site</p>
+</div>
+
+</div>
+</div>
+
+<!-- WHY CHOOSE -->
+<div style="padding:clamp(30px,5vw,60px) 15px;background:white;text-align:center;">
+<h2 style="font-size:clamp(22px,4vw,30px);color:#0f4b5e;margin-bottom:30px;">Why Builders Choose BuildMarts</h2>
+
+<div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;max-width:1100px;margin:auto;">
+
+<div style="flex:1 1 250px;background:#f7fbfd;padding:20px;border-radius:12px;">
+<h3>💰 Factory Pricing</h3>
+<p style="font-size:14px;">Direct manufacturer rates without dealer margin</p>
+</div>
+
+<div style="flex:1 1 250px;background:#f7fbfd;padding:20px;border-radius:12px;">
+<h3>🚚 Fast Delivery</h3>
+<p style="font-size:14px;">Timely delivery to construction site</p>
+</div>
+
+<div style="flex:1 1 250px;background:#f7fbfd;padding:20px;border-radius:12px;">
+<h3>📦 Bulk Orders</h3>
+<p style="font-size:14px;">Support for large construction projects</p>
+</div>
+
+<div style="flex:1 1 250px;background:#f7fbfd;padding:20px;border-radius:12px;">
+<h3>🔒 Trusted Supply</h3>
+<p style="font-size:14px;">Verified manufacturers & quality materials</p>
+</div>
+
+</div>
+</div>
+
+<!-- MATERIALS -->
+<div style="background:#eef5f8;padding:clamp(30px,5vw,60px) 15px;text-align:center;">
+<h2 style="font-size:clamp(22px,4vw,30px);color:#0f4b5e;margin-bottom:30px;">Materials You Can Order</h2>
+
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:1000px;margin:auto;">
+<span style="background:white;padding:10px 20px;border-radius:30px;">Cement</span>
+<span style="background:white;padding:10px 20px;border-radius:30px;">Steel (TMT)</span>
+<span style="background:white;padding:10px 20px;border-radius:30px;">Bricks & Blocks</span>
+<span style="background:white;padding:10px 20px;border-radius:30px;">Sand & Aggregates</span>
+<span style="background:white;padding:10px 20px;border-radius:30px;">Tiles</span>
+<span style="background:white;padding:10px 20px;border-radius:30px;">Electrical</span>
+<span style="background:white;padding:10px 20px;border-radius:30px;">Plumbing</span>
+<span style="background:white;padding:10px 20px;border-radius:30px;">Paints</span>
+</div>
+</div>
+
+<!-- BENEFITS -->
+<div style="padding:clamp(30px,5vw,60px) 15px;text-align:center;background:white;">
+<h2 style="font-size:clamp(22px,4vw,30px);color:#0f4b5e;margin-bottom:30px;">Builder Benefits</h2>
+
+<div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;max-width:1100px;margin:auto;">
+
+<div style="flex:1 1 250px;">
+<h3 style="color:#d7761e;">💸 Save Cost</h3>
+<p style="font-size:14px;">Reduce material cost significantly</p>
+</div>
+
+<div style="flex:1 1 250px;">
+<h3 style="color:#d7761e;">⏱️ Save Time</h3>
+<p style="font-size:14px;">No need to search multiple vendors</p>
+</div>
+
+<div style="flex:1 1 250px;">
+<h3 style="color:#d7761e;">📦 One Platform</h3>
+<p style="font-size:14px;">All materials in one place</p>
+</div>
+
+<div style="flex:1 1 250px;">
+<h3 style="color:#d7761e;">📈 Grow Business</h3>
+<p style="font-size:14px;">Handle more projects easily</p>
+</div>
+
+</div>
+</div>
+
+<!-- FORM -->
+<div style="padding:clamp(30px,5vw,60px) 15px;">
+<h2 style="text-align:center;font-size:clamp(22px,4vw,30px);color:#0f4b5e;margin-bottom:25px;">📦 Bulk Material Order</h2>
+
+
+<form style="max-width:900px;margin:auto;display:flex;flex-direction:column;gap:15px;">
+
+<div style="display:flex;gap:15px;flex-wrap:wrap;">
+<input type="text" placeholder="Builder Name" required style="flex:1 1 250px;padding:12px;border-radius:8px;border:1px solid #ccc;">
+<input type="tel" placeholder="Mobile Number" required style="flex:1 1 250px;padding:12px;border-radius:8px;border:1px solid #ccc;">
+</div>
+
+<div style="display:flex;gap:15px;flex-wrap:wrap;">
+<input type="text" placeholder="Project Location" style="flex:1 1 250px;padding:12px;border-radius:8px;border:1px solid #ccc;">
+<input type="text" placeholder="Project Type" style="flex:1 1 250px;padding:12px;border-radius:8px;border:1px solid #ccc;">
+</div>
+
+<textarea placeholder="Enter Materials Required..." rows="4" style="padding:12px;border-radius:8px;border:1px solid #ccc;"></textarea>
+
+<input type="text" placeholder="Approx Quantity" style="padding:12px;border-radius:8px;border:1px solid #ccc;">
+
+<label style="font-weight:bold;">Upload BOQ (Optional)</label>
+<input type="file" style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+
+<input type="date" style="padding:12px;border-radius:8px;border:1px solid #ccc;">
+
+<button type="submit" style="background:#d7761e;color:white;padding:14px;font-size:16px;border:none;border-radius:8px;font-weight:bold;">
+Submit Bulk Order
+</button>
+
+</form>
+
+
+</div>
+
+<!-- CTA -->
+<div style="background:#0f4b5e;color:white;text-align:center;padding:40px 15px;">
+<h2 style="font-size:clamp(22px,4vw,30px);">🚀 Grow Your Construction Business</h2>
+<p>Focus on construction · we handle materials</p>
+<p style="color:#ffcc99;font-size:18px;">📞 +91 88888 54321</p>
+</div>
+
+    <div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+      // execute any scripts from the injected footer
+      const temp = document.createElement('div');
+      temp.innerHTML = data;
+      temp.querySelectorAll('script').forEach(s => {
+        const newScript = document.createElement('script');
+        if (s.src) {
+          newScript.src = s.src;
+        } else {
+          newScript.textContent = s.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+      // the injected script itself initializes subscription, no need to call again
+      // (prevent duplicate listeners causing conflicting messages)
+    })
+    .catch(error => console.error('Footer load error:', error));
+</script>
+</div>
+</body>
+</html>

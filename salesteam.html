@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildMart - Join Sales Team</title>
+</head>
+<body style="margin:0; padding:0; font-family:Arial, sans-serif; background:#f8fafc;">
+
+    <!-- Navbar Container -->
+    <div id="navbar-container"></div>
+    
+    <!-- Navbar Load Script -->
+    <script>
+    async function includeNavbar() {
+        try {
+            const res = await fetch('navbar.html');
+            const text = await res.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            document.getElementById('navbar-container').innerHTML = doc.body.innerHTML;
+            
+            const __createdScriptPromises = [];
+            doc.querySelectorAll('script').forEach(s => {
+                const newScript = document.createElement('script');
+                if (s.src) {
+                    newScript.src = s.src;
+                    newScript.async = false;
+                    __createdScriptPromises.push(new Promise(resolve => {
+                        newScript.addEventListener('load', resolve);
+                        newScript.addEventListener('error', resolve);
+                        setTimeout(resolve, 2000);
+                    }));
+                } else {
+                    newScript.textContent = s.textContent;
+                }
+                document.body.appendChild(newScript);
+            });
+            Promise.all(__createdScriptPromises).finally(() => {});
+            
+            const __navbarScriptPromises = [];
+            doc.querySelectorAll('script').forEach((s, i) => {
+                const existing = document.querySelectorAll('script')[document.querySelectorAll('script').length - 1 - i];
+                if (existing && existing.src) {
+                    __navbarScriptPromises.push(new Promise(resolve => {
+                        existing.addEventListener('load', resolve);
+                        existing.addEventListener('error', resolve);
+                        setTimeout(resolve, 2000);
+                    }));
+                }
+            });
+            Promise.all(__navbarScriptPromises).finally(() => {
+                if (typeof checkScreenSize === 'function') checkScreenSize();
+                if (typeof addDesktopHoverEffects === 'function') addDesktopHoverEffects();
+                if (typeof updateUserUI === 'function') updateUserUI();
+                if (typeof updateCartBadge === 'function') updateCartBadge();
+                if (typeof setActiveNavLink === 'function') setActiveNavLink();
+            });
+        } catch (e) {
+            console.error('Failed to load navbar:', e);
+        }
+    }
+    includeNavbar();
+    </script>
+
+    <!-- Main Container -->
+    <div style="max-width:1200px; margin:0 auto; padding:40px 20px;">
+
+        <!-- Hero Section -->
+        <div style="text-align:center; margin-bottom:60px;">
+            <span style="background:#f4b740; color:#1a4a5f; padding:8px 20px; border-radius:50px; display:inline-block; margin-bottom:20px; font-weight:bold;">🚀 CAREER OPPORTUNITY</span>
+            <h1 style="font-size:42px; color:#1a4a5f; margin-bottom:20px;">Join BuildMart Sales Team</h1>
+            <p style="font-size:18px; color:#4a6f8c; max-width:700px; margin:0 auto; line-height:1.6;">Connect customers with the right materials from Hitaishi stores. Earn commission on every delivery you manage.</p>
+        </div>
+
+        <!-- How It Works - Steps -->
+        <h2 style="font-size:32px; color:#1a4a5f; margin-bottom:40px; text-align:center;">How It Works</h2>
+        <div style="display:flex; flex-wrap:wrap; gap:30px; justify-content:center; margin-bottom:60px;">
+            
+            <!-- Step 1 -->
+            <div style="background:white; border-radius:15px; padding:30px; flex:1; min-width:250px; max-width:300px; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,0.05); border:1px solid #e2eaf2;">
+                <div style="width:50px; height:50px; background:#f4b740; color:#1a4a5f; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:bold; margin:0 auto 20px;">1</div>
+                <h3 style="color:#1a4a5f; margin-bottom:15px; font-size:22px;">Register as Salesman</h3>
+                <p style="color:#4a6f8c; line-height:1.6;">Sign up with your details and get your unique Sales ID. No investment required.</p>
+            </div>
+            
+            <!-- Step 2 -->
+            <div style="background:white; border-radius:15px; padding:30px; flex:1; min-width:250px; max-width:300px; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,0.05); border:1px solid #e2eaf2;">
+                <div style="width:50px; height:50px; background:#f4b740; color:#1a4a5f; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:bold; margin:0 auto 20px;">2</div>
+                <h3 style="color:#1a4a5f; margin-bottom:15px; font-size:22px;">Find Customers</h3>
+                <p style="color:#4a6f8c; line-height:1.6;">Search for customers in your area who need building materials.</p>
+            </div>
+            
+            <!-- Step 3 -->
+            <div style="background:white; border-radius:15px; padding:30px; flex:1; min-width:250px; max-width:300px; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,0.05); border:1px solid #e2eaf2;">
+                <div style="width:50px; height:50px; background:#f4b740; color:#1a4a5f; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:bold; margin:0 auto 20px;">3</div>
+                <h3 style="color:#1a4a5f; margin-bottom:15px; font-size:22px;">Take Order</h3>
+                <p style="color:#4a6f8c; line-height:1.6;">Collect order details, quantity, and delivery requirements.</p>
+            </div>
+            
+            <!-- Step 4 -->
+            <div style="background:white; border-radius:15px; padding:30px; flex:1; min-width:250px; max-width:300px; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,0.05); border:1px solid #e2eaf2;">
+                <div style="width:50px; height:50px; background:#f4b740; color:#1a4a5f; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:bold; margin:0 auto 20px;">4</div>
+                <h3 style="color:#1a4a5f; margin-bottom:15px; font-size:22px;">Link with Seller</h3>
+                <p style="color:#4a6f8c; line-height:1.6;">Connect with Hitaishi store partners who have the materials in stock.</p>
+            </div>
+            
+            <!-- Step 5 -->
+            <div style="background:white; border-radius:15px; padding:30px; flex:1; min-width:250px; max-width:300px; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,0.05); border:1px solid #e2eaf2;">
+                <div style="width:50px; height:50px; background:#f4b740; color:#1a4a5f; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:bold; margin:0 auto 20px;">5</div>
+                <h3 style="color:#1a4a5f; margin-bottom:15px; font-size:22px;">Deliver & Earn</h3>
+                <p style="color:#4a6f8c; line-height:1.6;">Coordinate delivery and earn your commission on every order.</p>
+            </div>
+        </div>
+
+        <!-- Sales Team Role Explanation -->
+        <h2 style="font-size:32px; color:#1a4a5f; margin-bottom:40px; text-align:center;">What Does a Salesman Do?</h2>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:25px; margin-bottom:60px;">
+            
+            <!-- Role 1 -->
+            <div style="background:white; border-radius:15px; padding:25px; box-shadow:0 5px 15px rgba(0,0,0,0.05); border:1px solid #e2eaf2;">
+                <div style="font-size:40px; margin-bottom:15px;">🔍</div>
+                <h3 style="color:#1a4a5f; margin-bottom:15px; font-size:20px;">Find Customers</h3>
+                <p style="color:#4a6f8c; line-height:1.6; margin-bottom:15px;">Search and identify customers in your assigned area who need construction materials like cement, steel, bricks, etc.</p>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:10px; color:#1a4a5f; font-size:14px;"><span style="color:#f4b740; font-weight:bold;">✓</span> View customer order history</div>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:10px; color:#1a4a5f; font-size:14px;"><span style="color:#f4b740; font-weight:bold;">✓</span> See last purchase date</div>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:10px; color:#1a4a5f; font-size:14px;"><span style="color:#f4b740; font-weight:bold;">✓</span> Check credit limit</div>
+            </div>
+            
+            <!-- Role 2 -->
+            <div style="background:white; border-radius:15px; padding:25px; box-shadow:0 5px 15px rgba(0,0,0,0.05); border:1px solid #e2eaf2;">
+                <div style="font-size:40px; margin-bottom:15px;">📝</div>
+                <h3 style="color:#1a4a5f; margin-bottom:15px; font-size:20px;">Take Responsibility</h3>
+                <p style="color:#4a6f8c; line-height:1.6; margin-bottom:15px;">Once you take an order, you become responsible for ensuring the materials reach the customer.</p>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:10px; color:#1a4a5f; font-size:14px;"><span style="color:#f4b740; font-weight:bold;">✓</span> Create order in system</div>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:10px; color:#1a4a5f; font-size:14px;"><span style="color:#f4b740; font-weight:bold;">✓</span> Set delivery deadline</div>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:10px; color:#1a4a5f; font-size:14px;"><span style="color:#f4b740; font-weight:bold;">✓</span> Track order status</div>
+            </div>
+            
+            <!-- Role 3 -->
+            <div style="background:white; border-radius:15px; padding:25px; box-shadow:0 5px 15px rgba(0,0,0,0.05); border:1px solid #e2eaf2;">
+                <div style="font-size:40px; margin-bottom:15px;">🏪</div>
+                <h3 style="color:#1a4a5f; margin-bottom:15px; font-size:20px;">Connect with Hitaishi Sellers</h3>
+                <p style="color:#4a6f8c; line-height:1.6; margin-bottom:15px;">Browse Hitaishi store partners who have the required materials in stock at the best prices.</p>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:10px; color:#1a4a5f; font-size:14px;"><span style="color:#f4b740; font-weight:bold;">✓</span> View seller inventory</div>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:10px; color:#1a4a5f; font-size:14px;"><span style="color:#f4b740; font-weight:bold;">✓</span> Compare prices</div>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:10px; color:#1a4a5f; font-size:14px;"><span style="color:#f4b740; font-weight:bold;">✓</span> Check seller rating</div>
+            </div>
+            
+            <!-- Role 4 -->
+            <div style="background:white; border-radius:15px; padding:25px; box-shadow:0 5px 15px rgba(0,0,0,0.05); border:1px solid #e2eaf2;">
+                <div style="font-size:40px; margin-bottom:15px;">🚚</div>
+                <h3 style="color:#1a4a5f; margin-bottom:15px; font-size:20px;">Manage Delivery</h3>
+                <p style="color:#4a6f8c; line-height:1.6; margin-bottom:15px;">Coordinate between seller and customer for smooth delivery. Update status at every step.</p>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:10px; color:#1a4a5f; font-size:14px;"><span style="color:#f4b740; font-weight:bold;">✓</span> Schedule delivery</div>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:10px; color:#1a4a5f; font-size:14px;"><span style="color:#f4b740; font-weight:bold;">✓</span> Track in real-time</div>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:10px; color:#1a4a5f; font-size:14px;"><span style="color:#f4b740; font-weight:bold;">✓</span> Get delivery confirmation</div>
+            </div>
+        </div>
+
+        <!-- How Delivery Works - Flow -->
+        <h2 style="font-size:32px; color:#1a4a5f; margin-bottom:40px; text-align:center;">Order to Delivery Process</h2>
+        <div style="background:white; border-radius:20px; padding:40px; margin-bottom:60px; border:1px solid #e2eaf2;">
+            <div style="display:flex; flex-wrap:wrap; justify-content:space-between; margin:40px 0; position:relative;">
+                
+                <!-- Step 1 -->
+                <div style="flex:1; min-width:150px; text-align:center; padding:20px; background:#f8fafc; border-radius:10px; margin:0 5px;">
+                    <div style="width:35px; height:35px; background:#f4b740; color:#1a4a5f; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px; font-weight:bold;">1</div>
+                    <h4 style="color:#1a4a5f; margin-bottom:10px;">Customer Search</h4>
+                    <p style="color:#4a6f8c; font-size:14px;">Salesman finds customer needing materials</p>
+                </div>
+                
+                <div style="font-size:30px; color:#f4b740; align-self:center;">→</div>
+                
+                <!-- Step 2 -->
+                <div style="flex:1; min-width:150px; text-align:center; padding:20px; background:#f8fafc; border-radius:10px; margin:0 5px;">
+                    <div style="width:35px; height:35px; background:#f4b740; color:#1a4a5f; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px; font-weight:bold;">2</div>
+                    <h4 style="color:#1a4a5f; margin-bottom:10px;">Order Created</h4>
+                    <p style="color:#4a6f8c; font-size:14px;">Salesman takes order details</p>
+                </div>
+                
+                <div style="font-size:30px; color:#f4b740; align-self:center;">→</div>
+                
+                <!-- Step 3 -->
+                <div style="flex:1; min-width:150px; text-align:center; padding:20px; background:#f8fafc; border-radius:10px; margin:0 5px;">
+                    <div style="width:35px; height:35px; background:#f4b740; color:#1a4a5f; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px; font-weight:bold;">3</div>
+                    <h4 style="color:#1a4a5f; margin-bottom:10px;">Seller Selected</h4>
+                    <p style="color:#4a6f8c; font-size:14px;">Choose Hitaishi store with stock</p>
+                </div>
+                
+                <div style="font-size:30px; color:#f4b740; align-self:center;">→</div>
+                
+                <!-- Step 4 -->
+                <div style="flex:1; min-width:150px; text-align:center; padding:20px; background:#f8fafc; border-radius:10px; margin:0 5px;">
+                    <div style="width:35px; height:35px; background:#f4b740; color:#1a4a5f; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px; font-weight:bold;">4</div>
+                    <h4 style="color:#1a4a5f; margin-bottom:10px;">Delivery Arranged</h4>
+                    <p style="color:#4a6f8c; font-size:14px;">Materials picked from seller</p>
+                </div>
+                
+                <div style="font-size:30px; color:#f4b740; align-self:center;">→</div>
+                
+                <!-- Step 5 -->
+                <div style="flex:1; min-width:150px; text-align:center; padding:20px; background:#f8fafc; border-radius:10px; margin:0 5px;">
+                    <div style="width:35px; height:35px; background:#f4b740; color:#1a4a5f; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px; font-weight:bold;">5</div>
+                    <h4 style="color:#1a4a5f; margin-bottom:10px;">Customer Receives</h4>
+                    <p style="color:#4a6f8c; font-size:14px;">Delivery completed, commission earned</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example Cards - How It Looks -->
+        <h2 style="font-size:32px; color:#1a4a5f; margin-bottom:40px; text-align:center;">How It Looks in Action</h2>
+        <div style="margin-bottom:60px;">
+            
+            <!-- Customer and Seller Grid -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px;">
+                
+                <!-- Customer Side -->
+                <div style="background:white; border-radius:15px; padding:25px; border:2px solid #e2eaf2;">
+                    <h4 style="color:#1a4a5f; margin-bottom:20px; font-size:20px; display:flex; align-items:center; gap:10px;">👥 Customers You'll See</h4>
+                    
+                    <!-- Customer 1 -->
+                    <div style="display:flex; align-items:center; gap:15px; padding:15px; background:#f8fafc; border-radius:10px; margin-bottom:15px;">
+                        <div style="flex:1;">
+                            <h5 style="color:#1a4a5f; margin-bottom:5px;">Sri Sai Constructions</h5>
+                            <p style="color:#4a6f8c; font-size:13px;">📍 Kukatpally • Last order: 15 Mar</p>
+                        </div>
+                        <div style="margin-left:auto; background:#f4b740; color:#1a4a5f; padding:5px 15px; border-radius:20px; font-size:12px; font-weight:bold;">Take Order</div>
+                    </div>
+                    
+                    <!-- Customer 2 -->
+                    <div style="display:flex; align-items:center; gap:15px; padding:15px; background:#f8fafc; border-radius:10px; margin-bottom:15px;">
+                        <div style="flex:1;">
+                            <h5 style="color:#1a4a5f; margin-bottom:5px;">Lakshmi Cement Agency</h5>
+                            <p style="color:#4a6f8c; font-size:13px;">📍 KPHB • Last order: 18 Mar</p>
+                        </div>
+                        <div style="margin-left:auto; background:#f4b740; color:#1a4a5f; padding:5px 15px; border-radius:20px; font-size:12px; font-weight:bold;">Take Order</div>
+                    </div>
+                    
+                    <!-- Customer 3 -->
+                    <div style="display:flex; align-items:center; gap:15px; padding:15px; background:#f8fafc; border-radius:10px; margin-bottom:15px;">
+                        <div style="flex:1;">
+                            <h5 style="color:#1a4a5f; margin-bottom:5px;">Venkateshwara Builders</h5>
+                            <p style="color:#4a6f8c; font-size:13px;">📍 Hydernagar • Last order: 10 Mar</p>
+                        </div>
+                        <div style="margin-left:auto; background:#f4b740; color:#1a4a5f; padding:5px 15px; border-radius:20px; font-size:12px; font-weight:bold;">Take Order</div>
+                    </div>
+                </div>
+
+                <!-- Seller Side -->
+                <div style="background:white; border-radius:15px; padding:25px; border:2px solid #e2eaf2;">
+                    <h4 style="color:#1a4a5f; margin-bottom:20px; font-size:20px; display:flex; align-items:center; gap:10px;">🏪 Hitaishi Sellers You'll Work With</h4>
+                    
+                    <!-- Seller 1 -->
+                    <div style="display:flex; align-items:center; gap:15px; padding:15px; background:#f8fafc; border-radius:10px; margin-bottom:15px;">
+                        <div style="flex:1;">
+                            <h5 style="color:#1a4a5f; margin-bottom:5px;">Jai Mataji Traders</h5>
+                            <p style="color:#4a6f8c; font-size:13px;">⭐ 4.8 • Cement, Steel in stock</p>
+                        </div>
+                        <div style="margin-left:auto; background:#f4b740; color:#1a4a5f; padding:5px 15px; border-radius:20px; font-size:12px; font-weight:bold;">Select</div>
+                    </div>
+                    
+                    <!-- Seller 2 -->
+                    <div style="display:flex; align-items:center; gap:15px; padding:15px; background:#f8fafc; border-radius:10px; margin-bottom:15px;">
+                        <div style="flex:1;">
+                            <h5 style="color:#1a4a5f; margin-bottom:5px;">Sri Sai Hardware</h5>
+                            <p style="color:#4a6f8c; font-size:13px;">⭐ 4.5 • Paints, Pipes available</p>
+                        </div>
+                        <div style="margin-left:auto; background:#f4b740; color:#1a4a5f; padding:5px 15px; border-radius:20px; font-size:12px; font-weight:bold;">Select</div>
+                    </div>
+                    
+                    <!-- Seller 3 -->
+                    <div style="display:flex; align-items:center; gap:15px; padding:15px; background:#f8fafc; border-radius:10px; margin-bottom:15px;">
+                        <div style="flex:1;">
+                            <h5 style="color:#1a4a5f; margin-bottom:5px;">Balaji Steel Centre</h5>
+                            <p style="color:#4a6f8c; font-size:13px;">⭐ 4.9 • All steel products</p>
+                        </div>
+                        <div style="margin-left:auto; background:#f4b740; color:#1a4a5f; padding:5px 15px; border-radius:20px; font-size:12px; font-weight:bold;">Select</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align:center; font-size:24px; color:#f4b740; margin:10px 0;">⬇️ Salesman connects both ⬇️</div>
+        </div>
+
+        <!-- Delivery Example -->
+        <div style="background:white; border-radius:15px; padding:25px; border:2px solid #e2eaf2; margin-bottom:60px;">
+            <h4 style="color:#1a4a5f; margin-bottom:20px; font-size:20px;">📋 Your Active Deliveries</h4>
+            
+            <!-- Delivery 1 -->
+            <div style="display:flex; align-items:center; gap:15px; padding:15px; background:#f8fafc; border-radius:10px; margin-bottom:15px;">
+                <div style="flex:1;">
+                    <h5 style="color:#1a4a5f; margin-bottom:5px;">#ORD-089 • Cement (50 bags)</h5>
+                    <p style="color:#4a6f8c; font-size:13px;">Customer: Sri Sai Constructions → Seller: Jai Mataji Traders</p>
+                </div>
+                <div style="margin-left:auto; background:#fff3cd; color:#856404; padding:5px 15px; border-radius:20px; font-size:12px; font-weight:bold;">Processing</div>
+            </div>
+            
+            <!-- Delivery 2 -->
+            <div style="display:flex; align-items:center; gap:15px; padding:15px; background:#f8fafc; border-radius:10px; margin-bottom:15px;">
+                <div style="flex:1;">
+                    <h5 style="color:#1a4a5f; margin-bottom:5px;">#ORD-092 • TMT Steel (500kg)</h5>
+                    <p style="color:#4a6f8c; font-size:13px;">Customer: Lakshmi Agency → Seller: Balaji Steel Centre</p>
+                </div>
+                <div style="margin-left:auto; background:#d1ecf1; color:#0c5460; padding:5px 15px; border-radius:20px; font-size:12px; font-weight:bold;">Dispatched</div>
+            </div>
+            
+            <!-- Delivery 3 -->
+            <div style="display:flex; align-items:center; gap:15px; padding:15px; background:#f8fafc; border-radius:10px;">
+                <div style="flex:1;">
+                    <h5 style="color:#1a4a5f; margin-bottom:5px;">#ORD-095 • Paint (5 cans)</h5>
+                    <p style="color:#4a6f8c; font-size:13px;">Customer: Venkateshwara Builders → Seller: Sri Sai Hardware</p>
+                </div>
+                <div style="margin-left:auto; background:#d4edda; color:#155724; padding:5px 15px; border-radius:20px; font-size:12px; font-weight:bold;">Delivered</div>
+            </div>
+        </div>
+
+        <!-- Commission Structure -->
+        <div style="background:#fef5e7; border-radius:20px; padding:40px; margin-bottom:60px; border:1px solid #e2eaf2;">
+            <h3 style="color:#1a4a5f; margin-bottom:20px; text-align:center;">💰 Commission Structure</h3>
+            <div style="display:flex; flex-wrap:wrap; justify-content:space-between; margin:40px 0;">
+                
+                <!-- Commission 1 -->
+                <div style="flex:1; min-width:150px; text-align:center; padding:20px; background:white; border-radius:10px; margin:0 5px;">
+                    <h4 style="color:#1a4a5f; margin-bottom:10px;">2%</h4>
+                    <p style="color:#4a6f8c; font-size:14px;">On orders below ₹50,000</p>
+                </div>
+                
+                <!-- Commission 2 -->
+                <div style="flex:1; min-width:150px; text-align:center; padding:20px; background:white; border-radius:10px; margin:0 5px;">
+                    <h4 style="color:#1a4a5f; margin-bottom:10px;">3%</h4>
+                    <p style="color:#4a6f8c; font-size:14px;">On orders ₹50,000 - ₹2L</p>
+                </div>
+                
+                <!-- Commission 3 -->
+                <div style="flex:1; min-width:150px; text-align:center; padding:20px; background:white; border-radius:10px; margin:0 5px;">
+                    <h4 style="color:#1a4a5f; margin-bottom:10px;">4%</h4>
+                    <p style="color:#4a6f8c; font-size:14px;">On orders above ₹2L</p>
+                </div>
+                
+                <!-- Commission 4 -->
+                <div style="flex:1; min-width:150px; text-align:center; padding:20px; background:white; border-radius:10px; margin:0 5px;">
+                    <h4 style="color:#1a4a5f; margin-bottom:10px;">+ ₹500</h4>
+                    <p style="color:#4a6f8c; font-size:14px;">Bonus per 10 deliveries</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Section -->
+        <div style="background:linear-gradient(135deg, #1a4a5f 0%, #0f3445 100%); border-radius:20px; padding:60px; text-align:center; color:white;">
+            <h2 style="font-size:36px; margin-bottom:20px;">Ready to Start?</h2>
+            <p style="font-size:18px; margin-bottom:30px; opacity:0.9; max-width:600px; margin-left:auto; margin-right:auto;">Join BuildMart sales team and start earning commission by connecting customers with the right materials.</p>
+            <button id="openRegisterBtn" style="background:#f4b740; color:#1a4a5f; border:none; padding:18px 50px; border-radius:50px; font-size:20px; font-weight:bold; cursor:pointer; transition:all 0.3s;">Register as Salesman →</button>
+
+            <div id="salesmanRegistration" style="display:none; margin-top:40px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); border-radius:18px; padding:24px; max-width:700px; margin-left:auto; margin-right:auto;">
+                <h3 style="color:#fff; margin-top:0; font-size:26px;">Salesman Registration</h3>
+
+
+                <form id="salesmanRegistrationForm">
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <div style="display:flex; flex-direction:column;">
+                            <label style="color:rgba(255,255,255,0.9); margin-bottom:6px; font-weight:600;" for="name">Full Name *</label>
+                            <input id="name" name="name" type="text" required style="padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.14); color:#fff; outline:none;" />
+                        </div>
+                        <div style="display:flex; flex-direction:column;">
+                            <label style="color:rgba(255,255,255,0.9); margin-bottom:6px; font-weight:600;" for="email">Email *</label>
+                            <input id="email" name="email" type="email" required style="padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.14); color:#fff; outline:none;" />
+                        </div>
+                        <div style="display:flex; flex-direction:column;">
+                            <label style="color:rgba(255,255,255,0.9); margin-bottom:6px; font-weight:600;" for="phone">Phone</label>
+                            <input id="phone" name="phone" type="tel" style="padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.14); color:#fff; outline:none;" />
+                        </div>
+                        <div style="display:flex; flex-direction:column;">
+                            <label style="color:rgba(255,255,255,0.9); margin-bottom:6px; font-weight:600;" for="company">Company / Agency</label>
+                            <input id="company" name="company" type="text" style="padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.14); color:#fff; outline:none;" />
+                        </div>
+                        <div style="grid-column:1 / -1; display:flex; flex-direction:column;">
+                            <label style="color:rgba(255,255,255,0.9); margin-bottom:6px; font-weight:600;" for="address">Address *</label>
+                            <input id="address" name="address" type="text" required style="padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.14); color:#fff; outline:none;" />
+                        </div>
+                        <div style="display:flex; flex-direction:column;">
+                            <label style="color:rgba(255,255,255,0.9); margin-bottom:6px; font-weight:600;" for="gst">GST Number</label>
+                            <input id="gst" name="gst" type="text" style="padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.14); color:#fff; outline:none;" />
+                        </div>
+                        <div style="display:flex; flex-direction:column;">
+                            <label style="color:rgba(255,255,255,0.9); margin-bottom:6px; font-weight:600;" for="password">Password *</label>
+                            <input id="password" name="password" type="password" required style="padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.14); color:#fff; outline:none;" />
+                        </div>
+                    </div>
+
+                    <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:22px;">
+                        <button type="submit" style="background:#f4b740; color:#1a4a5f; border:none; padding:16px 42px; border-radius:50px; font-size:16px; font-weight:bold; cursor:pointer;">Submit Registration</button>
+                        <button type="button" id="cancelRegisterBtn" style="background:rgba(255,255,255,0.16); color:#fff; border:1px solid rgba(255,255,255,0.6); padding:16px 42px; border-radius:50px; font-size:16px; cursor:pointer;">Cancel</button>
+                    </div>
+
+                    <div id="registerFeedback" style="margin-top:18px; padding:12px 16px; border-radius:14px; font-weight:600; display:none;"></div>
+                </form>
+  <script>
+    (function() {
+        const openBtn = document.getElementById('openRegisterBtn');
+        const formContainer = document.getElementById('salesmanRegistration');
+        const cancelBtn = document.getElementById('cancelRegisterBtn');
+        const form = document.getElementById('salesmanRegistrationForm');
+        const feedback = document.getElementById('registerFeedback');
+
+        const showMessage = (message, isError = false) => {
+            feedback.style.display = 'block';
+            feedback.style.background = isError ? 'rgba(255,113,113,0.18)' : 'rgba(52,195,143,0.18)';
+            feedback.style.color = isError ? '#ffd1d1' : '#b8ffc7';
+            feedback.textContent = message;
+        };
+
+        const clearMessage = () => {
+            feedback.style.display = 'none';
+            feedback.textContent = '';
+        };
+
+        if (openBtn) {
+            openBtn.addEventListener('click', () => {
+                if (!formContainer) return;
+                const isHidden = formContainer.style.display === 'none' || !formContainer.style.display;
+                formContainer.style.display = isHidden ? 'block' : 'none';
+                if (isHidden) {
+                    formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        }
+
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                if (!formContainer) return;
+                formContainer.style.display = 'none';
+                clearMessage();
+                form.reset();
+            });
+        }
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            clearMessage();
+
+            const data = {
+                name: form.name.value.trim(),
+                email: form.email.value.trim(),
+                phone: form.phone.value.trim(),
+                company: form.company.value.trim(),
+                address: form.address.value.trim(),
+                gst: form.gst.value.trim(),
+                password: form.password.value
+            };
+
+            if (!data.name || !data.email || !data.address || !data.password) {
+                showMessage('Please fill in all required fields (Name, Email, Address, Password).', true);
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.email)) {
+                showMessage('Please enter a valid email address.', true);
+                return;
+            }
+
+            // Password validation (minimum 6 characters)
+            if (data.password.length < 6) {
+                showMessage('Password must be at least 6 characters long.', true);
+                return;
+            }
+
+            try {
+                console.log('Sending registration data:', { ...data, password: '***' });
+                
+                const res = await fetch('https://www.buildmarts.in/api/salesman-profile', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                let json;
+                try {
+                    json = await res.json();
+                } catch (parseErr) {
+                    const text = await res.text().catch(() => '');
+                    console.warn('Registration response is not JSON:', text);
+                    throw new Error('Invalid server response');
+                }
+                console.log('Server response:', json);
+                
+                if (!res.ok) {
+                    showMessage(json.error || json.message || 'Registration failed.', true);
+                    return;
+                }
+                
+                showMessage(json.message || 'Registration successful! Check your email for confirmation.');
+                form.reset();
+                setTimeout(() => {
+                    if (formContainer) {
+                        formContainer.style.display = 'none';
+                    }
+                    clearMessage();
+                }, 1800);
+            } catch (err) {
+                console.error('Registration error:', err);
+                showMessage('Network error. Please check your connection and try again.', true);
+            }
+        });
+    })();
+</script>
+
+
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-top:40px;">
+                <span style="background:rgba(255,255,255,0.1); padding:10px 25px; border-radius:50px; font-size:14px;">✅ No investment needed</span>
+                <span style="background:rgba(255,255,255,0.1); padding:10px 25px; border-radius:50px; font-size:14px;">✅ Free training provided</span>
+                <span style="background:rgba(255,255,255,0.1); padding:10px 25px; border-radius:50px; font-size:14px;">✅ Flexible working hours</span>
+                <span style="background:rgba(255,255,255,0.1); padding:10px 25px; border-radius:50px; font-size:14px;">✅ Weekly payouts</span>
+            </div>
+        </div>
+    </div>
+
+     
+
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Footer Load Script -->
+    <script>
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+                const temp = document.createElement('div');
+                temp.innerHTML = data;
+                temp.querySelectorAll('script').forEach(s => {
+                    const newScript = document.createElement('script');
+                    if (s.src) {
+                        newScript.src = s.src;
+                    } else {
+                        newScript.textContent = s.textContent;
+                    }
+                    document.body.appendChild(newScript);
+                });
+            })
+            .catch(error => console.error('Footer load error:', error));
+    </script>
+
+</body>
+</html>
